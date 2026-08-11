@@ -1,17 +1,15 @@
-import Sidebar from "../components/Sidebar";
-import Topbar from "../components/Topbar";
 
 import DashboardStats from "../components/dashboard/DashboardStats";
 import InventoryChart from "../components/dashboard/InventoryChart";
 import AssetStatus from "../components/dashboard/AssetStatus";
+import RecentActivities from "../components/dashboard/RecentActivities";
+import WarrantyExpiring from "../components/dashboard/WarrantyExpiring";
+import LowStockAlerts from "../components/dashboard/LowStockAlerts";
+import QuickActions from "../components/dashboard/QuickActions";
 
 export default function Dashboard() {
   return (
-    <div className="flex">
-      <Sidebar />
-
-      <div className="flex-1 bg-gray-100 min-h-screen ml-72">
-        <Topbar />
+    
 
         <div className="p-6">
           {/* Page Title */}
@@ -28,7 +26,7 @@ export default function Dashboard() {
           {/* Stats */}
           <DashboardStats />
 
-          {/* Charts Section */}
+          {/* Charts Row */}
           <div className="grid grid-cols-3 gap-6 mt-6">
             <div className="col-span-2">
               <InventoryChart />
@@ -38,8 +36,20 @@ export default function Dashboard() {
               <AssetStatus />
             </div>
           </div>
+
+          {/* Lower Dashboard Section */}
+          <div className="grid grid-cols-3 gap-6 mt-3">
+            <div className="col-span-2 space-y-4">
+              <RecentActivities />
+              <QuickActions />
+            </div>
+
+            <div className="space-y-4">
+              <WarrantyExpiring />
+              <LowStockAlerts />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      
   );
 }

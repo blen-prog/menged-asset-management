@@ -33,9 +33,9 @@ export default function NotificationDropdown() {
   ];
 
   return (
-    <div className="absolute right-0 top-14 w-96 bg-white rounded-2xl shadow-xl border z-50">
+    <div className="absolute right-0 top-14 w-80 bg-white rounded-xl shadow-xl border z-50">
       <div className="flex items-center justify-between p-5 border-b">
-        <h2 className="text-xl font-semibold text-gray-800">
+        <h2 className="text-lg font-semibold text-gray-800">
           Notifications
         </h2>
 
@@ -48,20 +48,20 @@ export default function NotificationDropdown() {
         {notifications.map((item, index) => (
           <div
             key={index}
-            className="flex gap-4 p-5 border-b hover:bg-gray-50"
+            className="flex gap-3 p-3 border-b hover:bg-gray-50"
           >
             <div
-              className={`w-10 h-10 rounded-full flex items-center justify-center ${item.color}`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${item.color}`}
             >
               {item.icon}
             </div>
 
             <div className="flex-1">
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-sm text-gray-700">
                 {item.title}
               </p>
 
-              <p className="text-gray-400 mt-1">
+              <p className="text-xstext-gray-400 mt-1">
                 {item.time}
               </p>
             </div>

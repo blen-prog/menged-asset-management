@@ -1,10 +1,8 @@
-
+import { useState, useEffect, useRef } from "react";
 import { Search, Bell, ChevronDown } from "lucide-react";
+
 import NotificationDropdown from "./NotificationDropdown";
 import ProfileDropdown from "./ProfileDropdown";
-import { useState, useEffect, useRef } from "react";
-
-
 
 export default function Topbar() {
   const [showNotifications, setShowNotifications] = useState(false);
@@ -14,41 +12,42 @@ export default function Topbar() {
   const profileRef = useRef(null);
 
   useEffect(() => {
-  function handleClickOutside(event) {
-    if (
-      notificationRef.current &&
-      !notificationRef.current.contains(event.target)
-    ) {
-      setShowNotifications(false);
+    function handleClickOutside(event) {
+      if (
+        notificationRef.current &&
+        !notificationRef.current.contains(event.target)
+      ) {
+        setShowNotifications(false);
+      }
+
+      if (
+        profileRef.current &&
+        !profileRef.current.contains(event.target)
+      ) {
+        setShowProfile(false);
+      }
     }
 
-    if (
-      profileRef.current &&
-      !profileRef.current.contains(event.target)
-    ) {
-      setShowProfile(false);
-    }
-  }
+    document.addEventListener("mousedown", handleClickOutside);
 
-  document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener(
+        "mousedown",
+        handleClickOutside
+      );
+    };
+  }, []);
 
-  return () => {
-    document.removeEventListener(
-      "mousedown",
-      handleClickOutside
-    );
-  };
-}, []);
   return (
     <div className="bg-white border-b flex items-center justify-between px-8 h-20 relative">
-      <div className="flex items-center gap-8">
-        <h1 className="text-3xl font-semibold text-gray-800">Dashboard</h1>
-
+      {/* Search Bar */}
+      <div className="flex items-center">
         <div className="relative">
           <Search
             size={18}
             className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
           />
+
           <input
             type="text"
             placeholder="Search assets, inventory, employees..."
@@ -57,32 +56,64 @@ export default function Topbar() {
         </div>
       </div>
 
+      {/* Right Side */}
       <div className="flex items-center gap-8">
-        <div className="relative" ref={notificationRef}>
-          <button onClick={() => setShowNotifications(!showNotifications)}>
-            <Bell size={24} className="text-gray-600" />
+        <div
+          className="relative"
+          ref={notificationRef}
+        >
+          <button
+            onClick={() => {
+              setShowNotifications(!showNotifications);
+              setShowProfile(false);
+            }}
+          >
+            <Bell
+              size={24}
+              className="text-gray-600"
+            />
           </button>
+
           <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
             3
           </span>
-          {showNotifications && <NotificationDropdown />}
+
+          {showNotifications && (
+            <NotificationDropdown />
+          )}
         </div>
 
-        <div className="relative" ref={profileRef}>
+        <div
+          className="relative"
+          ref={profileRef}
+        >
           <button
-            onClick={() => setShowProfile(!showProfile)}
-            className="flex items-center gap-3"
+            onClick={() => {
+              setShowProfile(!showProfile);
+              setShowNotifications(false);
+            }}
+            className="flex items-center gap-2"
           >
-            <div className="w-11 h-11 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">
+            <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
               JD
             </div>
+
             <div className="text-left">
-              <p className="font-semibold">John Doe</p>
-              <p className="text-sm text-gray-500">Administrator</p>
+              <p className="font-medium text-sm">
+                John Doe
+              </p>
+
+              <p className="text-xs text-gray-500">
+                Administrator
+              </p>
             </div>
+
             <ChevronDown size={18} />
           </button>
-          {showProfile && <ProfileDropdown />}
+
+          {showProfile && (
+            <ProfileDropdown />
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
+
 import logo from "../assets/menged-logo.png";
 
 import {
@@ -24,105 +26,182 @@ export default function Sidebar() {
   const [inventoryOpen, setInventoryOpen] = useState(true);
 
   return (
-    <div className="w-72 h-screen bg-[#08204d] text-white flex flex-col fixed left-0 top-0">
+    <div className="w-56 h-screen bg-[#08204d] text-white flex flex-col fixed left-0 top-0">
       {/* Logo Section */}
-      <div className="p-6 border-b border-blue-900">
-        <div className="flex justify-center mb-4">
-          <div className="bg-white rounded-2xl p-4 w-full flex justify-center">
-            <img
-              src={logo}
-              alt="Menged Logo"
-              className="h-16 object-contain"
-            />
-          </div>
+      <div className="p-3 border-b border-blue-900">
+        <div className="bg-white rounded-xl p-2 flex justify-center">
+          <img
+            src={logo}
+            alt="Menged Logo"
+            className="h-10 object-contain"
+          />
         </div>
 
-        <h1 className="text-xl font-bold text-center">Menged Solution</h1>
+        <h1 className="text-base font-bold text-center mt-2">
+          Menged Solution
+        </h1>
 
-        <p className="text-blue-200 text-sm text-center">Asset Management</p>
+        <p className="text-xs text-blue-200 text-center">
+          Asset Management
+        </p>
       </div>
 
       {/* Menu */}
-      <div className="flex-1 overflow-y-auto p-4">
-        <p className="text-xs tracking-wider text-gray-400 mb-4">MAIN MENU</p>
+      <div className="flex-1 overflow-y-auto p-3">
+        <p className="text-xs tracking-wider text-gray-400 mb-3">
+          MAIN MENU
+        </p>
 
         {/* Dashboard */}
-        <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-blue-600 mb-4">
-          <LayoutDashboard size={20} />
-          Dashboard
-        </button>
+        <NavLink
+  to="/"
+  className={({ isActive }) =>
+    `w-full flex items-center gap-3 px-3 py-1.5 rounded-lg mb-2 text-sm ${
+      isActive ? "bg-blue-600" : "hover:bg-blue-900"
+    }`
+  }
+>
+  <LayoutDashboard size={18} />
+  Dashboard
+</NavLink>
 
-        <p className="text-xs tracking-wider text-gray-400 mb-4">OVERVIEW</p>
+        <p className="text-xs tracking-wider text-gray-400 mt-3 mb-2">
+          OVERVIEW
+        </p>
 
         {/* Inventory */}
         <button
           onClick={() => setInventoryOpen(!inventoryOpen)}
-          className="w-full flex items-center justify-between px-4 py-3 rounded-xl hover:bg-blue-900"
+          className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg hover:bg-blue-900 text-sm"
         >
           <div className="flex items-center gap-3">
-            <Package size={20} />
+            <Package size={18} />
             Inventory
           </div>
 
-          {inventoryOpen ? <ChevronDown size={18} /> : <ChevronRight size={18} />}
+          {inventoryOpen ? (
+            <ChevronDown size={16} />
+          ) : (
+            <ChevronRight size={16} />
+          )}
         </button>
 
         {inventoryOpen && (
-          <div className="ml-10 mt-2 space-y-2 text-gray-300">
-            <div className="flex items-center gap-2 py-2 cursor-pointer hover:text-white">
-              <Package size={16} />
-              All Items
-            </div>
+          <div className="ml-5 mt-1 space-y-0.5 text-gray-300 text-sm">
+            <NavLink
+  to="/all-items"
+  className={({ isActive }) =>
+    `flex items-center gap-2 py-1 ${
+      isActive ? "text-white font-semibold" : "text-gray-300"
+    } hover:text-white`
+  }
+>
+  <Package size={14} />
+  All Items
+</NavLink>
 
-            <div className="flex items-center gap-2 py-2 cursor-pointer hover:text-white">
-              <Box size={16} />
-              Assets
-            </div>
+<NavLink
+  to="/assets"
+  className={({ isActive }) =>
+    `flex items-center gap-2 py-1 ${
+      isActive ? "text-white font-semibold" : "text-gray-300"
+    } hover:text-white`
+  }
+>
+  <Box size={14} />
+  Assets
+</NavLink>
 
-            <div className="flex items-center gap-2 py-2 cursor-pointer hover:text-white">
-              <Droplets size={16} />
-              Consumables
-            </div>
+            <NavLink
+  to="/consumables"
+  className={({ isActive }) =>
+    `flex items-center gap-2 py-1 ${
+      isActive ? "text-white font-semibold" : "text-gray-300"
+    } hover:text-white`
+  }
+>
+  <Droplets size={14} />
+  Consumables
+</NavLink>
 
-            <div className="flex items-center gap-2 py-2 cursor-pointer hover:text-white">
-              <Car size={16} />
+            <div className="flex items-center gap-2 py-1 cursor-pointer hover:text-white">
+              <Car size={14} />
               Vehicles
             </div>
 
-            <div className="flex items-center gap-2 py-2 cursor-pointer hover:text-white">
-              <Tags size={16} />
-              Categories
-            </div>
+            <NavLink
+  to="/categories"
+  className={({ isActive }) =>
+    `flex items-center gap-2 py-1 ${
+      isActive ? "text-white font-semibold" : "text-gray-300"
+    } hover:text-white`
+  }
+>
+  <Tags size={14} />
+  Categories
+</NavLink>
           </div>
         )}
 
         {/* Other Menu Items */}
-        <div className="mt-4 space-y-2">
-          <MenuItem icon={<Building2 size={20} />} text="Departments" />
-          <MenuItem icon={<Users size={20} />} text="Employees" />
-          <MenuItem icon={<Truck size={20} />} text="Suppliers" />
-          <MenuItem icon={<Wrench size={20} />} text="Maintenance" />
-          <MenuItem icon={<BarChart3 size={20} />} text="Reports" />
-          <MenuItem icon={<UserCog size={20} />} text="Users" />
-          <MenuItem icon={<Settings size={20} />} text="Settings" />
+        <div className="mt-3 space-y-1">
+          <MenuItem
+            icon={<Building2 size={18} />}
+            text="Departments"
+          />
+
+          <MenuItem
+            icon={<Users size={18} />}
+            text="Employees"
+          />
+
+          <MenuItem
+            icon={<Truck size={18} />}
+            text="Suppliers"
+          />
+
+          <MenuItem
+            icon={<Wrench size={18} />}
+            text="Maintenance"
+          />
+
+          <MenuItem
+            icon={<BarChart3 size={18} />}
+            text="Reports"
+          />
+
+          <MenuItem
+            icon={<UserCog size={18} />}
+            text="Users"
+          />
+
+          <MenuItem
+            icon={<Settings size={18} />}
+            text="Settings"
+          />
         </div>
       </div>
 
       {/* User Section */}
-      <div className="border-t border-blue-900 p-4">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold">
+      <div className="border-t border-blue-900 p-3">
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm">
             JD
           </div>
 
           <div>
-            <p className="font-medium">John Doe</p>
-            <p className="text-sm text-gray-300">Administrator</p>
+            <p className="font-medium text-sm">
+              John Doe
+            </p>
+
+            <p className="text-xs text-gray-300">
+              Administrator
+            </p>
           </div>
         </div>
 
-        <button className="flex items-center gap-3 text-gray-300 hover:text-white">
-          <LogOut size={20} />
+        <button className="flex items-center gap-3 text-gray-300 hover:text-white text-sm">
+          <LogOut size={18} />
           Logout
         </button>
       </div>
@@ -132,7 +211,7 @@ export default function Sidebar() {
 
 function MenuItem({ icon, text }) {
   return (
-    <button className="w-full flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-blue-900">
+    <button className="w-full flex items-center gap-3 px-3 py-1.5 rounded-lg hover:bg-blue-900 text-sm">
       {icon}
       {text}
     </button>

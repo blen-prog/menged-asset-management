@@ -49,7 +49,7 @@ export default function AssetStatus() {
         Distribution across assets
       </p>
 
-      <div className="h-60">
+      <div className="h-40">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
