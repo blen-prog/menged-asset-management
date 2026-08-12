@@ -1,60 +1,64 @@
 import { useState, useEffect, useRef } from "react";
 import { Search, Bell, ChevronDown } from "lucide-react";
-
+import { useLocation } from "react-router-dom";
 import NotificationDropdown from "./NotificationDropdown";
 import ProfileDropdown from "./ProfileDropdown";
 
 export default function Topbar() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
-
+  const location = useLocation();
   const notificationRef = useRef(null);
   const profileRef = useRef(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
-      if (
-        notificationRef.current &&
-        !notificationRef.current.contains(event.target)
-      ) {
-        setShowNotifications(false);
-      }
-
-      if (
-        profileRef.current &&
-        !profileRef.current.contains(event.target)
-      ) {
-        setShowProfile(false);
-      }
+  function handleClickOutside(event) {
+    if (
+      notificationRef.current &&
+      !notificationRef.current.contains(event.target)
+    ) {
+      setShowNotifications(false);
     }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    if (
+      profileRef.current &&
+      !profileRef.current.contains(event.target)
+    ) {
+      setShowProfile(false);
+    }
+  }
 
-    return () => {
-      document.removeEventListener(
-        "mousedown",
-        handleClickOutside
-      );
-    };
-  }, []);
+  document.addEventListener("click", handleClickOutside);
+
+  return () => {
+    document.removeEventListener(
+      "click",
+      handleClickOutside
+    );
+  };
+}, []);
 
   return (
-    <div className="bg-white border-b flex items-center justify-between px-8 h-20 relative">
+    <div className="bg-white border-b flex items-center px-8 h-20 relative">
       {/* Search Bar */}
-      <div className="flex items-center">
-        <div className="relative">
-          <Search
-            size={18}
-            className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-          />
+      {location.pathname === "/" && (
+  <div className="flex items-center">
+    <div className="relative">
+      <Search
+        size={18}
+        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+      />
 
-          <input
-            type="text"
-            placeholder="Search assets, inventory, employees..."
-            className="w-[550px] pl-12 pr-4 py-3 border rounded-xl bg-gray-50"
-          />
-        </div>
-      </div>
+      <input
+        type="text"
+        placeholder="Search assets, inventory, employees..."
+        className="w-[550px] pl-12 pr-4 py-3 border rounded-xl bg-gray-50"
+      />
+    </div>
+  </div>
+)}
+<div className="flex items-center gap-8 ml-auto"></div>
+
 
       {/* Right Side */}
       <div className="flex items-center gap-8">

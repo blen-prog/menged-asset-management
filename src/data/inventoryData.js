@@ -143,7 +143,7 @@ export const inventoryItems = [
       type: "Consumable",
       purpose: "Vehicle",
       department: "Operations",
-      quantity: 10,
+      quantity: 0,
       minimumStock: 5,
       unitPrice: "ETB 1,200",
   purchaseDate: "2025-01-12",

@@ -178,10 +178,17 @@ export default function Sidebar() {
             text="Reports"
           />
 
-          <MenuItem
-            icon={<UserCog size={18} />}
-            text="Users"
-          />
+          <NavLink
+  to="/users"
+  className={({ isActive }) =>
+    `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+      isActive ? "bg-gray-800" : "hover:bg-gray-900"
+    } text-lg`
+  }
+>
+  <UserCog size={18} />
+  Users
+</NavLink>
 
           <MenuItem
             icon={<Settings size={18} />}

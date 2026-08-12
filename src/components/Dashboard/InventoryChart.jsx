@@ -35,7 +35,7 @@ const data = Object.values(
       };
     }
 
-    acc[category].value += Number(item.quantity);
+    acc[category].value += 1;
 
     return acc;
   }, {})
@@ -48,12 +48,12 @@ const data = Object.values(
     <div className="bg-white rounded-2xl p-5 border shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <div>
-          <h2 className="text-base font-semibold">
-            Assets by Category
-          </h2>
+       <p className="text-xl font-bold text-gray-900">
+  Total asset items grouped by category
+</p>
 
-          <p className="text-xs text-gray-500">
-            Total asset units per category
+          <p className="text-l text-gray-500">
+            Total asset per category
           </p>
         </div>
       </div>

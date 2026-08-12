@@ -10,8 +10,12 @@ import Categories from "./pages/Inventory/Categories";
 import Departments from "./pages/Departments";
 import { useState } from "react";
 import { inventoryItems } from "./data/inventoryData";
+import Users from "./pages/Users";
+import { usersData } from "./data/usersData";
 
 function App() {
+  const [users, setUsers] = useState(usersData);
+
   const [items, setItems] = useState(inventoryItems);
   return (
     <Routes>
@@ -53,6 +57,15 @@ function App() {
     <Route
   path="/departments"
   element={<Departments items={items} />}
+/>
+<Route
+  path="/users"
+  element={
+    <Users
+      users={users}
+      setUsers={setUsers}
+    />
+  }
 />
   </Route>
 </Routes>
