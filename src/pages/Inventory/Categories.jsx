@@ -12,7 +12,7 @@ import {
   Package,
   X,
 } from "lucide-react";
-import { inventoryItems } from "../../data/inventoryData";
+
 
 const CATEGORY_META = {
   "Computer Equipment": { icon: Monitor, color: "blue" },
@@ -35,6 +35,23 @@ const COLOR_STYLES = {
   cyan: { bg: "bg-cyan-50", text: "text-cyan-600", ring: "group-hover:ring-cyan-200" },
   red: { bg: "bg-red-50", text: "text-red-600", ring: "group-hover:ring-red-200" },
 };
+
+// Fields that only make sense for Assets (not Consumables).
+// getAssetOnlyValue returns "-" for these fields when the item is a
+// Consumable, regardless of whether the underlying data has a value.
+const ASSET_ONLY_FIELDS = [
+  "assignedTo",
+  "serialNumber",
+  "condition",
+  "assetStatus",
+];
+
+function getAssetOnlyValue(item, field) {
+  if (item.type === "Consumable" && ASSET_ONLY_FIELDS.includes(field)) {
+    return "-";
+  }
+  return item[field] || "-";
+}
 
 // Badge helpers
 function TypeBadge({ type }) {
@@ -90,7 +107,7 @@ function StatusBadge({ status }) {
   );
 }
 
-export default function Categories() {
+export default function Categories({ items }) {
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState(null);
   const [itemQuery, setItemQuery] = useState("");
@@ -98,16 +115,23 @@ export default function Categories() {
   const categories = Object.keys(CATEGORY_META);
 
   const categoryData = useMemo(() => {
-    return categories.map((category) => {
-      const items = inventoryItems.filter((item) => item.category === category);
-      return {
-        name: category,
-        count: items.length,
-        assets: items.filter((item) => item.type === "Asset").length,
-        consumables: items.filter((item) => item.type === "Consumable").length,
-      };
-    });
-  }, []);
+  return categories.map((category) => {
+    const categoryItems = items.filter(
+      (item) => item.category === category
+    );
+
+    return {
+      name: category,
+      count: categoryItems.length,
+      assets: categoryItems.filter(
+        (item) => item.type === "Asset"
+      ).length,
+      consumables: categoryItems.filter(
+        (item) => item.type === "Consumable"
+      ).length,
+    };
+  });
+}, [items]);
 
   const filtered = categoryData.filter((c) =>
     c.name.toLowerCase().includes(query.trim().toLowerCase())
@@ -115,7 +139,7 @@ export default function Categories() {
 
   const modalItems = useMemo(() => {
     if (!selected) return [];
-    return inventoryItems.filter((item) => item.category === selected);
+    return items.filter((item) => item.category === selected);
   }, [selected]);
 
   const filteredModalItems = modalItems.filter((item) => {
@@ -275,6 +299,7 @@ export default function Categories() {
                     <th className="px-4 py-3 font-semibold whitespace-nowrap">Department</th>
                     <th className="px-4 py-3 font-semibold whitespace-nowrap">Quantity</th>
                     <th className="px-4 py-3 font-semibold whitespace-nowrap">Serial Number</th>
+                    <th className="px-4 py-3 font-semibold whitespace-nowrap">Purchase Date</th>
                     <th className="px-4 py-3 font-semibold whitespace-nowrap">Unit Price</th>
                     <th className="px-4 py-3 font-semibold whitespace-nowrap">Status</th>
                   </tr>
@@ -300,7 +325,10 @@ export default function Categories() {
                         <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{item.department ?? "-"}</td>
                         <td className="px-4 py-3 text-gray-700">{item.quantity ?? "-"}</td>
                         <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
-                          {item.serialNumber ?? "-"}
+                          {getAssetOnlyValue(item, "serialNumber")}
+                        </td>
+                        <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+                          {item.purchaseDate || "-"}
                         </td>
                         <td className="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap">
                           {item.unitPrice ?? "-"}
@@ -312,7 +340,7 @@ export default function Categories() {
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={10} className="px-4 py-10 text-center text-gray-400">
+                      <td colSpan={11} className="px-4 py-10 text-center text-gray-400">
                         No items found.
                       </td>
                     </tr>

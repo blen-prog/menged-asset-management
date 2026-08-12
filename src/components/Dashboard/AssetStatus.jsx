@@ -5,34 +5,41 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export default function AssetStatus() {
-  const data = [
-    {
-      name: "Assigned",
-      value: 68,
-      color: "#2563EB",
-    },
-    {
-      name: "Available",
-      value: 22,
-      color: "#22C55E",
-    },
-    {
-      name: "Maintenance",
-      value: 7,
-      color: "#F59E0B",
-    },
-    {
-      name: "Damaged",
-      value: 3,
-      color: "#EF4444",
-    },
-    {
-      name: "Retired",
-      value: 4,
-      color: "#94A3B8",
-    },
-  ];
+export default function AssetStatus({ items }) {
+  const assetItems = items.filter(
+  (item) => item.type === "Asset"
+);
+
+const data = [
+  {
+    name: "Assigned",
+    value: assetItems.filter(
+      (item) => item.assetStatus === "Assigned"
+    ).length,
+    color: "#2563EB",
+  },
+  {
+    name: "Available",
+    value: assetItems.filter(
+      (item) => item.assetStatus === "Available"
+    ).length,
+    color: "#22C55E",
+  },
+  {
+    name: "Maintenance",
+    value: assetItems.filter(
+      (item) => item.assetStatus === "Maintenance"
+    ).length,
+    color: "#F59E0B",
+  },
+  {
+    name: "Retired",
+    value: assetItems.filter(
+      (item) => item.assetStatus === "Retired"
+    ).length,
+    color: "#94A3B8",
+  },
+];
 
   const total = data.reduce(
     (sum, item) => sum + item.value,
@@ -55,8 +62,8 @@ export default function AssetStatus() {
             <Pie
               data={data}
               dataKey="value"
-              innerRadius={45}
-              outerRadius={75}
+              innerRadius={25}
+              outerRadius={55}
             >
               {data.map((entry, index) => (
                 <Cell

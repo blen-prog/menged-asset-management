@@ -5,39 +5,58 @@ import {
   Wrench,
 } from "lucide-react";
 
-export default function DashboardStats() {
+export default function DashboardStats({ items }) {
+  
+  const totalAssets = items
+  .filter((item) => item.type === "Asset")
+  .reduce((sum, item) => sum + item.quantity, 0);
+
+const inventoryItemsCount = items.reduce(
+  (sum, item) => sum + item.quantity,
+  0
+);
+
+const lowStockItems = items.filter(
+  (item) =>
+    item.quantity > 0 &&
+    item.quantity <= item.minimumStock
+).length;
+
+const underMaintenance = items.filter(
+  (item) => item.assetStatus === "Maintenance"
+).length;
   const stats = [
-    {
-      title: "Total Assets",
-      value: "213",
-      change: "+8 this month",
+  {
+    title: "Total Assets",
+    value: totalAssets,
+      change: "Active assets",
       icon: <Monitor size={16} />,
       iconBg: "bg-blue-100",
       iconColor: "text-blue-600",
       changeColor: "text-green-600",
     },
     {
-      title: "Inventory Items",
-      value: "924",
-      change: "+32 this month",
+  title: "Inventory Items",
+  value: inventoryItemsCount,
+      change: "Tracked inventory",
       icon: <Package size={16} />,
       iconBg: "bg-green-100",
       iconColor: "text-green-600",
       changeColor: "text-green-600",
     },
     {
-      title: "Low Stock Items",
-      value: "4",
-      change: "2 critical",
+  title: "Low Stock Items",
+  value: lowStockItems,
+      change: "Require attention",
       icon: <AlertTriangle size={16} />,
       iconBg: "bg-yellow-100",
       iconColor: "text-orange-600",
       changeColor: "text-orange-600",
     },
     {
-      title: "Under Maintenance",
-      value: "7",
-      change: "2 critical",
+  title: "Under Maintenance",
+  value: underMaintenance,
+      change: "Maintenance records",
       icon: <Wrench size={16} />,
       iconBg: "bg-red-100",
       iconColor: "text-red-600",

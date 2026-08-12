@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/menged-logo.png";
 
 import {
@@ -24,9 +24,10 @@ import {
 
 export default function Sidebar() {
   const [inventoryOpen, setInventoryOpen] = useState(true);
+  const navigate = useNavigate();
 
   return (
-    <div className="w-56 h-screen bg-[#08204d] text-white flex flex-col fixed left-0 top-0">
+    <div className="w-56 h-screen bg-gray-950 text-white flex flex-col fixed left-0 top-0">
       {/* Logo Section */}
       <div className="p-3 border-b border-blue-900">
         <div className="bg-white rounded-xl p-2 flex justify-center">
@@ -49,14 +50,14 @@ export default function Sidebar() {
       {/* Menu */}
       <div className="flex-1 overflow-y-auto p-3">
         <p className="text-xs tracking-wider text-gray-400 mb-3">
-          MAIN MENU
+          OVERVIEW
         </p>
 
         {/* Dashboard */}
         <NavLink
   to="/"
   className={({ isActive }) =>
-    `w-full flex items-center gap-3 px-3 py-1.5 rounded-lg mb-2 text-sm ${
+    `w-full flex items-center gap-3 px-3 py-1.5 rounded-lg mb-2 text-lg ${
       isActive ? "bg-blue-600" : "hover:bg-blue-900"
     }`
   }
@@ -66,13 +67,13 @@ export default function Sidebar() {
 </NavLink>
 
         <p className="text-xs tracking-wider text-gray-400 mt-3 mb-2">
-          OVERVIEW
+          MAINMENU
         </p>
 
         {/* Inventory */}
         <button
           onClick={() => setInventoryOpen(!inventoryOpen)}
-          className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg hover:bg-blue-900 text-sm"
+          className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg hover:bg-blue-900 text-base"
         >
           <div className="flex items-center gap-3">
             <Package size={18} />
@@ -145,10 +146,17 @@ export default function Sidebar() {
 
         {/* Other Menu Items */}
         <div className="mt-3 space-y-1">
-          <MenuItem
-            icon={<Building2 size={18} />}
-            text="Departments"
-          />
+          <NavLink
+  to="/departments"
+  className={({ isActive }) =>
+    `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+      isActive ? "bg-gray-800" : "hover:bg-gray-900"
+    } text-lg`
+  }
+>
+  <Building2 size={18} />
+  Departments
+</NavLink>
 
           <MenuItem
             icon={<Users size={18} />}
@@ -185,7 +193,7 @@ export default function Sidebar() {
       {/* User Section */}
       <div className="border-t border-blue-900 p-3">
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm">
+          <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-base">
             JD
           </div>
 
@@ -200,10 +208,16 @@ export default function Sidebar() {
           </div>
         </div>
 
-        <button className="flex items-center gap-3 text-gray-300 hover:text-white text-sm">
-          <LogOut size={18} />
-          Logout
-        </button>
+        <button
+  onClick={() => {
+    sessionStorage.removeItem("isLoggedIn");
+    navigate("/login");
+  }}
+  className="flex items-center gap-3 text-gray-300 hover:text-white text-base"
+>
+  <LogOut size={18} />
+  Logout
+</button>
       </div>
     </div>
   );
@@ -211,7 +225,7 @@ export default function Sidebar() {
 
 function MenuItem({ icon, text }) {
   return (
-    <button className="w-full flex items-center gap-3 px-3 py-1.5 rounded-lg hover:bg-blue-900 text-sm">
+    <button className="w-full flex items-center gap-3 px-3 py-1.5 rounded-lg hover:bg-blue-900 text-base">
       {icon}
       {text}
     </button>

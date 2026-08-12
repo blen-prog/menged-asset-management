@@ -1,49 +1,73 @@
 import { Box, Monitor, Shield, Bus } from "lucide-react";
 import logo from "../assets/menged-logo.png";
+import { useState } from "react";
+import { useNavigate, Navigate } from "react-router-dom";
 
 export default function Login() {
+  
   const cards = [
     {
       icon: <Box size={24} />,
       title: "Inventory",
       subtitle: "924 Items",
-      color: "bg-blue-500",
+      color: "bg-gray-700",
     },
     {
       icon: <Monitor size={24} />,
       title: "Assets",
       subtitle: "213 Tracked",
-      color: "bg-violet-500",
+      color: "bg-gray-800",
     },
     {
       icon: <Shield size={24} />,
       title: "Secure",
       subtitle: "Role-Based Access",
-      color: "bg-cyan-500",
+      color: "bg-gray-700",
     },
     {
       icon: <Bus size={24} />,
       title: "Velocity Fleet",
       subtitle: "45+ Validators",
-      color: "bg-sky-500",
+      color: "bg-gray-800",
     },
   ];
+  const navigate = useNavigate();
+
+const [phone, setPhone] = useState("");
+const [password, setPassword] = useState("");
+const [error, setError] = useState("");
+  const handleLogin = () => {
+    if (
+      phone === "+251912345678" &&
+      password === "admin123"
+    ) {
+      sessionStorage.setItem("isLoggedIn", "true");
+      navigate("/");
+    } else {
+      setError("Invalid phone number or password");
+    }
+  };
+  if (sessionStorage.getItem("isLoggedIn") === "true") {
+    return <Navigate to="/" replace />;
+  }
 
   return (
     <>
-      <img src={logo} alt="Menged Logo" className="fixed top-4 right-4 h-14 z-50" />
+      <div className="fixed top-0 right-0 z-50 bg-gray-200 px-6 py-3 shadow-sm w-1/2 flex justify-end">
+  <img src={logo} alt="Menged Logo" className="h-14" />
+</div>
 
       <div className="min-h-screen flex">
         {/* Left Panel */}
-        <div className="w-1/2 bg-[#06245a] text-white p-14 flex flex-col justify-between">
+        <div className="w-1/2 bg-black text-white p-14 flex flex-col justify-between">
           <div>
             <div className="flex items-center gap-4 mb-16">
-              <div className="bg-blue-600 p-4 rounded-2xl">
+            <div className="bg-gray-800 p-4 rounded-2xl">
                 <Bus size={24} />
               </div>
               <div>
                 <h1 className="text-3xl font-bold">Menged Solution PLC</h1>
-                <p className="text-blue-200">Velocity Bus Payment Systems</p>
+                <p className="text-gray-400">Asset Management Systems</p>
               </div>
             </div>
 
@@ -59,19 +83,19 @@ export default function Login() {
                     {card.icon}
                   </div>
                   <h3 className="font-semibold text-xl">{card.title}</h3>
-                  <p className="text-blue-200">{card.subtitle}</p>
+                  <p className="text-gray-400">{card.subtitle}</p>
                 </div>
               ))}
             </div>
           </div>
 
           <div>
-            <h2 className="text-5xl font-bold leading-tight">
+            <h2 className="text-3xl font-bold leading-tight">
               Manage every asset.
               <br />
               From bus validators to laptops.
             </h2>
-            <p className="text-blue-200 mt-6 text-xl max-w-2xl">
+            <p className="text-gray-400 mt-6 text-l max-w-2xl">
               Real-time tracking of office assets, Velocity payment hardware,
               spare parts, maintenance, and employee assignments all in one
               platform.
@@ -91,10 +115,12 @@ export default function Login() {
               <div>
                 <label className="block mb-2 font-medium">Phone Number</label>
                 <input
-                  type="tel"
-                  placeholder="+251912345678"
-                  className="w-full p-4 rounded-xl border border-gray-300 bg-white"
-                />
+  type="tel"
+  placeholder="+251912345678"
+  value={phone}
+  onChange={(e) => setPhone(e.target.value)}
+  className="w-full p-4 rounded-xl border border-gray-300 bg-white"
+/>
               </div>
 
               <div>
@@ -108,20 +134,30 @@ export default function Login() {
                   </button>
                 </div>
                 <input
-                  type="password"
-                  placeholder="••••••••"
-                  className="w-full p-4 rounded-xl border border-gray-300 bg-white"
-                />
+  type="password"
+  placeholder="••••••••"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+  className="w-full p-4 rounded-xl border border-gray-300 bg-white"
+/>
               </div>
 
               <div className="flex items-center gap-3">
                 <input type="checkbox" />
                 <span className="text-gray-600">Remember me for 30 days</span>
               </div>
+              {error && (
+  <p className="text-red-600 text-sm">
+    {error}
+  </p>
+)}
 
-              <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-xl font-semibold">
-                Sign In
-              </button>
+<button
+  onClick={handleLogin}
+  className="w-full bg-black hover:bg-gray-800 text-white py-4 rounded-xl font-semibold"
+>
+  Sign In
+</button>
             </div>
 
             <div className="border-t mt-14 pt-8 text-center text-gray-400 text-sm">

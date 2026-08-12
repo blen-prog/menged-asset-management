@@ -7,7 +7,7 @@ import WarrantyExpiring from "../components/dashboard/WarrantyExpiring";
 import LowStockAlerts from "../components/dashboard/LowStockAlerts";
 import QuickActions from "../components/dashboard/QuickActions";
 
-export default function Dashboard() {
+export default function Dashboard({ items }) {
   return (
     
 
@@ -24,16 +24,17 @@ export default function Dashboard() {
           </div>
 
           {/* Stats */}
-          <DashboardStats />
+          <DashboardStats items={items} />
 
           {/* Charts Row */}
           <div className="grid grid-cols-3 gap-6 mt-6">
             <div className="col-span-2">
-              <InventoryChart />
+              <InventoryChart items={items} />
             </div>
 
             <div>
-              <AssetStatus />
+              <AssetStatus items={items} />
+
             </div>
           </div>
 
@@ -46,7 +47,7 @@ export default function Dashboard() {
 
             <div className="space-y-4">
               <WarrantyExpiring />
-              <LowStockAlerts />
+              <LowStockAlerts items={items} />
             </div>
           </div>
         </div>

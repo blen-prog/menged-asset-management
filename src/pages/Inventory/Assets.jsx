@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { inventoryItems } from "../../data/inventoryData";
+
 import { Search } from "lucide-react";
 
-export default function Assets() {
+export default function Assets({ items }) {
   const [search, setSearch] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("All Departments");
   const [conditionFilter, setConditionFilter] = useState("All Conditions");
@@ -12,7 +12,7 @@ export default function Assets() {
   const [editingAsset, setEditingAsset] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const assets = inventoryItems.filter((item) => item.type === "Asset");
+  const assets =items.filter((item) => item.type === "Asset");
 
   const filteredAssets = assets.filter((asset) => {
     const matchesSearch =

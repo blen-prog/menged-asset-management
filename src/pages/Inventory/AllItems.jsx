@@ -1,5 +1,7 @@
-import { useState } from "react";
-import { inventoryItems } from "../../data/inventoryData";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
+
+
 import {
   Search,
   Plus,
@@ -8,8 +10,15 @@ import {
   Trash2,
 } from "lucide-react";
 
-export default function AllItems() {
+export default function AllItems({
+  
+  items,
+  setItems,
+}) {
+
   const [showModal, setShowModal] = useState(false);
+  const [searchParams] = useSearchParams();
+
   const [search, setSearch] = useState("");
   const [typeFilter, setTypeFilter] = useState("All Types");
   const [purposeFilter, setPurposeFilter] = useState("All Purposes");
@@ -34,11 +43,32 @@ export default function AllItems() {
     assignedTo: "",
     serialNumber: "",
     purchaseDate: "",
-    condition: "Good",
-    assetStatus: "Available",
+    condition: "",
+    assetStatus: "",
   });
 
-  const [items, setItems] = useState(inventoryItems);
+  useEffect(() => {
+  if (searchParams.get("add") === "item") {
+    setShowModal(true);
+
+    window.history.replaceState(
+      {},
+      "",
+      "/all-items"
+    );
+  }
+}, []);
+useEffect(() => {
+  if (searchParams.get("alert") === "inventory") {
+    setStatusFilter("Inventory Alerts");
+
+    window.history.replaceState(
+      {},
+      "",
+      "/all-items"
+    );
+  }
+}, []);
 
   const getStatus = (quantity, minimumStock) => {
     if (quantity === 0) return "Out of Stock";
@@ -78,7 +108,11 @@ export default function AllItems() {
     const status = getStatus(item.quantity, item.minimumStock);
 
     const matchesStatus =
-      statusFilter === "All Statuses" || status === statusFilter;
+  statusFilter === "All Statuses"
+    ? true
+    : statusFilter === "Inventory Alerts"
+    ? status === "Low Stock" || status === "Out of Stock"
+    : status === statusFilter;
 
     return (
       matchesSearch &&
@@ -125,8 +159,8 @@ export default function AllItems() {
       assignedTo: "",
       serialNumber: "",
       purchaseDate: "",
-      condition: "Good",
-      assetStatus: "Available",
+      condition: "",
+      assetStatus: "",
     });
 
     setShowModal(false);
@@ -186,9 +220,9 @@ export default function AllItems() {
             className="border rounded-lg px-3 py-2 w-24 text-xs"
 
           >
-            <option>All Type</option>
-            <option>Asset</option>
-            <option>Consumable</option>
+            <option value="All Types">All Type</option>
+<option value="Asset">Asset</option>
+<option value="Consumable">Consumable</option>
           </select>
 
           <select
@@ -200,15 +234,15 @@ export default function AllItems() {
             className="border rounded-lg px-3 py-2 w-28 text-xs"
 
           >
-            <option>All Category</option>
-            <option>Computer Equipment</option>
-            <option>Networking Equipment</option>
-            <option>Office Equipment</option>
-            <option>Validators</option>
-            <option>Stationery</option>
-            <option>Spare Parts</option>
-            <option>Vehicle Consumables</option>
-            <option>Safety Equipment</option>
+            <option value="All Categories">All Category</option>
+<option>Computer Equipment</option>
+<option>Networking Equipment</option>
+<option>Office Equipment</option>
+<option>Validators</option>
+<option>Stationery</option>
+<option>Spare Parts</option>
+<option>Vehicle Consumables</option>
+<option>Safety Equipment</option>
           </select>
 
           <select
@@ -219,9 +253,9 @@ export default function AllItems() {
             }}
             className="border rounded-lg px-3 py-2 w-28 text-xs"
           >
-            <option>All Purpose</option>
-            <option>Office</option>
-            <option>Vehicle</option>
+            <option value="All Purposes">All Purpose</option>
+<option>Office</option>
+<option>Vehicle</option>
           </select>
 
           <select
@@ -232,10 +266,12 @@ export default function AllItems() {
             }}
             className="border rounded-lg px-3 py-2 w-28 text-xs"
           >
-            <option>All Department</option>
-            <option>IT</option>
-            <option>HR</option>
-            <option>Operations</option>
+            <option value="All Departments">All Department</option>
+<option>IT</option>
+<option>HR</option>
+<option>Finance</option>
+<option>Operations</option>
+<option>Administration</option>
           </select>
 
           <select
@@ -246,10 +282,10 @@ export default function AllItems() {
             }}
             className="border rounded-lg px-3 py-2 w-28 text-xs"
           >
-            <option>All Status</option>
-            <option>In Stock</option>
-            <option>Low Stock</option>
-            <option>Out of Stock</option>
+            <option value="All Statuses">All Status</option>
+<option>In Stock</option>
+<option>Low Stock</option>
+<option>Out of Stock</option>
           </select>
         </div>
       </div>
@@ -431,16 +467,18 @@ export default function AllItems() {
               )}
 
               <select
-                value={newItem.type}
-                onChange={(e) =>
-                  setNewItem({ ...newItem, type: e.target.value })
-                }
-                className="w-full border rounded-lg px-4 py-2"
-              >
-                <option value="" disabled>Select Type</option>
-                <option>Asset</option>
-                <option>Consumable</option>
-              </select>
+  value={newItem.type}
+  onChange={(e) =>
+    setNewItem({ ...newItem, type: e.target.value })
+  }
+  className="w-full border rounded-lg px-4 py-2"
+>
+  <option value="" disabled>
+    Select Type
+  </option>
+  <option value="Asset">Asset</option>
+  <option value="Consumable">Consumable</option>
+</select>
 
               <select
                 value={newItem.category}
@@ -516,6 +554,15 @@ export default function AllItems() {
                 }
                 className="w-full border rounded-lg px-4 py-2"
               />
+  
+<input
+  type="date"
+  value={newItem.purchaseDate || ""}
+  onChange={(e) =>
+    setNewItem({ ...newItem, purchaseDate: e.target.value })
+  }
+  className="w-full border rounded-lg px-4 py-2"
+/>
 
               {newItem.type === "Asset" && (
                 <>
@@ -539,42 +586,41 @@ export default function AllItems() {
                     className="w-full border rounded-lg px-4 py-2"
                   />
 
-                  <input
-                    type="date"
-                    value={newItem.purchaseDate || ""}
-                    onChange={(e) =>
-                      setNewItem({ ...newItem, purchaseDate: e.target.value })
-                    }
-                    className="w-full border rounded-lg px-4 py-2"
-                  />
+                  <select
+  value={newItem.condition}
+  onChange={(e) =>
+    setNewItem({ ...newItem, condition: e.target.value })
+  }
+  className="w-full border rounded-lg px-4 py-2"
+>
+  <option value="" disabled>
+    Select Condition
+  </option>
+  <option value="Excellent">Excellent</option>
+  <option value="Good">Good</option>
+  <option value="Fair">Fair</option>
+  <option value="Damaged">Damaged</option>
+</select>
 
                   <select
-                    value={newItem.condition || "Good"}
-                    onChange={(e) =>
-                      setNewItem({ ...newItem, condition: e.target.value })
-                    }
-                    className="w-full border rounded-lg px-4 py-2"
-                  >
-                    <option>Excellent</option>
-                    <option>Good</option>
-                    <option>Fair</option>
-                    <option>Damaged</option>
-                  </select>
-
-                  <select
-                    value={newItem.assetStatus || "Available"}
-                    onChange={(e) =>
-                      setNewItem({ ...newItem, assetStatus: e.target.value })
-                    }
-                    className="w-full border rounded-lg px-4 py-2"
-                  >
-                    <option>Assigned</option>
-                    <option>Available</option>
-                    <option>Maintenance</option>
-                    <option>Retired</option>
-                  </select>
+  value={newItem.assetStatus}
+  onChange={(e) =>
+    setNewItem({ ...newItem, assetStatus: e.target.value })
+  }
+  className="w-full border rounded-lg px-4 py-2"
+>
+  <option value="" disabled>
+    Select Asset Status
+  </option>
+  <option value="Assigned">Assigned</option>
+  <option value="Available">Available</option>
+  <option value="Maintenance">Maintenance</option>
+  <option value="Retired">Retired</option>
+</select>
                 </>
               )}
+
+              
             </div>
 
             <div className="flex justify-end gap-3 mt-6">
@@ -623,11 +669,34 @@ export default function AllItems() {
                 <p><strong>Quantity:</strong> {selectedItem.quantity}</p>
                 <p><strong>Minimum Stock:</strong> {selectedItem.minimumStock}</p>
                 <p><strong>Unit Price:</strong> {selectedItem.unitPrice}</p>
-                <p><strong>Assigned To:</strong> {selectedItem.assignedTo}</p>
-                <p><strong>Serial Number:</strong> {selectedItem.serialNumber}</p>
-                <p><strong>Purchase Date:</strong> {selectedItem.purchaseDate}</p>
-                <p><strong>Condition:</strong> {selectedItem.condition}</p>
-                <p><strong>Asset Status:</strong> {selectedItem.assetStatus}</p>
+                {selectedItem.type === "Asset" && (
+  <>
+    <p>
+      <strong>Assigned To:</strong> {selectedItem.assignedTo}
+    </p>
+
+    <p>
+      <strong>Serial Number:</strong> {selectedItem.serialNumber}
+    </p>
+
+    <p>
+      <strong>Purchase Date:</strong> {selectedItem.purchaseDate}
+    </p>
+
+    <p>
+      <strong>Condition:</strong> {selectedItem.condition}
+    </p>
+
+    <p>
+      <strong>Asset Status:</strong> {selectedItem.assetStatus}
+    </p>
+  </>
+)}
+                {selectedItem.type === "Consumable" && (
+                  <p>
+                    <strong>Purchase Date:</strong> {selectedItem.purchaseDate}
+                  </p>
+                )}
                 <p>
                   <strong>Stock Status:</strong>{" "}
                   {getStatus(selectedItem.quantity, selectedItem.minimumStock)}
@@ -849,6 +918,25 @@ export default function AllItems() {
                     <option>Retired</option>
                   </select>
                 </>
+              )}
+
+              {editingItem.type === "Consumable" && (
+                <div>
+                  <label className="block text-sm text-gray-500 mb-1">
+                    Purchase Date
+                  </label>
+                  <input
+                    type="date"
+                    value={editingItem.purchaseDate || ""}
+                    onChange={(e) =>
+                      setEditingItem({
+                        ...editingItem,
+                        purchaseDate: e.target.value,
+                      })
+                    }
+                    className="w-full border rounded-lg px-4 py-2"
+                  />
+                </div>
               )}
             </div>
 

@@ -1,9 +1,9 @@
 // ...existing code...
 import { useState } from "react";
-import { inventoryItems } from "../../data/inventoryData";
+
 import { Search } from "lucide-react";
 
-export default function Consumables() {
+export default function Consumables({ items }) {
   const [search, setSearch] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("All Departments");
   const [categoryFilter, setCategoryFilter] = useState("All Categories");
@@ -12,7 +12,7 @@ export default function Consumables() {
   const [editingConsumable, setEditingConsumable] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const consumables = inventoryItems.filter((item) => item.type === "Consumable");
+  const consumables = items.filter((item) => item.type === "Consumable");
 
   // helper functions must be declared before they are used
   const getStatus = (quantity, minimumStock) => {
