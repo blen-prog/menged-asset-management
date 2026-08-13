@@ -10,6 +10,14 @@ export default function Topbar() {
   const location = useLocation();
   const notificationRef = useRef(null);
   const profileRef = useRef(null);
+  const user = JSON.parse(
+  sessionStorage.getItem("user")
+);
+const initials = user?.name
+  ?.split(" ")
+  .map((n) => n[0])
+  .join("");
+
 
   useEffect(() => {
   function handleClickOutside(event) {
@@ -99,16 +107,16 @@ export default function Topbar() {
             className="flex items-center gap-2"
           >
             <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-sm">
-              JD
+              {initials}
             </div>
 
             <div className="text-left">
               <p className="font-medium text-sm">
-                John Doe
+                {user?.name}
               </p>
 
               <p className="text-xs text-gray-500">
-                Administrator
+                {user?.role}
               </p>
             </div>
 

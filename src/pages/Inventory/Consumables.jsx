@@ -4,6 +4,12 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 
 export default function Consumables({ items }) {
+  const user = JSON.parse(
+  sessionStorage.getItem("user")
+);
+
+const isViewer =
+  user?.role === "Viewer";
   const [search, setSearch] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("All Departments");
   const [categoryFilter, setCategoryFilter] = useState("All Categories");
@@ -189,20 +195,22 @@ export default function Consumables({ items }) {
               </div>
 
               <div className="flex gap-2 mt-4">
-                <button
-                  onClick={() => setSelectedConsumable(consumable)}
-                  className="flex-1 border rounded-lg py-2 hover:bg-gray-50"
-                >
-                  View
-                </button>
+  <button
+    onClick={() => setSelectedConsumable(consumable)}
+    className="flex-1 border rounded-lg py-2 hover:bg-gray-50"
+  >
+    View
+  </button>
 
-                <button
-                  onClick={() => setEditingConsumable({ ...consumable })}
-                  className="flex-1 bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700"
-                >
-                  Edit
-                </button>
-              </div>
+  {!isViewer && (
+    <button
+      onClick={() => setEditingConsumable({ ...consumable })}
+      className="flex-1 bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700"
+    >
+      Edit
+    </button>
+  )}
+</div>
             </div>
           );
         })}

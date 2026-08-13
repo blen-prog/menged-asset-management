@@ -2,7 +2,7 @@ export const usersData = [
   {
     id: "USR-001",
     name: "John Doe",
-    phone: "0911223344",
+    phone: "+251911223344",
     email: "john@menged.et",
     password: "admin123",
     department: "IT",
@@ -13,7 +13,7 @@ export const usersData = [
   {
     id: "USR-002",
     name: "Sara Tadesse",
-    phone: "0911445566",
+    phone: "+251911445566",
     email: "sara@menged.et",
     password: "sara123",
     department: "IT",
@@ -21,4 +21,27 @@ export const usersData = [
     status: "Active",
     lastLogin: "2026-08-11 16:45",
   },
+  {
+  id: "USR-003",
+  name: "Abel Bekele",
+  phone: "+251911778899",
+  email: "abel@menged.et",
+  password: "manager123",
+  department: "Operations",
+  role: "Manager",
+  status: "Active",
+  lastLogin: "Never",
+},
+{
+  id: "USR-004",
+  name: "Meron Desta",
+  phone: "+251911998877",
+  email: "meron@menged.et",
+  password: "viewer123",
+  department: "Finance",
+  role: "Viewer",
+  status: "Active",
+  lastLogin: "Never",
+},
+
 ];

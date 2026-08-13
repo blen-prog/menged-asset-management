@@ -15,6 +15,12 @@ function getAssetOnlyValue(item, field) {
 }
 
 export default function Departments({ items }) {
+  const user = JSON.parse(
+  sessionStorage.getItem("user")
+);
+
+const isViewer =
+  user?.role === "Viewer";
   const [selectedDepartment, setSelectedDepartment] =
   useState(null);
   const [departmentSearch, setDepartmentSearch] =
@@ -76,10 +82,14 @@ const selectedDepartmentInfo =
           </p>
         </div>
 
-        <button className="bg-blue-600 text-white px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-blue-700">
-          <Plus size={18} />
-          Add Department
-        </button>
+        {!isViewer && (
+  <button
+    className="bg-blue-600 text-white px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-blue-700"
+  >
+    <Plus size={18} />
+    Add Department
+  </button>
+)}
       </div>
 
       {/* Cards */}

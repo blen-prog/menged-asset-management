@@ -15,7 +15,12 @@ export default function AllItems({
   items,
   setItems,
 }) {
+  const user = JSON.parse(
+  sessionStorage.getItem("user")
+);
 
+const isViewer =
+  user?.role === "Viewer";
   const [showModal, setShowModal] = useState(false);
   const [searchParams] = useSearchParams();
 
@@ -137,12 +142,46 @@ useEffect(() => {
   );
 
   const handleAddItem = () => {
-    const itemToAdd = {
-      id: `ITM-${String(items.length + 1).padStart(3, "0")}`,
-      ...newItem,
-      quantity: Number(newItem.quantity),
-      minimumStock: Number(newItem.minimumStock),
-    };
+    if (
+  !newItem.name ||
+  !newItem.type ||
+  !newItem.category ||
+  !newItem.purpose ||
+  !newItem.department ||
+  !newItem.quantity ||
+  !newItem.minimumStock ||
+  !newItem.unitPrice
+) {
+  alert("Please fill all required fields");
+  return;
+}
+if (newItem.type === "Asset") {
+  if (
+    !newItem.assignedTo ||
+    !newItem.serialNumber ||
+    !newItem.purchaseDate ||
+    !newItem.condition ||
+    !newItem.assetStatus
+  ) {
+    alert("Please complete all asset information");
+    return;
+  }
+}
+
+    const nextNumber =
+  Math.max(
+    ...items.map((item) =>
+      Number(item.id.replace("ITM-", ""))
+    ),
+    0
+  ) + 1;
+  const itemToAdd = {
+  id: `ITM-${String(nextNumber).padStart(3, "0")}`,
+  ...newItem,
+  quantity: Number(newItem.quantity),
+  minimumStock: Number(newItem.minimumStock),
+};
+
 
     setItems([...items, itemToAdd]);
 
@@ -182,13 +221,15 @@ useEffect(() => {
           <p className="text-gray-500">Manage inventory and assets</p>
         </div>
 
-        <button
-          onClick={() => setShowModal(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-blue-700"
-        >
-          <Plus size={18} />
-          Add Item
-        </button>
+        {!isViewer && (
+  <button
+    onClick={() => setShowModal(true)}
+    className="bg-blue-600 text-white px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-blue-700"
+  >
+    <Plus size={18} />
+    Add Item
+  </button>
+)}
       </div>
 
       {/* Filters */}
@@ -302,8 +343,7 @@ useEffect(() => {
                 <th>Category</th>
                 <th>Purpose</th>
                 <th>Department</th>
-                <th>Quantity</th>
-                <th>Min. Stock</th>
+                <th>Quantity</th>               
                 <th>Unit Price</th>
                 <th>Status</th>
                 <th className="text-center">Actions</th>
@@ -312,6 +352,7 @@ useEffect(() => {
 
             <tbody>
               {currentItems.map((item) => {
+                
                 const status = getStatus(item.quantity, item.minimumStock);
                 return (
                   <tr key={item.id} className="border-b hover:bg-gray-50">
@@ -342,7 +383,6 @@ useEffect(() => {
                     </td>
                     <td>{item.department}</td>
                     <td>{item.quantity}</td>
-                    <td>{item.minimumStock}</td>
                     <td className="font-medium">{item.unitPrice}</td>
                     <td>
                       <span
@@ -360,32 +400,46 @@ useEffect(() => {
                           <Eye size={18} />
                         </button>
 
-                        <button
-                          onClick={() => setEditingItem({ ...item })}
-                          className="text-green-600 hover:text-green-800"
-                        >
-                          <Pencil size={18} />
-                        </button>
+                        {!isViewer && (
+  <>
+    <button
+      onClick={() => setEditingItem({ ...item })}
+      className="text-green-600 hover:text-green-800"
+    >
+      <Pencil size={18} />
+    </button>
 
-                        <button
-                          onClick={() => {
-                            if (
-                              window.confirm(
-                                "Are you sure you want to delete this item?"
-                              )
-                            ) {
-                              handleDelete(item.id);
-                            }
-                          }}
-                          className="text-red-600 hover:text-red-800"
-                        >
-                          <Trash2 size={18} />
-                        </button>
+    <button
+      onClick={() => {
+        if (
+          window.confirm(
+            "Are you sure you want to delete this item?"
+          )
+        ) {
+          handleDelete(item.id);
+        }
+      }}
+      className="text-red-600 hover:text-red-800"
+    >
+      <Trash2 size={18} />
+    </button>
+  </>
+)}
                       </div>
                     </td>
                   </tr>
                 );
               })}
+              {currentItems.length === 0 && (
+  <tr>
+    <td
+      colSpan="10"
+      className="text-center py-8 text-gray-500"
+    >
+      No items found
+    </td>
+  </tr>
+)}
             </tbody>
           </table>
         </div>

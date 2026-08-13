@@ -6,6 +6,13 @@ import { useNavigate } from "react-router-dom";
 
 
 export default function QuickActions() {
+  const user = JSON.parse(
+  sessionStorage.getItem("user")
+);
+
+const isViewer =
+  user?.role === "Viewer";
+  if (isViewer) return null;
   const navigate = useNavigate();
   const actions = [
     {
@@ -26,9 +33,13 @@ export default function QuickActions() {
       <h2 className="text-lg font-semibold mb-4">
         Quick Actions
       </h2>
-
       <div className="grid grid-cols-2 gap-3">
-        {actions.map((action, index) => (
+  {actions
+    .filter(
+      (action) =>
+        !(isViewer && action.title === "Add Item")
+    )
+    .map((action, index) => (
           <button
   key={index}
   onClick={() => {

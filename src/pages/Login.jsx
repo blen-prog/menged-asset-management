@@ -2,7 +2,7 @@ import { Box, Monitor, Shield, Bus } from "lucide-react";
 import logo from "../assets/menged-logo.png";
 import { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-
+import { usersData } from "../data/usersData";
 export default function Login() {
   
   const cards = [
@@ -37,16 +37,31 @@ const [phone, setPhone] = useState("");
 const [password, setPassword] = useState("");
 const [error, setError] = useState("");
   const handleLogin = () => {
-    if (
-      phone === "+251912345678" &&
-      password === "admin123"
-    ) {
-      sessionStorage.setItem("isLoggedIn", "true");
-      navigate("/");
-    } else {
-      setError("Invalid phone number or password");
-    }
-  };
+  const user = usersData.find(
+    (u) =>
+      u.phone === phone &&
+      u.password === password
+  );
+
+  if (!user) {
+    setError("Invalid phone number or password");
+    return;
+  }
+
+  if (user.status === "Inactive") {
+    setError("This account is inactive");
+    return;
+  }
+
+  sessionStorage.setItem("isLoggedIn", "true");
+
+  sessionStorage.setItem(
+    "user",
+    JSON.stringify(user)
+  );
+
+  navigate("/");
+};
   if (sessionStorage.getItem("isLoggedIn") === "true") {
     return <Navigate to="/" replace />;
   }

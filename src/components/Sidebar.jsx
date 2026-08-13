@@ -23,6 +23,26 @@ import {
 } from "lucide-react";
 
 export default function Sidebar() {
+  const user = JSON.parse(
+  sessionStorage.getItem("user")
+);
+  const isAdmin =
+  user?.role === "Administrator";
+
+const isManager =
+  user?.role === "Manager";
+
+const isStaff =
+  user?.role === "Staff";
+
+const isViewer =
+  user?.role === "Viewer";
+
+
+const initials = user?.name
+  ?.split(" ")
+  .map((n) => n[0])
+  .join("");
   const [inventoryOpen, setInventoryOpen] = useState(true);
   const navigate = useNavigate();
 
@@ -158,42 +178,61 @@ export default function Sidebar() {
   Departments
 </NavLink>
 
-          <MenuItem
-            icon={<Users size={18} />}
-            text="Employees"
-          />
+          {(isAdmin || isManager || isStaff) && (
+  <MenuItem
+    icon={<Users size={18} />}
+    text="Employees"
+  />
+)}
 
-          <MenuItem
-            icon={<Truck size={18} />}
-            text="Suppliers"
-          />
+          {(isAdmin || isManager || isStaff) && (
+  <MenuItem
+    icon={<Truck size={18} />}
+    text="Suppliers"
+  />
+)}
 
-          <MenuItem
-            icon={<Wrench size={18} />}
-            text="Maintenance"
-          />
+          {(isAdmin || isManager || isStaff) && (
+  <MenuItem
+    icon={<Wrench size={18} />}
+    text="Maintenance"
+  />
+)}
 
-          <MenuItem
-            icon={<BarChart3 size={18} />}
-            text="Reports"
-          />
+         {(isAdmin || isManager) && (
+  <NavLink
+    to="/reports"
+    className={({ isActive }) =>
+      `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+        isActive ? "bg-gray-800" : "hover:bg-gray-900"
+      } text-lg`
+    }
+  >
+    <BarChart3 size={18} />
+    Reports
+  </NavLink>
+)}
 
-          <NavLink
-  to="/users"
-  className={({ isActive }) =>
-    `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
-      isActive ? "bg-gray-800" : "hover:bg-gray-900"
-    } text-lg`
-  }
->
-  <UserCog size={18} />
-  Users
-</NavLink>
+{isAdmin && (
+  <NavLink
+    to="/users"
+    className={({ isActive }) =>
+      `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+        isActive ? "bg-gray-800" : "hover:bg-gray-900"
+      } text-lg`
+    }
+  >
+    <UserCog size={18} />
+    Users
+  </NavLink>
+)}
 
-          <MenuItem
-            icon={<Settings size={18} />}
-            text="Settings"
-          />
+          {isAdmin && (
+  <MenuItem
+    icon={<Settings size={18} />}
+    text="Settings"
+  />
+)}
         </div>
       </div>
 
@@ -201,16 +240,16 @@ export default function Sidebar() {
       <div className="border-t border-blue-900 p-3">
         <div className="flex items-center gap-2 mb-3">
           <div className="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center font-bold text-base">
-            JD
+            {initials}
           </div>
 
           <div>
             <p className="font-medium text-sm">
-              John Doe
+              {user?.name}
             </p>
 
             <p className="text-xs text-gray-300">
-              Administrator
+              {user?.role}
             </p>
           </div>
         </div>
@@ -218,6 +257,7 @@ export default function Sidebar() {
         <button
   onClick={() => {
     sessionStorage.removeItem("isLoggedIn");
+sessionStorage.removeItem("user");
     navigate("/login");
   }}
   className="flex items-center gap-3 text-gray-300 hover:text-white text-base"

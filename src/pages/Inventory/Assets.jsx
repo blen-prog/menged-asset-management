@@ -3,6 +3,12 @@ import { useState } from "react";
 import { Search } from "lucide-react";
 
 export default function Assets({ items }) {
+  const user = JSON.parse(
+  sessionStorage.getItem("user")
+);
+
+const isViewer =
+  user?.role === "Viewer";
   const [search, setSearch] = useState("");
   const [departmentFilter, setDepartmentFilter] = useState("All Departments");
   const [conditionFilter, setConditionFilter] = useState("All Conditions");
@@ -237,12 +243,15 @@ export default function Assets({ items }) {
                 View
               </button>
 
-              <button
-                onClick={() => setEditingAsset({ ...asset })}
-                className="flex-1 bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700"
-              >
-                Edit
-              </button>
+              {!isViewer && (
+  <button
+    onClick={() => setEditingAsset({ ...asset })}
+    className="flex-1 bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700"
+  >
+    Edit
+  </button>
+)}
+
             </div>
           </div>
         ))}

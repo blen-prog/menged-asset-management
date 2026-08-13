@@ -5,6 +5,7 @@ import {
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts";
 
 export default function InventoryChart({ items }) {
@@ -29,15 +30,15 @@ const data = Object.values(
     const category = shortNames[item.category] || item.category;
 
     if (!acc[category]) {
-      acc[category] = {
-        name: category,
-        value: 0,
-      };
-    }
+  acc[category] = {
+    name: category,
+    assetCount: 0,
+  };
+}
 
-    acc[category].value += 1;
+acc[category].assetCount += 1;
 
-    return acc;
+return acc;
   }, {})
 );
 
@@ -61,19 +62,26 @@ const data = Object.values(
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis
-  dataKey="name"
-  interval={0}
-  fontSize={14}
+  <CartesianGrid strokeDasharray="3 3" />
+
+  <XAxis
+    dataKey="name"
+    interval={0}
+    fontSize={14}
+  />
+
+  <YAxis />
+
+  <Tooltip
+  formatter={(value) => [value, "Asset Count"]}
 />
-            <YAxis />
-            <Bar
-               dataKey="value"
-               fill="#2563EB"
-               barSize={22}
-               />
-          </BarChart>
+
+  <Bar
+  dataKey="assetCount"
+  fill="#2563EB"
+  barSize={22}
+/>
+</BarChart>
         </ResponsiveContainer>
       </div>
     </div>

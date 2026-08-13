@@ -12,6 +12,7 @@ import { useState } from "react";
 import { inventoryItems } from "./data/inventoryData";
 import Users from "./pages/Users";
 import { usersData } from "./data/usersData";
+import Reports from "./pages/Reports";
 
 function App() {
   const [users, setUsers] = useState(usersData);
@@ -66,6 +67,10 @@ function App() {
       setUsers={setUsers}
     />
   }
+/>
+<Route
+  path="/reports"
+  element={<Reports items={items} />}
 />
   </Route>
 </Routes>
