@@ -11,9 +11,10 @@ import {
 } from "lucide-react";
 
 export default function AllItems({
-  
   items,
   setItems,
+  transactions,
+  setTransactions,
 }) {
   const user = JSON.parse(
   sessionStorage.getItem("user")
@@ -175,15 +176,60 @@ if (newItem.type === "Asset") {
     ),
     0
   ) + 1;
-  const itemToAdd = {
+const itemToAdd = {
   id: `ITM-${String(nextNumber).padStart(3, "0")}`,
   ...newItem,
   quantity: Number(newItem.quantity),
   minimumStock: Number(newItem.minimumStock),
+  unitPrice: Number(newItem.unitPrice),
+};
+const nextTransactionNumber =
+  Math.max(
+    ...transactions.map((transaction) =>
+      Number(transaction.id.replace("TRX-", ""))
+    ),
+    0
+  ) + 1;
+
+const purchaseTransaction = {
+  id: `TRX-${String(
+    nextTransactionNumber
+  ).padStart(3, "0")}`,
+
+  assetId: itemToAdd.id,
+
+  employeeId: null,
+
+  type: "Purchase",
+
+  date: new Date().toISOString().split("T")[0],
+
+  time: new Date().toLocaleTimeString(),
+
+  cost:
+    Number(itemToAdd.unitPrice) *
+    Number(itemToAdd.quantity),
+
+  assetStatus: "Available",
+
+  condition:
+    itemToAdd.condition || "Good",
+
+  recordedBy: user?.name || "Admin",
+
+  status: "Completed",
+
+  notes: `${itemToAdd.name} added to inventory.`,
 };
 
 
     setItems([...items, itemToAdd]);
+
+setTransactions([
+  purchaseTransaction,
+  ...transactions,
+]);
+    
 
     setNewItem({
       name: "",

@@ -13,8 +13,15 @@ import { inventoryItems } from "./data/inventoryData";
 import Users from "./pages/Users";
 import { usersData } from "./data/usersData";
 import Reports from "./pages/Reports";
+import Transactions from "./pages/Transactions";
+import TransactionDetails from "./components/TransactionDetails";
+import { initialTransactions } from "./data/transactionsData";
+import Employees from "./pages/Employees";
 
 function App() {
+  const [transactions, setTransactions] =
+  useState(initialTransactions);
+
   const [users, setUsers] = useState(usersData);
 
   const [items, setItems] = useState(inventoryItems);
@@ -39,7 +46,10 @@ function App() {
     <AllItems
       items={items}
       setItems={setItems}
+      transactions={transactions}
+      setTransactions={setTransactions}
     />
+
   }
 />
 
@@ -73,6 +83,21 @@ function App() {
       setUsers={setUsers}
     />
   }
+/>
+<Route
+  path="/transactions"
+  element={
+    <Transactions
+  transactions={transactions}
+  setTransactions={setTransactions}
+  items={items}
+/>
+  }
+/>
+
+<Route
+  path="/employees"
+  element={<Employees />}
 />
 
 <Route

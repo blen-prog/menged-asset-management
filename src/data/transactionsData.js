@@ -1,0 +1,193 @@
+export const initialTransactions = [
+  {
+    id: "TRX-001",
+    assetId: "ITM-001",
+    employeeId: "USR-001",
+    type: "Assignment",
+    date: "2026-08-13",
+    time: "10:32 AM",
+    cost: 0,
+    assetStatus: "Assigned",
+    condition: "Good",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Vehicle assigned to the employee for official company use.",
+  },
+
+  {
+    id: "TRX-002",
+    assetId: "ITM-002",
+    employeeId: "USR-002",
+    type: "Assignment",
+    date: "2026-08-12",
+    time: "09:15 AM",
+    cost: 0,
+    assetStatus: "Assigned",
+    condition: "Good",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Laptop assigned for daily administrative and inventory operations.",
+  },
+
+  {
+    id: "TRX-003",
+    assetId: "ITM-003",
+    employeeId: "USR-003",
+    type: "Maintenance",
+    date: "2026-08-11",
+    time: "02:20 PM",
+    cost: 3500,
+    assetStatus: "Maintenance",
+    condition: "Needs Repair",
+    recordedBy: "Admin",
+    status: "In Progress",
+    notes:
+      "Printer reported with paper feeding problems and sent for inspection.",
+  },
+
+  {
+    id: "TRX-004",
+    assetId: "ITM-007",
+    employeeId: "USR-004",
+    type: "Return",
+    date: "2026-08-10",
+    time: "04:15 PM",
+    cost: 0,
+    assetStatus: "Available",
+    condition: "Good",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Phone returned to inventory after employee no longer required the device.",
+  },
+
+  {
+    id: "TRX-005",
+    assetId: "ITM-005",
+    employeeId: "USR-005",
+    type: "Disposal",
+    date: "2026-08-08",
+    time: "11:40 AM",
+    cost: 1500,
+    assetStatus: "Disposed",
+    condition: "Damaged",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Desktop removed from inventory due to age and irreparable hardware failure.",
+  },
+
+  {
+    id: "TRX-006",
+    assetId: "ITM-006",
+    employeeId: "USR-006",
+    type: "Assignment",
+    date: "2026-08-07",
+    time: "08:45 AM",
+    cost: 0,
+    assetStatus: "Assigned",
+    condition: "Good",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Vehicle assigned for company transportation duties.",
+  },
+
+  {
+    id: "TRX-007",
+    assetId: "ITM-007",
+    employeeId: "USR-007",
+    type: "Return",
+    date: "2026-08-06",
+    time: "03:30 PM",
+    cost: 0,
+    assetStatus: "Available",
+    condition: "Good",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Office chair returned to the inventory.",
+  },
+
+  {
+    id: "TRX-008",
+    assetId: "ITM-008",
+    employeeId: "USR-008",
+    type: "Maintenance",
+    date: "2026-08-05",
+    time: "01:10 PM",
+    cost: 2200,
+    assetStatus: "Maintenance",
+    condition: "Needs Repair",
+    recordedBy: "Admin",
+    status: "In Progress",
+    notes:
+      "Printer requires replacement of toner and inspection of the paper tray.",
+  },
+
+  {
+    id: "TRX-009",
+    assetId: "ITM-009",
+    employeeId: "USR-009",
+    type: "Assignment",
+    date: "2026-08-04",
+    time: "09:40 AM",
+    cost: 0,
+    assetStatus: "Assigned",
+    condition: "Good",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Desktop computer assigned for accounting operations.",
+  },
+
+  {
+    id: "TRX-010",
+    assetId: "ITM-010",
+    employeeId: "USR-010",
+    type: "Return",
+    date: "2026-08-03",
+    time: "02:25 PM",
+    cost: 0,
+    assetStatus: "Available",
+    condition: "Good",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Monitor returned and added back to available inventory.",
+  },
+
+  {
+    id: "TRX-011",
+    assetId: "ITM-012",
+    employeeId: "USR-010",
+    type: "Disposal",
+    date: "2026-08-02",
+    time: "11:15 AM",
+    cost: 12000,
+    assetStatus: "Disposed",
+    condition: "Damaged",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Vehicle removed from inventory following a major mechanical failure.",
+  },
+
+  {
+    id: "TRX-012",
+    assetId: "ITM-012",
+    employeeId: "USR-010",
+    type: "Assignment",
+    date: "2026-08-01",
+    time: "10:05 AM",
+    cost: 0,
+    assetStatus: "Assigned",
+    condition: "Good",
+    recordedBy: "Admin",
+    status: "Completed",
+    notes:
+      "Laptop assigned to HR department for daily operations.",
+  },
+];

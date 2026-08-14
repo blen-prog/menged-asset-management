@@ -20,12 +20,16 @@ import {
   LogOut,
   ChevronDown,
   ChevronRight,
+  ClipboardList
 } from "lucide-react";
 
 export default function Sidebar() {
   const user = JSON.parse(
   sessionStorage.getItem("user")
 );
+const isFinance =
+  user?.role === "Finance";
+
   const isAdmin =
   user?.role === "Administrator";
 
@@ -37,6 +41,9 @@ const isStaff =
 
 const isViewer =
   user?.role === "Viewer";
+
+const isHR =
+  user?.role === "HR";
 
 
 const initials = user?.name
@@ -93,7 +100,7 @@ const initials = user?.name
         {/* Inventory */}
         <button
           onClick={() => setInventoryOpen(!inventoryOpen)}
-          className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg hover:bg-blue-900 text-base"
+          className="w-full flex items-center justify-between px-3 py-1.5 rounded-lg hover:bg-blue-900 text-lg"
         >
           <div className="flex items-center gap-3">
             <Package size={18} />
@@ -178,11 +185,33 @@ const initials = user?.name
   Departments
 </NavLink>
 
-          {(isAdmin || isManager || isStaff) && (
-  <MenuItem
-    icon={<Users size={18} />}
-    text="Employees"
-  />
+{(isAdmin || isManager || isFinance) && (
+  <NavLink
+    to="/transactions"
+    className={({ isActive }) =>
+      `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+        isActive ? "bg-gray-800" : "hover:bg-gray-900"
+      } text-lg`
+    }
+  >
+    <ClipboardList size={18} />
+    Transactions
+  </NavLink>
+)}
+
+
+ {(isAdmin || isManager || isStaff || isHR) && (
+  <NavLink
+    to="/employees"
+    className={({ isActive }) =>
+      `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+        isActive ? "bg-gray-800" : "hover:bg-gray-900"
+      } text-lg`
+    }
+  >
+    <Users size={18} />
+    Employees
+  </NavLink>
 )}
 
           {(isAdmin || isManager || isStaff) && (
