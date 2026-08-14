@@ -55,10 +55,16 @@ function App() {
   path="/categories"
   element={<Categories items={items} />}
 />
-    <Route
+<Route
   path="/departments"
-  element={<Departments items={items} />}
+  element={
+    <Departments
+      items={items}
+      users={users}
+    />
+  }
 />
+
 <Route
   path="/users"
   element={
@@ -68,6 +74,7 @@ function App() {
     />
   }
 />
+
 <Route
   path="/reports"
   element={<Reports items={items} />}

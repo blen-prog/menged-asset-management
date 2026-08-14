@@ -32,6 +32,7 @@ export default function Reports({ items }) {
 
   return `ETB ${value.toLocaleString()}`;
 };
+
   const shortenCategory = (name) => {
   const map = {
     "Computer Equipment": "Computers",
@@ -470,6 +471,7 @@ const yAxisMax =
   </div>
 </div>
 </div>
+<div className="grid grid-cols-2 gap-6">
 <div className="bg-white rounded-2xl border p-5">
   <h2 className="text-lg font-semibold mb-4">
     Top 5 Most Valuable Assets
@@ -519,6 +521,55 @@ const yAxisMax =
       />
     </BarChart>
   </ResponsiveContainer>
+</div>
+
+<div className="bg-white rounded-2xl border p-5">
+  <h2 className="text-lg font-semibold mb-4">
+    Asset Value by Department
+  </h2>
+
+  <ResponsiveContainer
+    width="100%"
+    height={250}
+  >
+    <BarChart
+      data={assetDepartmentData}
+      layout="vertical"
+    >
+      <CartesianGrid strokeDasharray="3 3" />
+
+      <XAxis
+        type="number"
+        tickFormatter={formatCurrency}
+      />
+
+      <YAxis
+  type="category"
+  dataKey="name"
+  width={120}
+  tick={{
+    fontSize: 15,
+    fontWeight: 600,
+    fill: "#374151",
+  }}
+/>
+
+      <Tooltip
+        formatter={(value) => [
+          formatCurrency(value),
+          "Asset Value",
+        ]}
+      />
+
+      <Bar
+  dataKey="value"
+  fill="#2563eb"
+  barSize={26}
+  radius={[0, 4, 4, 0]}
+/>
+    </BarChart>
+  </ResponsiveContainer>
+</div>
 </div>
 
 <div className="bg-white rounded-2xl border p-5">
@@ -616,53 +667,7 @@ const yAxisMax =
     </AreaChart>
   </ResponsiveContainer>
 </div>
-<div className="bg-white rounded-2xl border p-5">
-  <h2 className="text-lg font-semibold mb-4">
-    Asset Value by Department
-  </h2>
 
-  <ResponsiveContainer
-    width="100%"
-    height={250}
-  >
-    <BarChart
-      data={assetDepartmentData}
-      layout="vertical"
-    >
-      <CartesianGrid strokeDasharray="3 3" />
-
-      <XAxis
-        type="number"
-        tickFormatter={formatCurrency}
-      />
-
-      <YAxis
-  type="category"
-  dataKey="name"
-  width={120}
-  tick={{
-    fontSize: 15,
-    fontWeight: 600,
-    fill: "#374151",
-  }}
-/>
-
-      <Tooltip
-        formatter={(value) => [
-          formatCurrency(value),
-          "Asset Value",
-        ]}
-      />
-
-      <Bar
-  dataKey="value"
-  fill="#2563eb"
-  barSize={26}
-  radius={[0, 4, 4, 0]}
-/>
-    </BarChart>
-  </ResponsiveContainer>
-</div>
 
      
 

@@ -14,7 +14,10 @@ function getAssetOnlyValue(item, field) {
   return item[field] || "-";
 }
 
-export default function Departments({ items }) {
+export default function Departments({
+  items,
+  users,
+}) {
   const user = JSON.parse(
   sessionStorage.getItem("user")
 );
@@ -41,6 +44,13 @@ const departmentItems = selectedDepartment
       (item) => item.department === selectedDepartment
     )
   : [];
+  const departmentUsers = selectedDepartment
+  ? users.filter(
+      (user) =>
+        user.department === selectedDepartment
+    )
+  : [];
+
   const filteredDepartmentItems = departmentItems.filter(
   (item) => {
     const q = departmentSearch.toLowerCase();
@@ -84,11 +94,11 @@ const selectedDepartmentInfo =
 
         {!isViewer && (
   <button
-    className="bg-blue-600 text-white px-4 py-2 rounded-xl flex items-center gap-2 hover:bg-blue-700"
-  >
-    <Plus size={18} />
-    Add Department
-  </button>
+  disabled
+  className="bg-gray-200 text-gray-500 px-4 py-2 rounded-xl cursor-not-allowed"
+>
+  Add Department (Coming Soon)
+</button>
 )}
       </div>
 
@@ -167,10 +177,49 @@ const selectedDepartmentInfo =
 <p className="text-gray-500">
   Location: {selectedDepartmentInfo?.location}
 </p>
+<p className="text-gray-500">
+  Employees: {departmentUsers.length}
+</p>
+
+<p className="text-gray-500 mb-4">
+  Assets: {departmentItems.length}
+</p>
 
 <p className="text-gray-500 mb-4">
   {departmentItems.length} total items
 </p>
+<h3 className="text-lg font-semibold mb-3">
+  Department Employees
+</h3>
+
+<div className="overflow-auto border rounded-xl mb-6">
+  <table className="w-full text-sm">
+    <thead>
+      <tr className="bg-gray-50">
+        <th className="p-3 text-left">ID</th>
+        <th className="p-3 text-left">Name</th>
+        <th className="p-3 text-left">Role</th>
+        <th className="p-3 text-left">Status</th>
+        <th className="p-3 text-left">Last Login</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {departmentUsers.map((user) => (
+        <tr
+          key={user.id}
+          className="border-b hover:bg-gray-50"
+        >
+          <td className="p-3">{user.id}</td>
+          <td className="p-3">{user.name}</td>
+          <td className="p-3">{user.role}</td>
+          <td className="p-3">{user.status}</td>
+          <td className="p-3">{user.lastLogin}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
 <div className="mt-4 mb-4">
   <input
     type="text"
