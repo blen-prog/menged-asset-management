@@ -215,11 +215,23 @@ const initials = user?.name
 )}
 
           {(isAdmin || isManager || isStaff) && (
-  <MenuItem
-    icon={<Truck size={18} />}
-    text="Suppliers"
-  />
+  <NavLink
+    to="/suppliers"
+    className={({ isActive }) =>
+      `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+        isActive
+          ? "bg-gray-800"
+          : "hover:bg-gray-900"
+      } text-lg`
+    }
+  >
+    <Truck size={18} />
+    Suppliers
+  </NavLink>
 )}
+
+
+
 
           {(isAdmin || isManager || isStaff) && (
   <MenuItem

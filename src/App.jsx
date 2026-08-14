@@ -17,6 +17,8 @@ import Transactions from "./pages/Transactions";
 import TransactionDetails from "./components/TransactionDetails";
 import { initialTransactions } from "./data/transactionsData";
 import Employees from "./pages/Employees";
+import Suppliers from "./pages/Suppliers";
+
 
 function App() {
   const [transactions, setTransactions] =
@@ -73,6 +75,10 @@ function App() {
       users={users}
     />
   }
+/>
+<Route
+  path="/suppliers"
+  element={<Suppliers />}
 />
 
 <Route
