@@ -310,7 +310,7 @@ const handleUpdateUser = () => {
     Select Department
   </option>
   <option>IT</option>
-  <option>HR</option>
+  <option>Purchasing</option>
   <option>Finance</option>
   <option>Operations</option>
   <option>Administration</option>
@@ -421,7 +421,7 @@ const handleUpdateUser = () => {
   className="w-full border rounded-lg px-4 py-2"
 >
   <option>IT</option>
-  <option>HR</option>
+  <option>Purchasing</option>
   <option>Finance</option>
   <option>Operations</option>
   <option>Administration</option>

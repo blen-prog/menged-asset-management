@@ -27,16 +27,10 @@ export default function Suppliers() {
 
 
 
-  const [suppliers] = useState(initialSuppliers);
+  const [suppliers, setSuppliers] =
+  useState(initialSuppliers);
     const totalSuppliers = suppliers.length;
 
-const activeSuppliers = suppliers.filter(
-  (sup) => sup.status === "Active"
-).length;
-
-const inactiveSuppliers = suppliers.filter(
-  (sup) => sup.status === "Inactive"
-).length;
 
 const categories = new Set(
   suppliers.map((sup) => sup.category)
@@ -47,8 +41,6 @@ const categories = new Set(
   const [categoryFilter, setCategoryFilter] =
     useState("All");
 
-  const [statusFilter, setStatusFilter] =
-    useState("All");
 
   const [selectedSupplier, setSelectedSupplier] =
     useState(null);
@@ -63,6 +55,8 @@ const categories = new Set(
     useState(1);
 
   const suppliersPerPage = 10;
+  const [editingSupplier, setEditingSupplier] =
+  useState(null);
 
 
   // ======================================================
@@ -98,14 +92,11 @@ const categories = new Set(
         categoryFilter === "All" ||
         supplier.category === categoryFilter;
 
-      const matchesStatus =
-        statusFilter === "All" ||
-        supplier.status === statusFilter;
 
       return (
         matchesSearch &&
-        matchesCategory &&
-        matchesStatus
+        matchesCategory 
+        
       );
     }
   );
@@ -145,11 +136,6 @@ const categories = new Set(
     setCurrentPage(1);
   };
 
-  const handleStatusFilter = (value) => {
-    setStatusFilter(value);
-    setCurrentPage(1);
-  };
-
 
   // ======================================================
   // CATEGORY STYLE
@@ -178,17 +164,7 @@ const categories = new Set(
   };
 
 
-  // ======================================================
-  // STATUS STYLE
-  // ======================================================
 
-  const getStatusStyle = (status) => {
-    if (status === "Active") {
-      return "bg-green-50 text-green-700";
-    }
-
-    return "bg-red-50 text-red-600";
-  };
 
 
   // ======================================================
@@ -254,15 +230,7 @@ const categories = new Set(
   value={totalSuppliers}
 />
 
-<StatCard
-  title="Active Suppliers"
-  value={activeSuppliers}
-/>
 
-<StatCard
-  title="Inactive Suppliers"
-  value={inactiveSuppliers}
-/>
 
 <StatCard
   title="Categories"
@@ -337,29 +305,7 @@ const categories = new Set(
         </select>
 
 
-        {/* STATUS */}
-
-        <select
-          value={statusFilter}
-          onChange={(e) =>
-            handleStatusFilter(e.target.value)
-          }
-          className="h-14 lg:w-48 px-4 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-gray-600"
-        >
-
-          <option value="All">
-            All Status
-          </option>
-
-          <option value="Active">
-            Active
-          </option>
-
-          <option value="Inactive">
-            Inactive
-          </option>
-
-        </select>
+       
 
       </div>
 
@@ -403,9 +349,7 @@ const categories = new Set(
   Email
 </th>
 
-                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
-                  Status
-                </th>
+                
 
                 <th className="w-16 px-4 py-4" />
 
@@ -577,46 +521,6 @@ const categories = new Set(
                         </td>
 
 
-                        {/* STATUS */}
-
-                        <td className="px-5 py-5">
-
-                          <span
-                            className={`
-                              inline-flex
-                              items-center
-                              gap-2
-                              px-3
-                              py-1.5
-                              rounded-full
-                              text-xs
-                              font-medium
-                              ${getStatusStyle(
-                                supplier.status
-                              )}
-                            `}
-                          >
-
-                            <span
-                              className={`
-                                w-1.5
-                                h-1.5
-                                rounded-full
-                                ${
-                                  supplier.status ===
-                                  "Active"
-                                    ? "bg-green-500"
-                                    : "bg-red-500"
-                                }
-                              `}
-                            />
-
-                            {supplier.status}
-
-                          </span>
-
-                        </td>
-
 
                         {/* ACTION MENU */}
 
@@ -677,13 +581,12 @@ const categories = new Set(
                               {/* EDIT */}
 
                               <button
-                                onClick={() =>
-                                  setOpenMenu(
-                                    null
-                                  )
-                                }
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
-                              >
+  onClick={() => {
+    setEditingSupplier(supplier);
+    setOpenMenu(null);
+  }}
+  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+>
 
                                 <Pencil
                                   size={16}
@@ -730,7 +633,7 @@ const categories = new Set(
                 <tr>
 
                   <td
-                    colSpan="8"
+                    colSpan="7"
                     className="py-16 text-center"
                   >
 
@@ -902,6 +805,28 @@ const categories = new Set(
 
       )}
 
+      {editingSupplier && (
+  <EditSupplierModal
+    supplier={editingSupplier}
+    onClose={() =>
+      setEditingSupplier(null)
+    }
+    onSave={(updatedSupplier) => {
+      setSuppliers((prev) =>
+        prev.map((supplier) =>
+          supplier.id === updatedSupplier.id
+            ? updatedSupplier
+            : supplier
+        )
+      );
+
+      setEditingSupplier(null);
+    }}
+  />
+)}
+
+      
+
 
       {/* ================================================= */}
       {/* ADD SUPPLIER MODAL */}
@@ -1023,6 +948,136 @@ const categories = new Set(
   );
 }
 
+function EditSupplierModal({
+  supplier,
+  onClose,
+  onSave,
+}) {
+  const [formData, setFormData] =
+    useState(supplier);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+      onClick={onClose}
+    >
+      <div
+        className="bg-white w-full max-w-lg rounded-2xl shadow-xl"
+        onClick={(e) =>
+          e.stopPropagation()
+        }
+      >
+        <div className="flex items-center justify-between px-6 py-5 border-b">
+          <h2 className="text-xl font-semibold">
+            Edit Supplier
+          </h2>
+
+          <button
+            onClick={onClose}
+          >
+            <X size={20} />
+          </button>
+        </div>
+
+        <div className="p-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <input
+              value={formData.companyName}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  companyName:
+                    e.target.value,
+                })
+              }
+              className="border rounded-lg px-3 py-2.5 sm:col-span-2"
+            />
+
+            <input
+              value={formData.contactPerson}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  contactPerson:
+                    e.target.value,
+                })
+              }
+              className="border rounded-lg px-3 py-2.5"
+            />
+
+            <input
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  category:
+                    e.target.value,
+                })
+              }
+              className="border rounded-lg px-3 py-2.5"
+            />
+
+            <input
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  phone:
+                    e.target.value,
+                })
+              }
+              className="border rounded-lg px-3 py-2.5"
+            />
+
+            <input
+              value={formData.email}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  email:
+                    e.target.value,
+                })
+              }
+              className="border rounded-lg px-3 py-2.5"
+            />
+
+            <input
+              value={formData.address}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  address:
+                    e.target.value,
+                })
+              }
+              className="border rounded-lg px-3 py-2.5 sm:col-span-2"
+            />
+          </div>
+
+          <div className="flex justify-end gap-3 mt-6">
+  <button
+    onClick={onClose}
+    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
+  >
+    Cancel
+  </button>
+
+  <button
+  onClick={() => {
+    onSave(formData);
+  }}
+  className="px-4 py-2 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white font-medium"
+>
+  Save Changes
+</button>
+</div>
+
+      </div>
+    </div>
+  </div>
+);
+}
+
 
 // ======================================================
 // SUPPLIER DETAILS COMPONENT
@@ -1032,6 +1087,7 @@ function SupplierDetails({
   supplier,
   onClose,
 }) {
+
 const initials =
   supplier.companyName
     .split(" ")
@@ -1273,6 +1329,7 @@ const initials =
       <h2 className="text-3xl font-bold text-gray-800 mt-2">
         {value}
       </h2>
+
     </div>
   );
 }

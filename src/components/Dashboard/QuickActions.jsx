@@ -10,23 +10,34 @@ export default function QuickActions() {
   sessionStorage.getItem("user")
 );
 
+const isAdmin =
+  user?.role === "Administrator";
+
+  const isPurchase =
+  user?.role === "Purchasing Manager";
+
 const isViewer =
   user?.role === "Viewer";
+
   if (isViewer) return null;
   const navigate = useNavigate();
   const actions = [
-    {
-  title: "Add Item",
-  icon: <Plus size={18} />,
-  color: "bg-green-600 hover:bg-green-700",
-},
-  
-    {
-      title: "Maintenance Request",
-      icon: <Wrench size={18} />,
-      color: "bg-orange-600 hover:bg-orange-700",
-    },
-  ];
+  ...((isAdmin || isPurchase)
+    ? [
+        {
+          title: "Add Item",
+          icon: <Plus size={18} />,
+          color: "bg-green-600 hover:bg-green-700",
+        },
+      ]
+    : []),
+
+  {
+    title: "Maintenance Request",
+    icon: <Wrench size={18} />,
+    color: "bg-orange-600 hover:bg-orange-700",
+  },
+];
 
   return (
     <div className="bg-white rounded-2xl p-5 border shadow-sm">
@@ -35,10 +46,7 @@ const isViewer =
       </h2>
       <div className="grid grid-cols-2 gap-3">
   {actions
-    .filter(
-      (action) =>
-        !(isViewer && action.title === "Add Item")
-    )
+
     .map((action, index) => (
           <button
   key={index}

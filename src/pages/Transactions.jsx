@@ -38,6 +38,13 @@ const getAsset = (assetId) =>
     (asset) => asset.id === assetId
   );
 
+const user = JSON.parse(
+  sessionStorage.getItem("user")
+);
+
+const canCreateTransaction =
+  user?.role === "Administrator" ||
+  user?.role === "Purchasing Manager";
 
   const [search, setSearch] = useState("");
 
@@ -466,18 +473,17 @@ const matchesSearch =
         </div>
 
 
-        <button
-          onClick={() =>
-            setShowAddModal(true)
-          }
-          className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
-        >
-
-          <Plus size={18} />
-
-          New Transaction
-
-        </button>
+        {canCreateTransaction && (
+  <button
+    onClick={() =>
+      setShowAddModal(true)
+    }
+    className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-medium transition-colors"
+  >
+    <Plus size={18} />
+    New Transaction
+  </button>
+)}
 
       </div>
 

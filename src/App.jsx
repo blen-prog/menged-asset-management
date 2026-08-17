@@ -18,7 +18,7 @@ import TransactionDetails from "./components/TransactionDetails";
 import { initialTransactions } from "./data/transactionsData";
 import Employees from "./pages/Employees";
 import Suppliers from "./pages/Suppliers";
-
+import Settings from "./pages/Settings";
 
 function App() {
   const [transactions, setTransactions] =
@@ -110,6 +110,13 @@ function App() {
   path="/reports"
   element={<Reports items={items} />}
 />
+
+<Route
+  path="/settings"
+  element={<Settings />}
+/>
+
+
   </Route>
 </Routes>
   );

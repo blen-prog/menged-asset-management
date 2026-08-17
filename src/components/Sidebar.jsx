@@ -28,22 +28,22 @@ export default function Sidebar() {
   sessionStorage.getItem("user")
 );
 const isFinance =
-  user?.role === "Finance";
+  user?.role === "Finance Manager";
 
   const isAdmin =
   user?.role === "Administrator";
 
-const isManager =
-  user?.role === "Manager";
+const isIT =
+  user?.role === "IT Manager";
 
-const isStaff =
-  user?.role === "Staff";
+const isPurchase =
+  user?.role === "Purchasing Manager";
 
 const isViewer =
   user?.role === "Viewer";
 
-const isHR =
-  user?.role === "HR";
+const isOperations =
+  user?.role === "Operations Manager";
 
 
 const initials = user?.name
@@ -172,7 +172,11 @@ const initials = user?.name
         )}
 
         {/* Other Menu Items */}
+
+         
         <div className="mt-3 space-y-1">
+         {(isAdmin) && (
+
           <NavLink
   to="/departments"
   className={({ isActive }) =>
@@ -184,8 +188,8 @@ const initials = user?.name
   <Building2 size={18} />
   Departments
 </NavLink>
-
-{(isAdmin || isManager || isFinance) && (
+        )}
+{(isAdmin || isPurchase || isFinance) && (
   <NavLink
     to="/transactions"
     className={({ isActive }) =>
@@ -200,7 +204,7 @@ const initials = user?.name
 )}
 
 
- {(isAdmin || isManager || isStaff || isHR) && (
+ {(isAdmin) && (
   <NavLink
     to="/employees"
     className={({ isActive }) =>
@@ -214,7 +218,7 @@ const initials = user?.name
   </NavLink>
 )}
 
-          {(isAdmin || isManager || isStaff) && (
+          {(isAdmin || isPurchase ) && (
   <NavLink
     to="/suppliers"
     className={({ isActive }) =>
@@ -233,14 +237,14 @@ const initials = user?.name
 
 
 
-          {(isAdmin || isManager || isStaff) && (
+          {(isAdmin || isOperations || isFinance || isPurchase  || isIT) && (
   <MenuItem
     icon={<Wrench size={18} />}
     text="Maintenance"
   />
 )}
 
-         {(isAdmin || isManager) && (
+         {(isAdmin || isFinance) && (
   <NavLink
     to="/reports"
     className={({ isActive }) =>
@@ -268,12 +272,12 @@ const initials = user?.name
   </NavLink>
 )}
 
-          {isAdmin && (
+  
   <MenuItem
     icon={<Settings size={18} />}
     text="Settings"
   />
-)}
+
         </div>
       </div>
 

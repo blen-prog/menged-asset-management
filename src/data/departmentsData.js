@@ -28,5 +28,14 @@ export const departmentsData = [
     manager: "Abebe Girma",
     employees: 7,
     location: "Floor 2, Block A",
+
+  },
+
+  {
+    name: "Purchasing",
+    manager: "Tadele Gemechu",
+    employees: 7,
+    location: "Floor 3, Block B",
+    
   },
 ];
