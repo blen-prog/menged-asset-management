@@ -5,69 +5,83 @@ import {
   Truck,
 } from "lucide-react";
 
-export default function RecentActivities() {
-  const activities = [
-    {
-      icon: <Package size={16} />,
-      color: "bg-blue-100 text-blue-600",
-      title: "15 Laptop Chargers added to inventory",
-      time: "10 minutes ago",
-    },
-    {
-      icon: <Wrench size={16} />,
-      color: "bg-orange-100 text-orange-600",
-      title: "Validator V-204 sent for maintenance",
-      time: "1 hour ago",
-    },
-    {
-      icon: <UserPlus size={16} />,
-      color: "bg-green-100 text-green-600",
-      title: "Asset assigned to employee",
-      time: "2 hours ago",
-    },
-    {
-      icon: <Truck size={16} />,
-      color: "bg-purple-100 text-purple-600",
-      title: "New supplier registered",
-      time: "Yesterday",
-    },
-    {
-      icon: <Package size={16} />,
-      color: "bg-blue-100 text-blue-600",
-      title: "50 Receipt Rolls received from supplier",
-      time: "Yesterday",
-    },
-    {
-      icon: <UserPlus size={16} />,
-      color: "bg-green-100 text-green-600",
-      title: "Vehicle assigned to Operations Department",
-      time: "2 days ago",
-    },
-    {
-      icon: <Wrench size={16} />,
-      color: "bg-orange-100 text-orange-600",
-      title: "Maintenance request approved",
-      time: "2 days ago",
-    },
-    {
-      icon: <Package size={16} />,
-      color: "bg-blue-100 text-blue-600",
-      title: "Stationery stock updated",
-      time: "3 days ago",
-    },
-    {
-      icon: <Truck size={16} />,
-      color: "bg-purple-100 text-purple-600",
-      title: "Supplier contract renewed",
-      time: "4 days ago",
-    },
-    {
-      icon: <UserPlus size={16} />,
-      color: "bg-green-100 text-green-600",
-      title: "New employee onboarded",
-      time: "5 days ago",
-    },
-  ];
+export default function RecentActivities({
+  transactions,
+  items,
+}) {
+
+  
+
+
+  const activities = transactions
+  .slice(0, 10)
+  .map((transaction) => {
+
+    const assetName =
+  items.find(
+    (item) =>
+      item.id === transaction.assetId
+  )?.name || transaction.assetId;
+
+    let icon = <Package size={16} />;
+    let color =
+      "bg-blue-100 text-blue-600";
+    let title = transaction.type;
+
+    switch (transaction.type) {
+  case "Purchase":
+    icon = <Package size={16} />;
+    color =
+      "bg-blue-100 text-blue-600";
+
+    title = `${assetName} was added to inventory`;
+    break;
+
+  case "Assignment":
+    icon = <UserPlus size={16} />;
+    color =
+      "bg-green-100 text-green-600";
+
+    title = `${assetName} was assigned`;
+    break;
+
+  case "Maintenance":
+    icon = <Wrench size={16} />;
+    color =
+      "bg-orange-100 text-orange-600";
+
+    title = `${assetName} was sent for maintenance`;
+    break;
+
+  case "Return":
+    icon = <Package size={16} />;
+    color =
+      "bg-cyan-100 text-cyan-600";
+
+    title = `${assetName} was returned to inventory`;
+    break;
+
+  case "Disposal":
+    icon = <Truck size={16} />;
+    color =
+      "bg-red-100 text-red-600";
+
+    title = `${assetName} was disposed`;
+    break;
+
+  default:
+    break;
+}
+
+    return {
+      icon,
+      color,
+      title,
+      time: transaction.date,
+    };
+  });
+
+  
 
   return (
     <div className="bg-white rounded-2xl p-5 border shadow-sm">

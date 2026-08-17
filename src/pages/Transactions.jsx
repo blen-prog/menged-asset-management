@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import { usersData } from "../data/usersData";
 import { inventoryItems } from "../data/inventoryData";
@@ -50,8 +51,20 @@ const canCreateTransaction =
 
   const [filter, setFilter] = useState("All");
 
+  const [searchParams] =
+  useSearchParams();
+
   const [currentPage, setCurrentPage] =
     useState(1);
+
+  useEffect(() => {
+  const filterParam =
+    searchParams.get("filter");
+
+  if (filterParam) {
+    setFilter(filterParam);
+  }
+}, [searchParams]);
 
   const [showAddModal, setShowAddModal] =
     useState(false);

@@ -1,7 +1,10 @@
 import {
   Plus,
   Wrench,
+  ClipboardList,
 } from "lucide-react";
+
+
 import { useNavigate } from "react-router-dom";
 
 
@@ -37,6 +40,13 @@ const isViewer =
     icon: <Wrench size={18} />,
     color: "bg-orange-600 hover:bg-orange-700",
   },
+  
+  {
+  title: "Item Request",
+  icon: <ClipboardList size={18} />,
+  color: "bg-purple-600 hover:bg-purple-700",
+},
+
 ];
 
   return (
@@ -50,11 +60,25 @@ const isViewer =
     .map((action, index) => (
           <button
   key={index}
+  
+  
+
+
   onClick={() => {
-    if (action.title === "Add Item") {
-      navigate("/all-items?add=item");
-    }
-  }}
+  if (action.title === "Add Item") {
+    navigate("/all-items?add=item");
+  }
+
+  if (action.title === "Maintenance Request") {
+    navigate("/maintenance?add=request");
+  }
+
+  if (action.title === "Item Request") {
+  navigate("/requests?add=request");
+}
+}}
+
+
   className={`flex items-center gap-3 p-4 rounded-xl text-white transition transform hover:scale-105 ${action.color}`}
 >
             <div className="p-2 rounded-lg bg-white/20">

@@ -115,7 +115,9 @@ const initials = user?.name
         </button>
 
         {inventoryOpen && (
-          <div className="ml-5 mt-1 space-y-0.5 text-gray-300 text-sm">
+  <div className="ml-5 mt-1 space-y-0.5 text-gray-300 text-sm">
+
+      
             <NavLink
   to="/all-items"
   className={({ isActive }) =>
@@ -157,19 +159,12 @@ const initials = user?.name
               Vehicles
             </div>
 
-            <NavLink
-  to="/categories"
-  className={({ isActive }) =>
-    `flex items-center gap-2 py-1 ${
-      isActive ? "text-white font-semibold" : "text-gray-300"
-    } hover:text-white`
-  }
->
-  <Tags size={14} />
-  Categories
-</NavLink>
-          </div>
-        )}
+              </div>
+)}
+
+          
+    
+        
 
         {/* Other Menu Items */}
 
@@ -189,6 +184,23 @@ const initials = user?.name
   Departments
 </NavLink>
         )}
+
+
+<NavLink
+  to="/categories"
+  className={({ isActive }) =>
+    `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+      isActive ? "bg-gray-800" : "hover:bg-gray-900"
+    } text-lg`
+  }
+>
+  <Tags size={18} />
+  Categories
+</NavLink>
+
+
+
+
 {(isAdmin || isPurchase || isFinance) && (
   <NavLink
     to="/transactions"
@@ -202,6 +214,20 @@ const initials = user?.name
     Transactions
   </NavLink>
 )}
+
+<NavLink
+  to="/requests"
+  className={({ isActive }) =>
+    `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+      isActive
+        ? "bg-gray-800"
+        : "hover:bg-gray-900"
+    } text-lg`
+  }
+>
+  <ClipboardList size={18} />
+  Item Requests
+</NavLink>
 
 
  {(isAdmin) && (
@@ -217,6 +243,23 @@ const initials = user?.name
     Employees
   </NavLink>
 )}
+
+
+{(isAdmin || isOperations || isFinance || isPurchase || isIT) && (
+  <NavLink
+    to="/maintenance"
+    className={({ isActive }) =>
+      `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+        isActive ? "bg-gray-800" : "hover:bg-gray-900"
+      } text-lg`
+    }
+  >
+    <Wrench size={18} />
+    Maintenance
+  </NavLink>
+)}
+
+
 
           {(isAdmin || isPurchase ) && (
   <NavLink
@@ -236,13 +279,6 @@ const initials = user?.name
 
 
 
-
-          {(isAdmin || isOperations || isFinance || isPurchase  || isIT) && (
-  <MenuItem
-    icon={<Wrench size={18} />}
-    text="Maintenance"
-  />
-)}
 
          {(isAdmin || isFinance) && (
   <NavLink
@@ -315,9 +351,16 @@ sessionStorage.removeItem("user");
   );
 }
 
-function MenuItem({ icon, text }) {
+function MenuItem({
+  icon,
+  text,
+  onClick,
+}) {
   return (
-    <button className="w-full flex items-center gap-3 px-3 py-1.5 rounded-lg hover:bg-blue-900 text-base">
+    <button
+      onClick={onClick}
+      className="w-full flex items-center gap-3 px-3 py-1.5 rounded-lg hover:bg-blue-900 text-base"
+    >
       {icon}
       {text}
     </button>

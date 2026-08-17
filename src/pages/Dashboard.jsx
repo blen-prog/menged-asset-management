@@ -3,11 +3,14 @@ import DashboardStats from "../components/dashboard/DashboardStats";
 import InventoryChart from "../components/dashboard/InventoryChart";
 import AssetStatus from "../components/dashboard/AssetStatus";
 import RecentActivities from "../components/dashboard/RecentActivities";
-import WarrantyExpiring from "../components/dashboard/WarrantyExpiring";
+import MaintenanceAlerts from "../components/Dashboard/MaintenanceAlerts";
 import LowStockAlerts from "../components/dashboard/LowStockAlerts";
 import QuickActions from "../components/dashboard/QuickActions";
 
-export default function Dashboard({ items }) {
+export default function Dashboard({
+  items,
+  transactions,
+}) {
   return (
     
 
@@ -41,12 +44,18 @@ export default function Dashboard({ items }) {
           {/* Lower Dashboard Section */}
           <div className="grid grid-cols-3 gap-6 mt-3">
             <div className="col-span-2 space-y-4">
-              <RecentActivities />
+              <RecentActivities
+  transactions={transactions}
+  items={items}
+/>
               <QuickActions />
             </div>
 
             <div className="space-y-4">
-              <WarrantyExpiring />
+              <MaintenanceAlerts
+  transactions={transactions}
+  items={items}
+/>
               <LowStockAlerts items={items} />
             </div>
           </div>

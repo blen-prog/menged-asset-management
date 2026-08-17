@@ -19,12 +19,17 @@ import { initialTransactions } from "./data/transactionsData";
 import Employees from "./pages/Employees";
 import Suppliers from "./pages/Suppliers";
 import Settings from "./pages/Settings";
+import Maintenance from "./pages/Mainteinance";
+import Requests from "./pages/Requests";
+
 
 function App() {
   const [transactions, setTransactions] =
   useState(initialTransactions);
 
   const [users, setUsers] = useState(usersData);
+  const [requests, setRequests] =
+  useState([]);
 
   const [items, setItems] = useState(inventoryItems);
   return (
@@ -40,7 +45,10 @@ function App() {
 >
     <Route
   path="/"
-  element={<Dashboard items={items} />}
+  element={<Dashboard
+  items={items}
+  transactions={transactions}
+/>}
 />
     <Route
   path="/all-items"
@@ -102,6 +110,17 @@ function App() {
 />
 
 <Route
+  path="/requests"
+  element={
+    <Requests
+      items={items}
+      requests={requests}
+      setRequests={setRequests}
+    />
+  }
+/>
+
+<Route
   path="/employees"
   element={<Employees />}
 />
@@ -115,6 +134,16 @@ function App() {
   path="/settings"
   element={<Settings />}
 />
+
+<Route
+  path="/maintenance"
+  element={
+    <Maintenance
+      items={items}
+    />
+  }
+/>
+
 
 
   </Route>

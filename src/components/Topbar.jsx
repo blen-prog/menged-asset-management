@@ -48,23 +48,7 @@ const initials = user?.name
 
   return (
     <div className="bg-white border-b flex items-center px-8 h-20 relative">
-      {/* Search Bar */}
-      {location.pathname === "/" && (
-  <div className="flex items-center">
-    <div className="relative">
-      <Search
-        size={18}
-        className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
-      />
-
-      <input
-        type="text"
-        placeholder="Search assets, inventory, employees..."
-        className="w-[550px] pl-12 pr-4 py-3 border rounded-xl bg-gray-50"
-      />
-    </div>
-  </div>
-)}
+     
 <div className="flex items-center gap-8 ml-auto"></div>
 
 
