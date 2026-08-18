@@ -309,10 +309,19 @@ const initials = user?.name
 )}
 
   
-  <MenuItem
-    icon={<Settings size={18} />}
-    text="Settings"
-  />
+    <NavLink
+  to="/settings"
+  className={({ isActive }) =>
+    `w-full flex items-center gap-3 px-3 py-2 rounded-lg ${
+      isActive
+        ? "bg-gray-800"
+        : "hover:bg-gray-900"
+    } text-lg`
+  }
+>
+  <Settings size={18} />
+  Settings
+  </NavLink>
 
         </div>
       </div>
