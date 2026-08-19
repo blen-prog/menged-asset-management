@@ -347,23 +347,23 @@ const matchesSearch =
 
     switch (type) {
         case "Purchase":
-  return "bg-indigo-50 text-indigo-700 border border-indigo-100";
+  return "bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800";
 
       case "Assignment":
-        return "bg-blue-50 text-blue-700 border border-blue-100";
+        return "bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-800";
 
       case "Return":
-        return "bg-green-50 text-green-700 border border-green-100";
+        return "bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300 border border-green-100 dark:border-green-800";
 
       case "Maintenance":
-        return "bg-amber-50 text-amber-700 border border-amber-100";
+        return "bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300 border border-amber-100 dark:border-amber-800";
 
       // Disposal is NEUTRAL, not red
       case "Disposal":
-        return "bg-gray-100 text-gray-600 border border-gray-200";
+        return "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700";
 
       default:
-        return "bg-gray-100 text-gray-600 border border-gray-200";
+        return "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700";
     }
   };
 
@@ -375,14 +375,14 @@ const matchesSearch =
   const getStatusStyle = (status) => {
 
     if (status === "Completed") {
-      return "bg-green-50 text-green-700";
+      return "bg-green-50 dark:bg-green-950 text-green-700 dark:text-green-300";
     }
 
     if (status === "In Progress") {
-      return "bg-amber-50 text-amber-700";
+      return "bg-amber-50 dark:bg-amber-950 text-amber-700 dark:text-amber-300";
     }
 
-    return "bg-gray-100 text-gray-600";
+    return "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300";
   };
 
 
@@ -409,8 +409,8 @@ const matchesSearch =
         className={`text-left w-full rounded-xl p-5 border shadow-sm transition-all cursor-pointer
           ${
             active
-              ? "border-blue-400 ring-2 ring-blue-100 bg-blue-50/40"
-              : "border-gray-100 bg-white hover:border-gray-200 hover:shadow-md"
+              ? "border-blue-400 ring-2 ring-blue-100 bg-blue-50/40 dark:bg-blue-950/40"
+              : "border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-200 dark:hover:border-gray-700 hover:shadow-md"
           }
         `}
       >
@@ -419,11 +419,11 @@ const matchesSearch =
 
           <div>
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {title}
             </p>
 
-            <h2 className="text-2xl font-bold text-gray-800 mt-2">
+            <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mt-2">
               {count}
             </h2>
 
@@ -433,7 +433,7 @@ const matchesSearch =
             className={`text-lg ${
               active
                 ? "text-blue-600"
-                : "text-gray-300"
+                : "text-gray-300 dark:text-gray-600"
             }`}
           >
             →
@@ -445,7 +445,7 @@ const matchesSearch =
           className={`text-xs mt-2 ${
             active
               ? "text-blue-600"
-              : "text-gray-500"
+              : "text-gray-500 dark:text-gray-400"
           }`}
         >
           {active
@@ -464,7 +464,7 @@ const matchesSearch =
 
   return (
 
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 p-6">
 
 
       {/* ================================================== */}
@@ -475,11 +475,11 @@ const matchesSearch =
 
         <div>
 
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold text-gray-800 dark:text-gray-100">
             Transactions
           </h1>
 
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Track asset assignments, returns, maintenance and disposals
           </p>
 
@@ -541,7 +541,7 @@ const matchesSearch =
   type="Purchase"
 />
 
-<div className="bg-black rounded-xl p-5 shadow-lg">
+<div className="bg-black dark:bg-gray-900 rounded-xl p-5 shadow-lg">
   <div className="flex items-center justify-between">
     <div>
       <p className="text-sm text-gray-300">
@@ -573,7 +573,7 @@ const matchesSearch =
       {/* SEARCH / FILTER */}
       {/* ================================================== */}
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-4 mb-5">
+      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm p-4 mb-5">
 
         <div className="flex flex-col md:flex-row gap-3">
 
@@ -593,7 +593,7 @@ const matchesSearch =
               onChange={(e) =>
                 handleSearch(e.target.value)
               }
-              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-10 pr-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400"
             />
 
           </div>
@@ -613,7 +613,7 @@ const matchesSearch =
               onChange={(e) =>
                 handleFilter(e.target.value)
               }
-              className="appearance-none w-full md:w-48 pl-9 pr-8 py-2.5 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+              className="appearance-none w-full md:w-48 pl-9 pr-8 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
             >
 
               <option value="All">
@@ -652,20 +652,20 @@ const matchesSearch =
       {/* TABLE */}
       {/* ================================================== */}
 
-      <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
 
 
         {/* TABLE HEADER */}
 
-        <div className="px-5 py-4 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
 
           <div>
 
-            <h2 className="font-semibold text-gray-800">
+            <h2 className="font-semibold text-gray-800 dark:text-gray-100">
               Transaction History
             </h2>
 
-            <p className="text-sm text-gray-500 mt-1">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
 
               {filteredTransactions.length === 0
                 ? "No transactions"
@@ -702,36 +702,36 @@ const matchesSearch =
 
           <table className="w-full text-sm">
 
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 dark:bg-gray-800">
 
               <tr>
 
-                <th className="text-left px-5 py-3 font-medium text-gray-500 whitespace-nowrap">
+                <th className="text-left px-5 py-3 font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   Transaction ID
                 </th>
 
-                <th className="text-left px-5 py-3 font-medium text-gray-500 whitespace-nowrap">
+                <th className="text-left px-5 py-3 font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   Asset
                 </th>
 
-                <th className="text-left px-5 py-3 font-medium text-gray-500 whitespace-nowrap">
+                <th className="text-left px-5 py-3 font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   Employee
                 </th>
                 <th>Cost</th>
 
-                <th className="text-left px-5 py-3 font-medium text-gray-500 whitespace-nowrap">
+                <th className="text-left px-5 py-3 font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   Type
                 </th>
 
-                <th className="text-left px-5 py-3 font-medium text-gray-500 whitespace-nowrap">
+                <th className="text-left px-5 py-3 font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   Date
                 </th>
 
-                <th className="text-left px-5 py-3 font-medium text-gray-500 whitespace-nowrap">
+                <th className="text-left px-5 py-3 font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   Status
                 </th>
 
-                <th className="text-center px-5 py-3 font-medium text-gray-500 whitespace-nowrap">
+                <th className="text-center px-5 py-3 font-medium text-gray-500 dark:text-gray-400 whitespace-nowrap">
                   Details
                 </th>
 
@@ -750,20 +750,20 @@ const matchesSearch =
                     <tr
                       key={transaction.id}
                       className={`
-                        border-t border-gray-100
+                        border-t border-gray-100 dark:border-gray-800
                         transition-colors
-                        hover:bg-blue-50/40
+                        hover:bg-blue-50/40 dark:hover:bg-blue-950/40
                         ${
                           index % 2 === 0
-                            ? "bg-white"
-                            : "bg-gray-50/40"
+                            ? "bg-white dark:bg-gray-900"
+                            : "bg-gray-50/40 dark:bg-gray-800/40"
                         }
                       `}
                     >
 
                       {/* ID */}
 
-                      <td className="px-5 py-4 font-medium text-gray-800 whitespace-nowrap">
+                      <td className="px-5 py-4 font-medium text-gray-800 dark:text-gray-100 whitespace-nowrap">
 
                         {transaction.id}
 
@@ -774,7 +774,7 @@ const matchesSearch =
 
                       <td className="px-5 py-4">
 
-                        <p className="font-medium text-gray-800 whitespace-nowrap">
+                        <p className="font-medium text-gray-800 dark:text-gray-100 whitespace-nowrap">
   {getAsset(transaction.assetId)?.name ||
     "Unknown Asset"}
 </p>
@@ -788,7 +788,7 @@ const matchesSearch =
 
                       {/* EMPLOYEE */}
 
-                      <td className="px-5 py-4 text-gray-600 whitespace-nowrap">
+                      <td className="px-5 py-4 text-gray-600 dark:text-gray-300 whitespace-nowrap">
 
                         {transaction.type === "Purchase"
   ? "N/A"
@@ -796,7 +796,7 @@ const matchesSearch =
     "Unknown Employee"}
 
                       </td>
-                      <td>
+                      <td className="text-gray-800 dark:text-gray-100">
   ETB {transaction.cost?.toLocaleString()}
 </td>
 
@@ -836,7 +836,7 @@ const matchesSearch =
 
                       {/* DATE */}
 
-                      <td className="px-5 py-4 text-gray-600 whitespace-nowrap">
+                      <td className="px-5 py-4 text-gray-600 dark:text-gray-300 whitespace-nowrap">
 
                         {transaction.date}
 
@@ -878,7 +878,7 @@ const matchesSearch =
 }
                           title="View transaction details"
                           aria-label={`View ${transaction.id} details`}
-                          className="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                          className="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950 transition-colors"
                         >
 
                           <Eye size={17} />
@@ -903,17 +903,17 @@ const matchesSearch =
 
                     <div className="flex flex-col items-center">
 
-                      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 text-gray-400 mb-3">
+                      <div className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 mb-3">
 
                         <Search size={22} />
 
                       </div>
 
-                      <h3 className="font-medium text-gray-700">
+                      <h3 className="font-medium text-gray-700 dark:text-gray-200">
                         No transactions found
                       </h3>
 
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                         Try changing your search or filter.
                       </p>
 
@@ -937,15 +937,15 @@ const matchesSearch =
         {/* ================================================== */}
 
         {filteredTransactions.length > 0 && (
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4 border-t border-gray-100">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-5 py-4 border-t border-gray-100 dark:border-gray-800">
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               Showing{" "}
-              <span className="font-medium text-gray-700">
+              <span className="font-medium text-gray-700 dark:text-gray-200">
                 {startIndex + 1}
               </span>{" "}
               to{" "}
-              <span className="font-medium text-gray-700">
+              <span className="font-medium text-gray-700 dark:text-gray-200">
                 {Math.min(
                   startIndex +
                     transactionsPerPage,
@@ -953,7 +953,7 @@ const matchesSearch =
                 )}
               </span>{" "}
               of{" "}
-              <span className="font-medium text-gray-700">
+              <span className="font-medium text-gray-700 dark:text-gray-200">
                 {filteredTransactions.length}
               </span>
             </p>
@@ -968,7 +968,7 @@ const matchesSearch =
                     (page) => page - 1
                   )
                 }
-                className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="p-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronLeft size={17} />
               </button>
@@ -995,7 +995,7 @@ const matchesSearch =
                       ${
                         currentPage === page
                           ? "bg-blue-600 text-white"
-                          : "text-gray-600 hover:bg-gray-100"
+                          : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                       }
                     `}
                   >
@@ -1016,7 +1016,7 @@ const matchesSearch =
                     (page) => page + 1
                   )
                 }
-                className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="p-2 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 <ChevronRight size={17} />
               </button>
@@ -1037,19 +1037,19 @@ const matchesSearch =
 
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
 
-          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-xl">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-2xl shadow-xl">
 
             {/* MODAL HEADER */}
 
-            <div className="sticky top-0 z-10 flex items-center justify-between p-5 bg-white border-b border-gray-100">
+            <div className="sticky top-0 z-10 flex items-center justify-between p-5 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800">
 
               <div>
 
-                <h2 className="text-lg font-semibold text-gray-800">
+                <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
                   New Transaction
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   Record an asset activity
                 </p>
 
@@ -1060,7 +1060,7 @@ const matchesSearch =
                 onClick={() =>
                   setShowAddModal(false)
                 }
-                className="p-2 hover:bg-gray-100 rounded-lg text-gray-500"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg text-gray-500 dark:text-gray-400"
               >
 
                 <X size={20} />
@@ -1079,11 +1079,10 @@ const matchesSearch =
 
             
 
-            
 
 
 <div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
+  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
     Asset
   </label>
 
@@ -1095,7 +1094,7 @@ const matchesSearch =
         assetId: e.target.value,
       })
     }
-    className="w-full border border-gray-200 rounded-lg px-3 py-2.5"
+    className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
   >
     <option value="">Select Asset</option>
 
@@ -1113,7 +1112,7 @@ const matchesSearch =
 
 
 <div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
+  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
     Employee
   </label>
 
@@ -1125,7 +1124,7 @@ const matchesSearch =
       employeeId: e.target.value,
     })
   }
-  className="w-full border border-gray-200 rounded-lg px-3 py-2.5"
+  className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
 >
   <option value="">
     Select Employee
@@ -1154,7 +1153,7 @@ const matchesSearch =
 
               <div>
 
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Transaction Type
                 </label>
 
@@ -1166,7 +1165,7 @@ const matchesSearch =
                       type: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2.5 outline-none"
+                  className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 >
 
                   <option value="Assignment">
@@ -1191,7 +1190,7 @@ const matchesSearch =
               {/* COST */}
 
 <div>
-  <label className="block text-sm font-medium text-gray-700 mb-1">
+  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
     Cost (ETB)
   </label>
 
@@ -1205,7 +1204,7 @@ const matchesSearch =
         cost: Number(e.target.value),
       })
     }
-    className="w-full border border-gray-200 rounded-lg px-3 py-2.5 outline-none"
+    className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
     placeholder="Enter amount"
   />
 </div>
@@ -1215,7 +1214,7 @@ const matchesSearch =
 
               <div>
 
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Date
                 </label>
 
@@ -1228,7 +1227,7 @@ const matchesSearch =
                       date: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2.5 outline-none"
+                  className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 />
 
               </div>
@@ -1238,7 +1237,7 @@ const matchesSearch =
 
               <div>
 
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Time
                 </label>
 
@@ -1251,7 +1250,7 @@ const matchesSearch =
                       time: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2.5 outline-none"
+                  className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 />
 
               </div>
@@ -1261,7 +1260,7 @@ const matchesSearch =
 
               <div>
 
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Asset Condition
                 </label>
 
@@ -1273,7 +1272,7 @@ const matchesSearch =
                       condition: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2.5 outline-none"
+                  className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 outline-none bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                 >
 
                   <option value="Good">
@@ -1297,7 +1296,7 @@ const matchesSearch =
 
               <div>
 
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                   Notes
                 </label>
 
@@ -1311,7 +1310,7 @@ const matchesSearch =
                       notes: e.target.value,
                     })
                   }
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2.5 outline-none resize-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2.5 outline-none resize-none focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400"
                 />
 
               </div>
@@ -1326,7 +1325,7 @@ const matchesSearch =
                   onClick={() =>
                     setShowAddModal(false)
                   }
-                  className="px-4 py-2.5 border border-gray-200 rounded-lg text-gray-600 hover:bg-gray-50"
+                  className="px-4 py-2.5 border border-gray-200 dark:border-gray-700 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
                   Cancel
                 </button>

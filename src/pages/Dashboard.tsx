@@ -20,14 +20,15 @@ export default function Dashboard({
   return (
     
 
-        <div className="p-6">
+        <div className="p-6 min-h-screen bg-gray-50 dark:bg-gray-900">
           {/* Page Title */}
           <div className="mb-6">
-            <h2 className="text-3xl font-bold">
+            <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
               Dashboard Overview
             </h2>
 
-            <p className="text-gray-500">
+            <p className="text-gray-500 dark:text-gray-400">
+
               Monitor assets, inventory, and operations.
             </p>
           </div>

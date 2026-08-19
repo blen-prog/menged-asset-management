@@ -17,30 +17,19 @@ import {
   ChevronRight,
 } from "lucide-react";
 
-
-// ======================================================
-// SUPPLIERS PAGE
-// ======================================================
-
 export default function Suppliers() {
-
-
-
-
   const [suppliers, setSuppliers] =
-  useState(initialSuppliers);
-    const totalSuppliers = suppliers.length;
+    useState(initialSuppliers);
 
+  const totalSuppliers = suppliers.length;
 
-const categories = new Set(
-  suppliers.map((sup) => sup.category)
-).size;
+  const categories = new Set(
+    suppliers.map((sup) => sup.category)
+  ).size;
 
   const [search, setSearch] = useState("");
-
   const [categoryFilter, setCategoryFilter] =
     useState("All");
-
 
   const [selectedSupplier, setSelectedSupplier] =
     useState(null);
@@ -55,56 +44,44 @@ const categories = new Set(
     useState(1);
 
   const suppliersPerPage = 10;
+
   const [editingSupplier, setEditingSupplier] =
-  useState(null);
+    useState(null);
 
-
-  // ======================================================
-  // SEARCH + FILTER
-  // ======================================================
-
-  const filteredSuppliers = suppliers.filter(
-    (supplier) => {
+  const filteredSuppliers =
+    suppliers.filter((supplier) => {
       const searchValue =
         search.toLowerCase().trim();
 
       const matchesSearch =
-  supplier.companyName
-    .toLowerCase()
-    .includes(searchValue) ||
-  supplier.id
-    .toLowerCase()
-    .includes(searchValue) ||
-  supplier.supplierNumber
-    .toLowerCase()
-    .includes(searchValue) ||
-  supplier.contactPerson
-    .toLowerCase()
-    .includes(searchValue) ||
-  supplier.category
-    .toLowerCase()
-    .includes(searchValue) ||
-  supplier.email
-    .toLowerCase()
-    .includes(searchValue);
+        supplier.companyName
+          .toLowerCase()
+          .includes(searchValue) ||
+        supplier.id
+          .toLowerCase()
+          .includes(searchValue) ||
+        supplier.supplierNumber
+          .toLowerCase()
+          .includes(searchValue) ||
+        supplier.contactPerson
+          .toLowerCase()
+          .includes(searchValue) ||
+        supplier.category
+          .toLowerCase()
+          .includes(searchValue) ||
+        supplier.email
+          .toLowerCase()
+          .includes(searchValue);
 
       const matchesCategory =
         categoryFilter === "All" ||
         supplier.category === categoryFilter;
 
-
       return (
         matchesSearch &&
-        matchesCategory 
-        
+        matchesCategory
       );
-    }
-  );
-
-
-  // ======================================================
-  // PAGINATION
-  // ======================================================
+    });
 
   const totalPages = Math.ceil(
     filteredSuppliers.length /
@@ -121,11 +98,6 @@ const categories = new Set(
       startIndex + suppliersPerPage
     );
 
-
-  // ======================================================
-  // FILTER HANDLERS
-  // ======================================================
-
   const handleSearch = (value) => {
     setSearch(value);
     setCurrentPage(1);
@@ -136,77 +108,58 @@ const categories = new Set(
     setCurrentPage(1);
   };
 
-
-  // ======================================================
-  // CATEGORY STYLE
-  // ======================================================
-
   const getCategoryStyle = (category) => {
     switch (category) {
       case "Raw Materials":
-        return "bg-purple-50 text-purple-700 border-purple-100";
+        return "bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 border-purple-100 dark:border-purple-900";
 
       case "Packaging":
-        return "bg-blue-50 text-blue-700 border-blue-100";
+        return "bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 border-blue-100 dark:border-blue-900";
 
       case "Equipment":
-        return "bg-amber-50 text-amber-700 border-amber-100";
+        return "bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border-amber-100 dark:border-amber-900";
 
       case "Logistics":
-        return "bg-green-50 text-green-700 border-green-100";
+        return "bg-green-50 dark:bg-green-950/40 text-green-700 dark:text-green-300 border-green-100 dark:border-green-900";
 
       case "Services":
-        return "bg-pink-50 text-pink-700 border-pink-100";
+        return "bg-pink-50 dark:bg-pink-950/40 text-pink-700 dark:text-pink-300 border-pink-100 dark:border-pink-900";
 
       default:
-        return "bg-gray-50 text-gray-600 border-gray-100";
+        return "bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-300 border-gray-100 dark:border-gray-700";
     }
   };
 
-
-
-
-
-  // ======================================================
-  // AVATAR COLORS
-  // ======================================================
-
   const avatarColors = [
-    "bg-purple-100 text-purple-700",
-    "bg-blue-100 text-blue-700",
-    "bg-orange-100 text-orange-700",
-    "bg-green-100 text-green-700",
-    "bg-pink-100 text-pink-700",
+    "bg-purple-100 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300",
+    "bg-blue-100 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300",
+    "bg-orange-100 dark:bg-orange-950/50 text-orange-700 dark:text-orange-300",
+    "bg-green-100 dark:bg-green-950/50 text-green-700 dark:text-green-300",
+    "bg-pink-100 dark:bg-pink-950/50 text-pink-700 dark:text-pink-300",
   ];
 
   const getAvatarColor = (index) =>
     avatarColors[index % avatarColors.length];
 
-
   return (
     <div
-      className="min-h-screen bg-gray-50 p-4 sm:p-6"
+      className="min-h-screen bg-gray-50 dark:bg-gray-950 p-4 sm:p-6 text-gray-800 dark:text-gray-100"
       onClick={() => setOpenMenu(null)}
     >
 
-      {/* ================================================= */}
       {/* HEADER */}
-      {/* ================================================= */}
 
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
 
         <div>
-
-          <h1 className="text-3xl font-bold text-gray-800">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
             Suppliers
           </h1>
 
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Manage suppliers and information
           </p>
-
         </div>
-
 
         <button
           onClick={(e) => {
@@ -215,38 +168,31 @@ const categories = new Set(
           }}
           className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-indigo-700 hover:bg-indigo-800 text-white rounded-xl font-medium transition-colors"
         >
-
           <Plus size={18} />
-
           Add Supplier
-
         </button>
 
       </div>
 
+      {/* STATS */}
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-<StatCard
-  title="Total Suppliers"
-  value={totalSuppliers}
-/>
 
+        <StatCard
+          title="Total Suppliers"
+          value={totalSuppliers}
+        />
 
+        <StatCard
+          title="Categories"
+          value={categories}
+        />
 
-<StatCard
-  title="Categories"
-  value={categories}
-/>
-</div>
+      </div>
 
-
-
-      {/* ================================================= */}
       {/* SEARCH + FILTERS */}
-      {/* ================================================= */}
 
       <div className="flex flex-col lg:flex-row gap-3 mb-6">
-
-        {/* SEARCH */}
 
         <div className="relative flex-1">
 
@@ -262,103 +208,88 @@ const categories = new Set(
             onChange={(e) =>
               handleSearch(e.target.value)
             }
-            className="w-full h-14 pl-11 pr-4 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            className="w-full h-14 pl-11 pr-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-800 dark:text-white placeholder-gray-400 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
           />
 
         </div>
-
-
-        {/* CATEGORY */}
 
         <select
           value={categoryFilter}
           onChange={(e) =>
             handleCategoryFilter(e.target.value)
           }
-          className="h-14 lg:w-56 px-4 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-gray-600"
+          className="h-14 lg:w-56 px-4 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-gray-600 dark:text-gray-300"
         >
 
-         <option value="All">
-  All Categories
-</option>
+          <option value="All">
+            All Categories
+          </option>
 
-<option value="Raw Materials">
-  Raw Materials
-</option>
+          <option value="Raw Materials">
+            Raw Materials
+          </option>
 
-<option value="Packaging">
-  Packaging
-</option>
+          <option value="Packaging">
+            Packaging
+          </option>
 
-<option value="Logistics">
-  Logistics
-</option>
+          <option value="Logistics">
+            Logistics
+          </option>
 
-<option value="Equipment">
-  Equipment
-</option>
+          <option value="Equipment">
+            Equipment
+          </option>
 
-<option value="Services">
-  Services
-</option>
+          <option value="Services">
+            Services
+          </option>
 
         </select>
 
-
-       
-
       </div>
 
-
-      {/* ================================================= */}
       {/* TABLE */}
-      {/* ================================================= */}
 
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
 
         <div className="overflow-x-auto">
 
           <table className="w-full min-w-[1300px]">
 
-            {/* HEADER */}
-
-            <thead className="bg-gray-50">
+            <thead className="bg-gray-50 dark:bg-gray-800/50">
 
               <tr>
 
-                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
+                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 uppercase">
                   Supplier
                 </th>
 
-                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
+                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 uppercase">
                   Supplier No
                 </th>
 
-                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
+                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 uppercase">
                   Category
                 </th>
 
-                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
+                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 uppercase">
                   Contact Person
                 </th>
 
-                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
+                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 uppercase">
                   Phone
                 </th>
-                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
-  Email
-</th>
 
-                
+                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 uppercase">
+                  Email
+                </th>
 
                 <th className="w-16 px-4 py-4" />
 
               </tr>
 
             </thead>
-
-
-            {/* BODY */}
 
             <tbody>
 
@@ -369,7 +300,6 @@ const categories = new Set(
 
                     const initials =
                       supplier.companyName
-
                         .split(" ")
                         .map(
                           (word) =>
@@ -379,12 +309,11 @@ const categories = new Set(
                         .slice(0, 2)
                         .toUpperCase();
 
-
                     return (
 
                       <tr
                         key={supplier.id}
-                        className="border-t border-gray-100 transition-colors hover:bg-indigo-50/30"
+                        className="border-t border-gray-100 dark:border-gray-800 transition-colors hover:bg-indigo-50/30 dark:hover:bg-gray-800/50"
                       >
 
                         {/* SUPPLIER */}
@@ -407,18 +336,15 @@ const categories = new Set(
                                 flex items-center justify-center
                                 font-semibold
                                 text-sm
-                                ${getAvatarColor(
-                                  index
-                                )}
+                                ${getAvatarColor(index)}
                               `}
                             >
                               {initials}
                             </div>
 
-
                             <div>
 
-                              <p className="font-semibold text-gray-800 group-hover:text-indigo-700 transition-colors">
+                              <p className="font-semibold text-gray-800 dark:text-white group-hover:text-indigo-400 transition-colors">
                                 {supplier.companyName}
                               </p>
 
@@ -432,15 +358,15 @@ const categories = new Set(
 
                         </td>
 
+                        {/* SUPPLIER NUMBER */}
+
                         <td className="px-5 py-5">
-  <span className="text-gray-700 font-medium">
-    {supplier.supplierNumber}
-  </span>
-</td>
 
+                          <span className="text-gray-700 dark:text-gray-300 font-medium">
+                            {supplier.supplierNumber}
+                          </span>
 
-
-
+                        </td>
 
                         {/* CATEGORY */}
 
@@ -467,12 +393,15 @@ const categories = new Set(
 
                         </td>
 
-                        <td className="px-5 py-5">
-  <span className="text-gray-700">
-    {supplier.contactPerson}
-  </span>
-</td>
+                        {/* CONTACT PERSON */}
 
+                        <td className="px-5 py-5">
+
+                          <span className="text-gray-700 dark:text-gray-300">
+                            {supplier.contactPerson}
+                          </span>
+
+                        </td>
 
                         {/* PHONE */}
 
@@ -483,7 +412,7 @@ const categories = new Set(
                               /\s/g,
                               ""
                             )}`}
-                            className="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-700 transition-colors whitespace-nowrap"
+                            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-400 transition-colors whitespace-nowrap"
                             title="Call supplier"
                           >
 
@@ -498,14 +427,13 @@ const categories = new Set(
 
                         </td>
 
-
                         {/* EMAIL */}
 
                         <td className="px-5 py-5">
 
                           <a
                             href={`mailto:${supplier.email}`}
-                            className="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-700 transition-colors whitespace-nowrap"
+                            className="inline-flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-indigo-400 transition-colors whitespace-nowrap"
                             title="Send email"
                           >
 
@@ -519,8 +447,6 @@ const categories = new Set(
                           </a>
 
                         </td>
-
-
 
                         {/* ACTION MENU */}
 
@@ -540,7 +466,7 @@ const categories = new Set(
                                   : supplier.id
                               )
                             }
-                            className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                            className="p-2 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                             title="More actions"
                             aria-label="More supplier actions"
                           >
@@ -551,24 +477,19 @@ const categories = new Set(
 
                           </button>
 
-
                           {openMenu ===
                             supplier.id && (
 
-                            <div className="absolute right-4 top-14 z-30 w-52 bg-white border border-gray-100 rounded-xl shadow-lg py-1">
-
-                              {/* VIEW DETAILS */}
+                            <div className="absolute right-4 top-14 z-30 w-52 bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl shadow-lg py-1">
 
                               <button
                                 onClick={() => {
                                   setSelectedSupplier(
                                     supplier
                                   );
-                                  setOpenMenu(
-                                    null
-                                  );
+                                  setOpenMenu(null);
                                 }}
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                               >
 
                                 <Eye size={16} />
@@ -577,40 +498,30 @@ const categories = new Set(
 
                               </button>
 
-
-                              {/* EDIT */}
-
                               <button
-  onClick={() => {
-    setEditingSupplier(supplier);
-    setOpenMenu(null);
-  }}
-  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
->
+                                onClick={() => {
+                                  setEditingSupplier(
+                                    supplier
+                                  );
+                                  setOpenMenu(null);
+                                }}
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+                              >
 
-                                <Pencil
-                                  size={16}
-                                />
+                                <Pencil size={16} />
 
                                 Edit Supplier
 
                               </button>
 
-
-                              {/* PURCHASE HISTORY */}
-
                               <button
                                 onClick={() =>
-                                  setOpenMenu(
-                                    null
-                                  )
+                                  setOpenMenu(null)
                                 }
-                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                               >
 
-                                <History
-                                  size={16}
-                                />
+                                <History size={16} />
 
                                 View Purchase History
 
@@ -639,17 +550,17 @@ const categories = new Set(
 
                     <div className="flex flex-col items-center">
 
-                      <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-3">
+                      <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-400 flex items-center justify-center mb-3">
 
                         <Truck size={22} />
 
                       </div>
 
-                      <p className="font-medium text-gray-700">
+                      <p className="font-medium text-gray-700 dark:text-gray-200">
                         No suppliers found
                       </p>
 
-                      <p className="text-sm text-gray-500 mt-1">
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                         Try changing your search or filters.
                       </p>
 
@@ -667,18 +578,15 @@ const categories = new Set(
 
         </div>
 
-
-        {/* ================================================= */}
         {/* PAGINATION */}
-        {/* ================================================= */}
 
-        <div className="px-5 py-4 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 min-h-[72px]">
+        <div className="px-5 py-4 border-t border-gray-100 dark:border-gray-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 min-h-[72px]">
 
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
 
             Showing{" "}
 
-            <span className="font-medium text-gray-700">
+            <span className="font-medium text-gray-700 dark:text-gray-200">
 
               {filteredSuppliers.length === 0
                 ? 0
@@ -688,7 +596,7 @@ const categories = new Set(
 
             {" "}–{" "}
 
-            <span className="font-medium text-gray-700">
+            <span className="font-medium text-gray-700 dark:text-gray-200">
 
               {Math.min(
                 startIndex +
@@ -700,7 +608,7 @@ const categories = new Set(
 
             {" "}of{" "}
 
-            <span className="font-medium text-gray-700">
+            <span className="font-medium text-gray-700 dark:text-gray-200">
 
               {filteredSuppliers.length}
 
@@ -709,7 +617,6 @@ const categories = new Set(
             {" "}suppliers
 
           </p>
-
 
           {totalPages > 1 && (
 
@@ -722,7 +629,7 @@ const categories = new Set(
                     (page) => page - 1
                   )
                 }
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
               >
 
                 <ChevronLeft size={16} />
@@ -730,7 +637,6 @@ const categories = new Set(
                 Previous
 
               </button>
-
 
               {Array.from(
                 { length: totalPages },
@@ -751,7 +657,7 @@ const categories = new Set(
                     ${
                       currentPage === page
                         ? "bg-indigo-700 text-white"
-                        : "text-gray-600 hover:bg-gray-100"
+                        : "text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
                     }
                   `}
                 >
@@ -762,7 +668,6 @@ const categories = new Set(
 
               ))}
 
-
               <button
                 disabled={
                   currentPage === totalPages
@@ -772,7 +677,7 @@ const categories = new Set(
                     (page) => page + 1
                   )
                 }
-                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed"
+                className="inline-flex items-center gap-1 px-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-40 disabled:cursor-not-allowed"
               >
 
                 Next
@@ -789,10 +694,7 @@ const categories = new Set(
 
       </div>
 
-
-      {/* ================================================= */}
-      {/* SUPPLIER DETAILS MODAL */}
-      {/* ================================================= */}
+      {/* SUPPLIER DETAILS */}
 
       {selectedSupplier && (
 
@@ -805,58 +707,59 @@ const categories = new Set(
 
       )}
 
+      {/* EDIT SUPPLIER */}
+
       {editingSupplier && (
-  <EditSupplierModal
-    supplier={editingSupplier}
-    onClose={() =>
-      setEditingSupplier(null)
-    }
-    onSave={(updatedSupplier) => {
-      setSuppliers((prev) =>
-        prev.map((supplier) =>
-          supplier.id === updatedSupplier.id
-            ? updatedSupplier
-            : supplier
-        )
-      );
 
-      setEditingSupplier(null);
-    }}
-  />
-)}
+        <EditSupplierModal
+          supplier={editingSupplier}
+          onClose={() =>
+            setEditingSupplier(null)
+          }
+          onSave={(updatedSupplier) => {
 
-      
+            setSuppliers((prev) =>
+              prev.map((supplier) =>
+                supplier.id ===
+                updatedSupplier.id
+                  ? updatedSupplier
+                  : supplier
+              )
+            );
 
+            setEditingSupplier(null);
+          }}
+        />
 
-      {/* ================================================= */}
-      {/* ADD SUPPLIER MODAL */}
-      {/* ================================================= */}
+      )}
+
+      {/* ADD SUPPLIER */}
 
       {showAddModal && (
 
         <div
-          className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
           onClick={() =>
             setShowAddModal(false)
           }
         >
 
           <div
-            className="bg-white w-full max-w-lg rounded-2xl shadow-xl"
+            className="bg-white dark:bg-gray-900 w-full max-w-lg rounded-2xl shadow-xl"
             onClick={(e) =>
               e.stopPropagation()
             }
           >
 
-            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
 
               <div>
 
-                <h2 className="text-xl font-semibold text-gray-800">
+                <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                   Add Supplier
                 </h2>
 
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
                   Add a new supplier to Menged
                 </p>
 
@@ -866,7 +769,7 @@ const categories = new Set(
                 onClick={() =>
                   setShowAddModal(false)
                 }
-                className="p-2 rounded-lg hover:bg-gray-100 text-gray-500"
+                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400"
               >
 
                 <X size={20} />
@@ -875,44 +778,42 @@ const categories = new Set(
 
             </div>
 
-
             <div className="p-6">
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                 <input
                   placeholder="Company Name"
-                  className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 sm:col-span-2"
+                  className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 sm:col-span-2"
                 />
 
                 <input
                   placeholder="Contact Person"
-                  className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
                 />
 
                 <input
                   placeholder="Category"
-                  className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
                 />
 
                 <input
                   placeholder="Phone"
-                  className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
                 />
 
                 <input
                   placeholder="Email"
                   type="email"
-                  className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
                 />
 
                 <input
                   placeholder="Address"
-                  className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 sm:col-span-2"
+                  className="border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 sm:col-span-2"
                 />
 
               </div>
-
 
               <div className="flex justify-end gap-3 mt-6">
 
@@ -920,7 +821,7 @@ const categories = new Set(
                   onClick={() =>
                     setShowAddModal(false)
                   }
-                  className="px-4 py-2.5 rounded-lg border border-gray-200 text-gray-600 hover:bg-gray-50"
+                  className="px-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
                 >
                   Cancel
                 </button>
@@ -956,31 +857,41 @@ function EditSupplierModal({
   const [formData, setFormData] =
     useState(supplier);
 
+  const inputClass =
+    "border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white placeholder-gray-400 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500";
+
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
       onClick={onClose}
     >
+
       <div
-        className="bg-white w-full max-w-lg rounded-2xl shadow-xl"
+        className="bg-white dark:bg-gray-900 w-full max-w-lg rounded-2xl shadow-xl"
         onClick={(e) =>
           e.stopPropagation()
         }
       >
-        <div className="flex items-center justify-between px-6 py-5 border-b">
-          <h2 className="text-xl font-semibold">
+
+        <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 dark:border-gray-800">
+
+          <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
             Edit Supplier
           </h2>
 
           <button
             onClick={onClose}
+            className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             <X size={20} />
           </button>
+
         </div>
 
         <div className="p-6">
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
             <input
               value={formData.companyName}
               onChange={(e) =>
@@ -990,7 +901,7 @@ function EditSupplierModal({
                     e.target.value,
                 })
               }
-              className="border rounded-lg px-3 py-2.5 sm:col-span-2"
+              className={`${inputClass} sm:col-span-2`}
             />
 
             <input
@@ -1002,7 +913,7 @@ function EditSupplierModal({
                     e.target.value,
                 })
               }
-              className="border rounded-lg px-3 py-2.5"
+              className={inputClass}
             />
 
             <input
@@ -1014,7 +925,7 @@ function EditSupplierModal({
                     e.target.value,
                 })
               }
-              className="border rounded-lg px-3 py-2.5"
+              className={inputClass}
             />
 
             <input
@@ -1026,7 +937,7 @@ function EditSupplierModal({
                     e.target.value,
                 })
               }
-              className="border rounded-lg px-3 py-2.5"
+              className={inputClass}
             />
 
             <input
@@ -1038,7 +949,7 @@ function EditSupplierModal({
                     e.target.value,
                 })
               }
-              className="border rounded-lg px-3 py-2.5"
+              className={inputClass}
             />
 
             <input
@@ -1050,61 +961,59 @@ function EditSupplierModal({
                     e.target.value,
                 })
               }
-              className="border rounded-lg px-3 py-2.5 sm:col-span-2"
+              className={`${inputClass} sm:col-span-2`}
             />
+
           </div>
 
           <div className="flex justify-end gap-3 mt-6">
-  <button
-    onClick={onClose}
-    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
-  >
-    Cancel
-  </button>
 
-  <button
-  onClick={() => {
-    onSave(formData);
-  }}
-  className="px-4 py-2 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white font-medium"
->
-  Save Changes
-</button>
-</div>
+            <button
+              onClick={onClose}
+              className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
+              Cancel
+            </button>
+
+            <button
+              onClick={() =>
+                onSave(formData)
+              }
+              className="px-4 py-2 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white font-medium"
+            >
+              Save Changes
+            </button>
+
+          </div>
+
+        </div>
 
       </div>
+
     </div>
-  </div>
-);
+  );
 }
-
-
-// ======================================================
-// SUPPLIER DETAILS COMPONENT
-// ======================================================
 
 function SupplierDetails({
   supplier,
   onClose,
 }) {
-
-const initials =
-  supplier.companyName
-    .split(" ")
-    .map((word) => word[0])
-    .join("")
-    .slice(0, 2)
-    .toUpperCase();
-
+  const initials =
+    supplier.companyName
+      .split(" ")
+      .map((word) => word[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
+      className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
       onClick={onClose}
     >
 
       <div
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-2xl shadow-xl"
+        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white dark:bg-gray-900 rounded-2xl shadow-xl"
         onClick={(e) =>
           e.stopPropagation()
         }
@@ -1112,37 +1021,36 @@ const initials =
 
         {/* HEADER */}
 
-        <div className="sticky top-0 z-10 bg-white border-b border-gray-100 px-6 py-5 flex items-center justify-between">
+        <div className="sticky top-0 z-10 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 px-6 py-5 flex items-center justify-between">
 
           <div className="flex items-center gap-4">
 
-            <div className="w-12 h-12 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-semibold">
+            <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-semibold">
               {initials}
             </div>
 
             <div>
 
-              <h2 className="text-xl font-semibold text-gray-800">
+              <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
                 {supplier.companyName}
               </h2>
 
-              <p className="text-sm text-gray-500 mt-1">
-                {supplier.id} · {supplier.category}             </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                {supplier.id} · {supplier.category}
+              </p>
 
             </div>
 
           </div>
 
-
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-gray-100 text-gray-500"
+            className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400"
           >
             <X size={20} />
           </button>
 
         </div>
-
 
         {/* BODY */}
 
@@ -1152,7 +1060,7 @@ const initials =
 
           <section>
 
-            <h3 className="font-semibold text-gray-800 mb-3">
+            <h3 className="font-semibold text-gray-800 dark:text-white mb-3">
               Contact Information
             </h3>
 
@@ -1163,21 +1071,21 @@ const initials =
                   /\s/g,
                   ""
                 )}`}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors"
+                className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors"
               >
 
                 <Phone
                   size={18}
-                  className="text-indigo-600"
+                  className="text-indigo-600 dark:text-indigo-400"
                 />
 
                 <div>
 
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     Phone
                   </p>
 
-                  <p className="text-sm font-medium text-gray-800 mt-1">
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mt-1">
                     {supplier.phone}
                   </p>
 
@@ -1185,24 +1093,23 @@ const initials =
 
               </a>
 
-
               <a
                 href={`mailto:${supplier.email}`}
-                className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors"
+                className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl hover:bg-indigo-50 dark:hover:bg-gray-700 transition-colors"
               >
 
                 <Mail
                   size={18}
-                  className="text-indigo-600"
+                  className="text-indigo-600 dark:text-indigo-400"
                 />
 
                 <div>
 
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     Email
                   </p>
 
-                  <p className="text-sm font-medium text-gray-800 mt-1 break-all">
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mt-1 break-all">
                     {supplier.email}
                   </p>
 
@@ -1210,21 +1117,20 @@ const initials =
 
               </a>
 
-
-              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl sm:col-span-2">
+              <div className="flex items-center gap-3 p-4 bg-gray-50 dark:bg-gray-800 rounded-xl sm:col-span-2">
 
                 <MapPin
                   size={18}
-                  className="text-indigo-600"
+                  className="text-indigo-600 dark:text-indigo-400"
                 />
 
                 <div>
 
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">
                     Address
                   </p>
 
-                  <p className="text-sm font-medium text-gray-800 mt-1">
+                  <p className="text-sm font-medium text-gray-800 dark:text-gray-200 mt-1">
                     {supplier.address}
                   </p>
 
@@ -1236,77 +1142,79 @@ const initials =
 
           </section>
 
-
           {/* SUPPLIER INFORMATION */}
 
           <section>
 
-            <h3 className="font-semibold text-gray-800 mb-3">
+            <h3 className="font-semibold text-gray-800 dark:text-white mb-3">
               Supplier Information
             </h3>
 
-            <div className="grid grid-cols-2 gap-4 bg-gray-50 rounded-xl p-4">
-  <div>
-    <p className="text-xs text-gray-500">
-      Supplier Number
-    </p>
-    <p className="font-medium">
-      {supplier.supplierNumber}
-    </p>
-  </div>
+            <div className="grid grid-cols-2 gap-4 bg-gray-50 dark:bg-gray-800 rounded-xl p-4">
 
-  <div>
-    <p className="text-xs text-gray-500">
-      Category
-    </p>
-    <p className="font-medium">
-      {supplier.category}
-    </p>
-  </div>
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Supplier Number
+                </p>
 
-  <div>
-    <p className="text-xs text-gray-500">
-      Contact Person
-    </p>
-    <p className="font-medium">
-      {supplier.contactPerson}
-    </p>
-  </div>
+                <p className="font-medium text-gray-800 dark:text-gray-200">
+                  {supplier.supplierNumber}
+                </p>
+              </div>
 
-  <div>
-    <p className="text-xs text-gray-500">
-      Onboarded Date
-    </p>
-    <p className="font-medium">
-      {supplier.onboardedDate}
-    </p>
-  </div>
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Category
+                </p>
 
-  <div>
-    <p className="text-xs text-gray-500">
-      Status
-    </p>
-    <p className="font-medium">
-      {supplier.status}
-    </p>
-  </div>
-</div>
+                <p className="font-medium text-gray-800 dark:text-gray-200">
+                  {supplier.category}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Contact Person
+                </p>
+
+                <p className="font-medium text-gray-800 dark:text-gray-200">
+                  {supplier.contactPerson}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Onboarded Date
+                </p>
+
+                <p className="font-medium text-gray-800 dark:text-gray-200">
+                  {supplier.onboardedDate}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Status
+                </p>
+
+                <p className="font-medium text-gray-800 dark:text-gray-200">
+                  {supplier.status}
+                </p>
+              </div>
+
+            </div>
 
           </section>
 
-
-          
-
         </div>
-
 
         {/* FOOTER */}
 
-        <div className="px-6 py-4 border-t border-gray-100 flex justify-end">
+        <div className="px-6 py-4 border-t border-gray-100 dark:border-gray-800 flex justify-end">
 
           <button
             onClick={onClose}
-            className="px-5 py-2.5 rounded-lg bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium"
+            className="px-5 py-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium"
           >
             Close
           </button>
@@ -1317,16 +1225,20 @@ const initials =
 
     </div>
   );
-
 }
-  function StatCard({ title, value }) {
+
+function StatCard({
+  title,
+  value,
+}) {
   return (
-    <div className="bg-white border border-gray-100 rounded-xl p-5 shadow-sm">
-      <p className="text-sm text-gray-500">
+    <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-xl p-5 shadow-sm">
+
+      <p className="text-sm text-gray-500 dark:text-gray-400">
         {title}
       </p>
 
-      <h2 className="text-3xl font-bold text-gray-800 mt-2">
+      <h2 className="text-3xl font-bold text-gray-800 dark:text-white mt-2">
         {value}
       </h2>
 

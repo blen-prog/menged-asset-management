@@ -30,13 +30,13 @@ const isViewer =
   const getStatusColor = (status) => {
     switch (status) {
       case "In Stock":
-        return "bg-green-100 text-green-700";
+        return "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300";
       case "Low Stock":
-        return "bg-yellow-100 text-yellow-700";
+        return "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/40 dark:text-yellow-300";
       case "Out of Stock":
-        return "bg-red-100 text-red-700";
+        return "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300";
     }
   };
 
@@ -73,11 +73,11 @@ const isViewer =
   const currentConsumables = filteredConsumables.slice(startIndex, startIndex + consumablesPerPage);
 
   return (
-    <div className="p-6">
+    <div className="p-6 text-gray-900 dark:text-gray-100">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-3xl font-bold">Consumables</h1>
-        <p className="text-gray-500 mb-4">Manage company consumables</p>
+        <p className="text-gray-500 dark:text-gray-400 mb-4">Manage company consumables</p>
 
         <div className="flex gap-4">
           <div className="relative flex-1">
@@ -94,7 +94,7 @@ const isViewer =
                 setSearch(e.target.value);
                 setCurrentPage(1);
               }}
-              className="w-full border rounded-lg pl-10 pr-4 py-2"
+              className="w-full border border-gray-300 dark:border-gray-700 rounded-lg pl-10 pr-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -104,7 +104,7 @@ const isViewer =
               setDepartmentFilter(e.target.value);
               setCurrentPage(1);
             }}
-            className="border rounded-lg px-4 py-2"
+            className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
             <option>All Departments</option>
             <option>IT</option>
@@ -112,29 +112,30 @@ const isViewer =
             <option>Finance</option>
             <option>Operations</option>
           </select>
+
           <select
-  value={categoryFilter}
-  onChange={(e) => {
-    setCategoryFilter(e.target.value);
-    setCurrentPage(1);
-  }}
-  className="border rounded-lg px-4 py-2"
->
-  <option>All Categories</option>
+            value={categoryFilter}
+            onChange={(e) => {
+              setCategoryFilter(e.target.value);
+              setCurrentPage(1);
+            }}
+            className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          >
+            <option>All Categories</option>
 
-  <option>Computer Equipment</option>
-  <option>Networking Equipment</option>
-  <option>Office Equipment</option>
+            <option>Computer Equipment</option>
+            <option>Networking Equipment</option>
+            <option>Office Equipment</option>
 
-  <option>Validators</option>
+            <option>Validators</option>
 
-  <option>Stationery</option>
+            <option>Stationery</option>
 
-  <option>Spare Parts</option>
-  <option>Vehicle Consumables</option>
+            <option>Spare Parts</option>
+            <option>Vehicle Consumables</option>
 
-  <option>Safety Equipment</option>
-</select>
+            <option>Safety Equipment</option>
+          </select>
 
           <select
             value={statusFilter}
@@ -142,7 +143,7 @@ const isViewer =
               setStatusFilter(e.target.value);
               setCurrentPage(1);
             }}
-            className="border rounded-lg px-4 py-2"
+            className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
           >
             <option>All Statuses</option>
             <option>In Stock</option>
@@ -159,10 +160,10 @@ const isViewer =
           return (
             <div
               key={consumable.id}
-              className="bg-white rounded-2xl border shadow-sm p-4"
+              className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-4"
             >
               <div className="flex gap-4">
-                <div className="w-32 h-32 border rounded-xl bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
+                <div className="w-32 h-32 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden flex-shrink-0">
                   <img
                     src={consumable.image}
                     alt={consumable.name}
@@ -173,7 +174,7 @@ const isViewer =
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg">{consumable.name}</h3>
 
-                  <p className="text-sm text-gray-500 mb-2">{consumable.category}</p>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">{consumable.category}</p>
 
                   <p className="text-sm"><strong>ID:</strong> {consumable.id}</p>
                   <p className="text-sm"><strong>Purpose:</strong> {consumable.purpose}</p>
@@ -195,29 +196,29 @@ const isViewer =
               </div>
 
               <div className="flex gap-2 mt-4">
-  <button
-    onClick={() => setSelectedConsumable(consumable)}
-    className="flex-1 border rounded-lg py-2 hover:bg-gray-50"
-  >
-    View
-  </button>
+                <button
+                  onClick={() => setSelectedConsumable(consumable)}
+                  className="flex-1 border border-gray-300 dark:border-gray-700 rounded-lg py-2 hover:bg-gray-50 dark:hover:bg-gray-800"
+                >
+                  View
+                </button>
 
-  {!isViewer && (
-    <button
-      onClick={() => setEditingConsumable({ ...consumable })}
-      className="flex-1 bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700"
-    >
-      Edit
-    </button>
-  )}
-</div>
+                {!isViewer && (
+                  <button
+                    onClick={() => setEditingConsumable({ ...consumable })}
+                    className="flex-1 bg-blue-600 text-white rounded-lg py-2 hover:bg-blue-700"
+                  >
+                    Edit
+                  </button>
+                )}
+              </div>
             </div>
           );
         })}
       </div>
 
       <div className="flex justify-between items-center mt-6">
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 dark:text-gray-400">
           Showing {startIndex + 1} - {Math.min(startIndex + consumablesPerPage, filteredConsumables.length)} of {filteredConsumables.length} consumables
         </p>
 
@@ -225,17 +226,17 @@ const isViewer =
           <button
             onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 border rounded-lg disabled:opacity-50"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             Previous
           </button>
 
-          <span className="text-sm">Page {currentPage} of {totalPages}</span>
+          <span className="text-sm text-gray-700 dark:text-gray-300">Page {currentPage} of {totalPages}</span>
 
           <button
             onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
             disabled={currentPage === totalPages}
-            className="px-4 py-2 border rounded-lg disabled:opacity-50"
+            className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg disabled:opacity-50 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
             Next
           </button>
@@ -244,10 +245,10 @@ const isViewer =
 
       {/* View modal */}
       {selectedConsumable && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-6 w-[900px] max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/30 dark:bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-2xl p-6 w-[900px] max-h-[90vh] overflow-y-auto">
             <div className="flex gap-8">
-              <div className="w-80 h-80 border rounded-2xl bg-white flex items-center justify-center overflow-hidden">
+              <div className="w-80 h-80 border border-gray-300 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                 <img
                   src={selectedConsumable.image}
                   alt={selectedConsumable.name}
@@ -262,8 +263,8 @@ const isViewer =
                   <p><strong>ID:</strong> {selectedConsumable.id}</p>
                   <p><strong>Type:</strong> {selectedConsumable.type}</p>
                   <p>
-  <strong>Category:</strong> {selectedConsumable.category}
-</p>
+                    <strong>Category:</strong> {selectedConsumable.category}
+                  </p>
                   <p><strong>Purpose:</strong> {selectedConsumable.purpose}</p>
                   <p><strong>Department:</strong> {selectedConsumable.department}</p>
                   <p><strong>Quantity:</strong> {selectedConsumable.quantity}</p>
@@ -287,10 +288,10 @@ const isViewer =
 
       {/* Edit modal */}
       {editingConsumable && (
-        <div className="fixed inset-0 bg-black/30 flex items-center justify-center z-50">
-          <div className="bg-white rounded-2xl p-6 w-[900px] max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/30 dark:bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-2xl p-6 w-[900px] max-h-[90vh] overflow-y-auto">
             <div className="flex gap-8">
-              <div className="w-80 h-80 border rounded-2xl bg-white flex items-center justify-center overflow-hidden">
+              <div className="w-80 h-80 border border-gray-300 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
                 <img
                   src={editingConsumable.image}
                   alt={editingConsumable.name}
@@ -308,7 +309,7 @@ const isViewer =
                     onChange={(e) =>
                       setEditingConsumable({ ...editingConsumable, name: e.target.value })
                     }
-                    className="border rounded-lg px-4 py-2"
+                    className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Consumable Name"
                   />
 
@@ -318,35 +319,37 @@ const isViewer =
                     onChange={(e) =>
                       setEditingConsumable({ ...editingConsumable, department: e.target.value })
                     }
-                    className="border rounded-lg px-4 py-2"
+                    className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Department"
                   />
-<select
-  value={editingConsumable.category}
-  onChange={(e) =>
-    setEditingConsumable({
-      ...editingConsumable,
-      category: e.target.value,
-    })
-  }
-  className="border rounded-lg px-4 py-2"
->
-  <option>Computer Equipment</option>
-  <option>Networking Equipment</option>
-  <option>Office Equipment</option>
-  <option>Validators</option>
-  <option>Stationery</option>
-  <option>Spare Parts</option>
-  <option>Vehicle Consumables</option>
-  <option>Safety Equipment</option>
-</select>
+
+                  <select
+                    value={editingConsumable.category}
+                    onChange={(e) =>
+                      setEditingConsumable({
+                        ...editingConsumable,
+                        category: e.target.value,
+                      })
+                    }
+                    className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                  >
+                    <option>Computer Equipment</option>
+                    <option>Networking Equipment</option>
+                    <option>Office Equipment</option>
+                    <option>Validators</option>
+                    <option>Stationery</option>
+                    <option>Spare Parts</option>
+                    <option>Vehicle Consumables</option>
+                    <option>Safety Equipment</option>
+                  </select>
+
                   <input
                     type="number"
                     value={editingConsumable.quantity}
                     onChange={(e) =>
                       setEditingConsumable({ ...editingConsumable, quantity: Number(e.target.value) })
                     }
-                    className="border rounded-lg px-4 py-2"
+                    className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Quantity"
                   />
 
@@ -356,7 +359,7 @@ const isViewer =
                     onChange={(e) =>
                       setEditingConsumable({ ...editingConsumable, minimumStock: Number(e.target.value) })
                     }
-                    className="border rounded-lg px-4 py-2"
+                    className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Minimum Stock"
                   />
 
@@ -366,7 +369,7 @@ const isViewer =
                     onChange={(e) =>
                       setEditingConsumable({ ...editingConsumable, unitPrice: e.target.value })
                     }
-                    className="border rounded-lg px-4 py-2"
+                    className="border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     placeholder="Unit Price"
                   />
                 </div>
@@ -376,7 +379,7 @@ const isViewer =
             <div className="flex justify-end gap-3 mt-8">
               <button
                 onClick={() => setEditingConsumable(null)}
-                className="px-4 py-2 border rounded-lg hover:bg-gray-50"
+                className="px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
               >
                 Cancel
               </button>

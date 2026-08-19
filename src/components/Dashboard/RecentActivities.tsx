@@ -31,14 +31,14 @@ export default function RecentActivities({
 
     let icon = <Package size={16} />;
     let color =
-      "bg-blue-100 text-blue-600";
+      "bg-blue-100 dark:bg-blue-900/30 text-blue-600";
     let title = transaction.type;
 
     switch (transaction.type) {
   case "Purchase":
     icon = <Package size={16} />;
     color =
-      "bg-blue-100 text-blue-600";
+      "bg-blue-100 dark:bg-blue-900/30 text-blue-600";
 
     title = `${assetName} was added to inventory`;
     break;
@@ -46,7 +46,7 @@ export default function RecentActivities({
   case "Assignment":
     icon = <UserPlus size={16} />;
     color =
-      "bg-green-100 text-green-600";
+      "bg-green-100 dark:bg-green-900/30 text-green-600";
 
     title = `${assetName} was assigned`;
     break;
@@ -54,7 +54,7 @@ export default function RecentActivities({
   case "Maintenance":
     icon = <Wrench size={16} />;
     color =
-      "bg-orange-100 text-orange-600";
+      "bg-orange-100 dark:bg-orange-900/30 text-orange-600";
 
     title = `${assetName} was sent for maintenance`;
     break;
@@ -62,7 +62,7 @@ export default function RecentActivities({
   case "Return":
     icon = <Package size={16} />;
     color =
-      "bg-cyan-100 text-cyan-600";
+      "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600";
 
     title = `${assetName} was returned to inventory`;
     break;
@@ -70,7 +70,7 @@ export default function RecentActivities({
   case "Disposal":
     icon = <Truck size={16} />;
     color =
-      "bg-red-100 text-red-600";
+      "bg-red-100 dark:bg-red-900/30 text-red-600";
 
     title = `${assetName} was disposed`;
     break;
@@ -90,8 +90,8 @@ export default function RecentActivities({
   
 
   return (
-    <div className="bg-white rounded-2xl p-5 border shadow-sm">
-      <h2 className="text-lg font-semibold mb-4">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
+      <h2 className="mb-4 text-lg font-semibold text-gray-900 dark:text-white">
         Recent Activities
       </h2>
 
@@ -108,11 +108,11 @@ export default function RecentActivities({
             </div>
 
             <div>
-              <p className="text-sm font-medium">
+              <p className="text-sm font-medium text-gray-900 dark:text-white">
                 {activity.title}
               </p>
 
-              <p className="text-xs text-gray-500">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 {activity.time}
               </p>
             </div>

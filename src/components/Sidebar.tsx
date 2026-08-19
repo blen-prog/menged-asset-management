@@ -155,13 +155,25 @@ const initials = user?.name
   Consumables
 </NavLink>
 
-            <div className="flex items-center gap-2 py-1 cursor-pointer hover:text-white">
-              <Car size={14} />
-              Vehicles
-            </div>
+<NavLink
+  to="/vehicles"
+  className={({ isActive }) =>
+    `flex items-center gap-2 py-1 ${
+      isActive
+        ? "text-white font-semibold"
+        : "text-gray-300"
+    } hover:text-white`
+  }
+>
+  <Car size={14} />
+  Vehicles
+</NavLink>
+
+      
 
               </div>
 )}
+
 
           
     

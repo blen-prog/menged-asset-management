@@ -9,54 +9,69 @@ import Dashboard from "./pages/Dashboard";
 import AllItems from "./pages/Inventory/AllItems";
 import Assets from "./pages/Inventory/Assets";
 import Consumables from "./pages/Inventory/Consumables";
+import Vehicles from "./pages/Inventory/Vehicles";
 import Categories from "./pages/Inventory/Categories";
 
 import Departments from "./pages/Departments";
 import Users from "./pages/Users";
 import Reports from "./pages/Reports";
 import Transactions from "./pages/Transactions";
-import TransactionDetails from "./components/TransactionDetails";
 import Employees from "./pages/Employees";
 import Suppliers from "./pages/Suppliers";
 import Settings from "./pages/Settings";
-import Maintenance from "./pages/Mainteinance";
+import Maintenance from "./pages/Maintenance";
 import Requests from "./pages/Requests";
 
 import { inventoryItems } from "./data/inventoryData";
 import { usersData } from "./data/usersData";
 import { initialTransactions } from "./data/transactionsData";
 
+import type {
+  InventoryItem,
+  User,
+  Transaction,
+  Request,
+} from "./types/models";
 
 function App() {
-  const [transactions, setTransactions] =
-    useState(initialTransactions);
-
-  const [users, setUsers] =
-    useState(usersData);
-
-  const [requests, setRequests] =
-    useState([]);
+  // =========================================================
+  // GLOBAL APPLICATION STATE
+  // =========================================================
 
   const [items, setItems] =
-    useState(inventoryItems);
+    useState<InventoryItem[]>(inventoryItems);
 
+  const [transactions, setTransactions] =
+    useState<Transaction[]>(initialTransactions);
+
+  const [users, setUsers] =
+    useState<User[]>(usersData);
+
+  const [requests, setRequests] =
+    useState<Request[]>([]);
 
   // =========================================================
   // GLOBAL THEME
   // =========================================================
+
   useEffect(() => {
     const savedSettings =
       localStorage.getItem("menged-settings");
 
     if (savedSettings) {
       try {
-        const parsedSettings =
-          JSON.parse(savedSettings);
+        const parsedSettings = JSON.parse(
+          savedSettings
+        );
 
         if (parsedSettings.theme === "dark") {
-          document.documentElement.classList.add("dark");
+          document.documentElement.classList.add(
+            "dark"
+          );
         } else {
-          document.documentElement.classList.remove("dark");
+          document.documentElement.classList.remove(
+            "dark"
+          );
         }
       } catch (error) {
         console.error(
@@ -64,18 +79,24 @@ function App() {
           error
         );
 
-        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.remove(
+          "dark"
+        );
       }
     } else {
       // Default theme
-      document.documentElement.classList.remove("dark");
+      document.documentElement.classList.remove(
+        "dark"
+      );
     }
   }, []);
 
+  // =========================================================
+  // ROUTES
+  // =========================================================
 
   return (
     <Routes>
-
       {/* =====================================================
           LOGIN
       ===================================================== */}
@@ -84,7 +105,6 @@ function App() {
         path="/login"
         element={<Login />}
       />
-
 
       {/* =====================================================
           PROTECTED APPLICATION
@@ -97,7 +117,6 @@ function App() {
           </ProtectedRoute>
         }
       >
-
         {/* ===================================================
             DASHBOARD
         =================================================== */}
@@ -111,7 +130,6 @@ function App() {
             />
           }
         />
-
 
         {/* ===================================================
             INVENTORY
@@ -148,6 +166,11 @@ function App() {
         />
 
         <Route
+          path="/vehicles"
+          element={<Vehicles />}
+        />
+
+        <Route
           path="/categories"
           element={
             <Categories
@@ -155,7 +178,6 @@ function App() {
             />
           }
         />
-
 
         {/* ===================================================
             DEPARTMENTS
@@ -171,18 +193,14 @@ function App() {
           }
         />
 
-
         {/* ===================================================
             SUPPLIERS
         =================================================== */}
 
         <Route
           path="/suppliers"
-          element={
-            <Suppliers />
-          }
+          element={<Suppliers />}
         />
-
 
         {/* ===================================================
             USERS
@@ -197,7 +215,6 @@ function App() {
             />
           }
         />
-
 
         {/* ===================================================
             TRANSACTIONS
@@ -214,7 +231,6 @@ function App() {
           }
         />
 
-
         {/* ===================================================
             REQUESTS
         =================================================== */}
@@ -230,18 +246,14 @@ function App() {
           }
         />
 
-
         {/* ===================================================
             EMPLOYEES
         =================================================== */}
 
         <Route
           path="/employees"
-          element={
-            <Employees />
-          }
+          element={<Employees />}
         />
-
 
         {/* ===================================================
             REPORTS
@@ -256,18 +268,14 @@ function App() {
           }
         />
 
-
         {/* ===================================================
             SETTINGS
         =================================================== */}
 
         <Route
           path="/settings"
-          element={
-            <Settings />
-          }
+          element={<Settings />}
         />
-
 
         {/* ===================================================
             MAINTENANCE
@@ -281,12 +289,9 @@ function App() {
             />
           }
         />
-
       </Route>
-
     </Routes>
   );
 }
-
 
 export default App;

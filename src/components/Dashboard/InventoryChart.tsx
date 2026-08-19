@@ -56,14 +56,14 @@ return acc;
 
 
   return (
-    <div className="bg-white rounded-2xl p-5 border shadow-sm">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
       <div className="flex justify-between items-center mb-4">
         <div>
-       <p className="text-xl font-bold text-gray-900">
+       <p className="text-xl font-bold text-gray-900 dark:text-white">
   Total asset items grouped by category
 </p>
 
-          <p className="text-l text-gray-500">
+          <p className="text-lg text-gray-500 dark:text-gray-400">
             Total asset per category
           </p>
         </div>
@@ -72,19 +72,32 @@ return acc;
       <div className="h-80">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={data}>
-  <CartesianGrid strokeDasharray="3 3" />
+  <CartesianGrid
+  strokeDasharray="3 3"
+  stroke="#374151"
+/>
 
   <XAxis
-    dataKey="name"
-    interval={0}
-    fontSize={14}
-  />
+  dataKey="name"
+  interval={0}
+  fontSize={14}
+  tick={{ fill: "#9CA3AF" }}
+/>
 
-  <YAxis />
+  <YAxis
+  tick={{ fill: "#9CA3AF" }}
+/>
 
   <Tooltip
   formatter={(value) => [value, "Asset Count"]}
+  contentStyle={{
+    backgroundColor: "#1F2937",
+    border: "1px solid #374151",
+    borderRadius: "8px",
+    color: "#fff",
+  }}
 />
+
 
   <Bar
   dataKey="assetCount"

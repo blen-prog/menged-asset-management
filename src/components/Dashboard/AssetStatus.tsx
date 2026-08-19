@@ -52,12 +52,12 @@ const data = [
   );
 
   return (
-    <div className="bg-white rounded-2xl p-5 border shadow-sm">
-      <h2 className="text-lg font-semibold">
+    <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-5 shadow-sm">
+      <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
         Asset Status
       </h2>
 
-      <p className="text-sm text-gray-500 mb-4">
+      <p className="mb-4 text-sm text-gray-500 dark:text-gray-400">
         Distribution across assets
       </p>
 
@@ -84,9 +84,9 @@ const data = [
       <div className="space-y-2 mt-2">
         {data.map((item) => (
           <div
-            key={item.name}
-            className="flex items-center justify-between text-sm"
-          >
+  key={item.name}
+  className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300"
+>
             <div className="flex items-center gap-2">
               <div
                 className="w-3 h-3 rounded-full"
@@ -98,7 +98,7 @@ const data = [
               <span>{item.name}</span>
             </div>
 
-            <span className="font-semibold">
+            <span className="font-semibold text-gray-900 dark:text-white">
               {total === 0 ? "0.0" : ((item.value / total) * 100).toFixed(1)}%
             </span>
           </div>

@@ -86,8 +86,8 @@ const selectedDepartmentInfo =
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold">Departments</h1>
-          <p className="text-gray-500">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Departments</h1>
+          <p className="text-gray-500 dark:text-gray-400">
             {departments.length} departments at Menged Solution PLC
           </p>
         </div>
@@ -95,7 +95,7 @@ const selectedDepartmentInfo =
         {!isViewer && (
   <button
   disabled
-  className="bg-gray-200 text-gray-500 px-4 py-2 rounded-xl cursor-not-allowed"
+  className="bg-gray-200 text-gray-500 dark:bg-gray-700 dark:text-gray-400 px-4 py-2 rounded-xl cursor-not-allowed"
 >
   Add Department (Coming Soon)
 </button>
@@ -108,19 +108,19 @@ const selectedDepartmentInfo =
           <div
   key={department.name}
   onClick={() => openDepartment(department.name)}
-  className="bg-white rounded-2xl border shadow-sm p-6 cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all"
+  className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm p-6 cursor-pointer hover:shadow-lg hover:-translate-y-1 transition-all"
 >
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gray-100 flex items-center justify-center">
-  <Building2 size={24} className="text-gray-700" />
+              <div className="w-12 h-12 rounded-xl bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+  <Building2 size={24} className="text-gray-700 dark:text-gray-300" />
 </div>
 
               <div>
-                <h3 className="text-xl font-semibold">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                   {department.name}
                 </h3>
 
-                <p className="text-gray-500">
+                <p className="text-gray-500 dark:text-gray-400">
                   Manager: {department.manager}
                 </p>
               </div>
@@ -133,7 +133,7 @@ const selectedDepartmentInfo =
                   Employees
                 </div>
 
-                <p className="font-bold text-2xl">
+                <p className="font-bold text-2xl text-gray-900 dark:text-white">
                   {department.employees}
                 </p>
               </div>
@@ -144,13 +144,13 @@ const selectedDepartmentInfo =
                   Assets
                 </div>
 
-                <p className="font-bold text-2xl">
+                <p className="font-bold text-2xl text-gray-900 dark:text-white">
                   {department.assets}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 mt-6 text-gray-500">
+            <div className="flex items-center gap-2 mt-6 text-gray-500 dark:text-gray-400">
               <MapPin size={15} />
               {department.location}
             </div>
@@ -163,39 +163,39 @@ const selectedDepartmentInfo =
     onClick={closeDepartment}
   >
     <div
-  className="bg-white rounded-2xl shadow-xl w-[90vw] max-w-7xl p-6"
+  className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-[90vw] max-w-7xl p-6"
   onClick={(e) => e.stopPropagation()}
 >
-      <h2 className="text-2xl font-bold">
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
   {selectedDepartment}
 </h2>
 
-<p className="text-gray-500">
+<p className="text-gray-500 dark:text-gray-400">
   Manager: {selectedDepartmentInfo?.manager}
 </p>
 
-<p className="text-gray-500">
+<p className="text-gray-500 dark:text-gray-400">
   Location: {selectedDepartmentInfo?.location}
 </p>
-<p className="text-gray-500">
+<p className="text-gray-500 dark:text-gray-400">
   Employees: {departmentUsers.length}
 </p>
 
-<p className="text-gray-500 mb-4">
+<p className="text-gray-500 dark:text-gray-400 mb-4">
   Assets: {departmentItems.length}
 </p>
 
-<p className="text-gray-500 mb-4">
+<p className="text-gray-500 dark:text-gray-400 mb-4">
   {departmentItems.length} total items
 </p>
-<h3 className="text-lg font-semibold mb-3">
+<h3 className="text-lg font-semibold mb-3 text-gray-900 dark:text-white">
   Department Employees
 </h3>
 
-<div className="overflow-auto border rounded-xl mb-6">
-  <table className="w-full text-sm">
+<div className="overflow-auto border border-gray-200 dark:border-gray-700 rounded-xl mb-6">
+  <table className="w-full text-sm text-gray-900 dark:text-gray-200">
     <thead>
-      <tr className="bg-gray-50">
+      <tr className="bg-gray-50 dark:bg-gray-700">
         <th className="p-3 text-left">ID</th>
         <th className="p-3 text-left">Name</th>
         <th className="p-3 text-left">Role</th>
@@ -208,7 +208,7 @@ const selectedDepartmentInfo =
       {departmentUsers.map((user) => (
         <tr
           key={user.id}
-          className="border-b hover:bg-gray-50"
+          className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
         >
           <td className="p-3">{user.id}</td>
           <td className="p-3">{user.name}</td>
@@ -228,15 +228,15 @@ const selectedDepartmentInfo =
     onChange={(e) =>
       setDepartmentSearch(e.target.value)
     }
-    className="w-full border rounded-xl px-4 py-2"
+    className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-xl px-4 py-2"
   />
 </div>
 
 
-  <div className="overflow-auto max-h-[500px] border rounded-xl mt-4">
-  <table className="w-full text-sm">
+  <div className="overflow-auto max-h-[500px] border border-gray-200 dark:border-gray-700 rounded-xl mt-4">
+  <table className="w-full text-sm text-gray-900 dark:text-gray-200">
     <thead>
-      <tr className="bg-gray-50 text-left">
+      <tr className="bg-gray-50 dark:bg-gray-700 text-left">
         <th className="p-3">ID</th>
         <th className="p-3">Item Name</th>
         <th className="p-3">Type</th>
@@ -255,7 +255,7 @@ const selectedDepartmentInfo =
   {filteredDepartmentItems.map((item) => (
     <tr
       key={item.id}
-      className="border-b hover:bg-gray-50"
+      className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
     >
       <td className="p-3">{item.id}</td>
 
@@ -265,8 +265,8 @@ const selectedDepartmentInfo =
         <span
           className={`px-3 py-1 rounded-full text-xs font-medium ${
             item.type === "Asset"
-              ? "bg-blue-100 text-blue-700"
-              : "bg-green-100 text-green-700"
+              ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
+              : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
           }`}
         >
           {item.type}
@@ -279,8 +279,8 @@ const selectedDepartmentInfo =
         <span
           className={`px-3 py-1 rounded-full text-xs font-medium ${
             item.purpose === "Office"
-              ? "bg-purple-100 text-purple-700"
-              : "bg-orange-100 text-orange-700"
+              ? "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-300"
+              : "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300"
           }`}
         >
           {item.purpose}
@@ -303,10 +303,10 @@ const selectedDepartmentInfo =
         <span
           className={`px-3 py-1 rounded-full text-xs font-medium ${
             item.quantity === 0
-              ? "bg-red-100 text-red-700"
+              ? "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300"
               : item.quantity <= item.minimumStock
-              ? "bg-yellow-100 text-yellow-700"
-              : "bg-green-100 text-green-700"
+              ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300"
+              : "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
           }`}
         >
           {item.quantity === 0
@@ -322,12 +322,12 @@ const selectedDepartmentInfo =
     <span
       className={`px-3 py-1 rounded-full text-xs font-medium ${
         item.assetStatus === "Assigned"
-          ? "bg-blue-100 text-blue-700"
+          ? "bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300"
           : item.assetStatus === "Available"
-          ? "bg-green-100 text-green-700"
+          ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300"
           : item.assetStatus === "Maintenance"
-          ? "bg-yellow-100 text-yellow-700"
-          : "bg-gray-100 text-gray-700"
+          ? "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300"
+          : "bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
       }`}
     >
       {item.assetStatus}
@@ -344,7 +344,7 @@ const selectedDepartmentInfo =
 <div className="flex justify-end mt-4">
   <button
     onClick={closeDepartment}
-    className="px-4 py-2 border rounded-lg"
+    className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700"
   >
     Close
   </button>

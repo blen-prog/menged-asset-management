@@ -9,7 +9,6 @@ export const usersData: User[] = [
     password: "john123",
     department: "Administration",
     role: "Administrator",
-    status: "Active",
     lastLogin: "2026-08-12 08:30",
   },
   {
@@ -20,7 +19,6 @@ export const usersData: User[] = [
     password: "sara123",
     department: "IT",
     role: "Viewer",
-    status: "Active",
     lastLogin: "2026-08-11 16:45",
   },
   {
@@ -31,7 +29,6 @@ export const usersData: User[] = [
   password: "abel123",
   department: "Operations",
   role: "Operations Manager",
-  status: "Active",
   lastLogin: "Never",
 },
 {
@@ -42,7 +39,6 @@ export const usersData: User[] = [
   password: "meron123",
   department: "Finance",
   role: "Finance Manager",
-  status: "Active",
   lastLogin: "Never",
 },
 {
@@ -53,7 +49,6 @@ export const usersData: User[] = [
   password: "hana123",
   department: "Finance",
   role: "Viewer",
-  status: "Active",
   lastLogin: "2026-08-10 10:20",
 },
 {
@@ -64,7 +59,6 @@ export const usersData: User[] = [
   password: "samuel123",
   department: "Operations",
   role: "Viewer",
-  status: "Active",
   lastLogin: "2026-08-12 14:45",
 },
 {
@@ -75,7 +69,6 @@ export const usersData: User[] = [
   password: "bethel123",
   department: " Purchasing",
   role: "Purchasing Manager",
-  status: "Active",
   lastLogin: "2026-08-11 09:30",
 },
 {
@@ -86,7 +79,6 @@ export const usersData: User[] = [
   password: "nathan123",
   department: "IT",
   role: "IT Manager",
-  status: "Active",
   lastLogin: "2026-08-12 11:15",
 },
 {
@@ -97,7 +89,6 @@ export const usersData: User[] = [
   password: "rahel123",
   department: "Purchasing",
   role: "Viewer",
-  status: "Active",
   lastLogin: "Never",
 },
 {
@@ -108,7 +99,6 @@ export const usersData: User[] = [
   password: "dawit123",
   department: "IT",
   role: "Viewer",
-  status: "Active",
   lastLogin: "2026-08-09 13:10",
 },
 

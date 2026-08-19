@@ -39,6 +39,5 @@ export interface User {
   password: string;
   department: string;
   role: string;
-  status: string;
   lastLogin: string;
 }

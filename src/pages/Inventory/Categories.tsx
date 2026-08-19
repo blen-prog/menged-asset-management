@@ -26,14 +26,14 @@ const CATEGORY_META = {
 };
 
 const COLOR_STYLES = {
-  blue: { bg: "bg-blue-50", text: "text-blue-600", ring: "group-hover:ring-blue-200" },
-  violet: { bg: "bg-violet-50", text: "text-violet-600", ring: "group-hover:ring-violet-200" },
-  amber: { bg: "bg-amber-50", text: "text-amber-600", ring: "group-hover:ring-amber-200" },
-  emerald: { bg: "bg-emerald-50", text: "text-emerald-600", ring: "group-hover:ring-emerald-200" },
-  pink: { bg: "bg-pink-50", text: "text-pink-600", ring: "group-hover:ring-pink-200" },
-  orange: { bg: "bg-orange-50", text: "text-orange-600", ring: "group-hover:ring-orange-200" },
-  cyan: { bg: "bg-cyan-50", text: "text-cyan-600", ring: "group-hover:ring-cyan-200" },
-  red: { bg: "bg-red-50", text: "text-red-600", ring: "group-hover:ring-red-200" },
+  blue: { bg: "bg-blue-50 dark:bg-blue-900/20", text: "text-blue-600 dark:text-blue-400", ring: "group-hover:ring-blue-200" },
+  violet: { bg: "bg-violet-50 dark:bg-violet-900/20", text: "text-violet-600 dark:text-violet-400", ring: "group-hover:ring-violet-200" },
+  amber: { bg: "bg-amber-50 dark:bg-amber-900/20", text: "text-amber-600 dark:text-amber-400", ring: "group-hover:ring-amber-200" },
+  emerald: { bg: "bg-emerald-50 dark:bg-emerald-900/20", text: "text-emerald-600 dark:text-emerald-400", ring: "group-hover:ring-emerald-200" },
+  pink: { bg: "bg-pink-50 dark:bg-pink-900/20", text: "text-pink-600 dark:text-pink-400", ring: "group-hover:ring-pink-200" },
+  orange: { bg: "bg-orange-50 dark:bg-orange-900/20", text: "text-orange-600 dark:text-orange-400", ring: "group-hover:ring-orange-200" },
+  cyan: { bg: "bg-cyan-50 dark:bg-cyan-900/20", text: "text-cyan-600 dark:text-cyan-400", ring: "group-hover:ring-cyan-200" },
+  red: { bg: "bg-red-50 dark:bg-red-900/20", text: "text-red-600 dark:text-red-400", ring: "group-hover:ring-red-200" },
 };
 
 // Fields that only make sense for Assets (not Consumables).
@@ -59,7 +59,7 @@ function TypeBadge({ type }) {
   return (
     <span
       className={`px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-        isAsset ? "bg-blue-50 text-blue-600" : "bg-emerald-50 text-emerald-600"
+        isAsset ? "bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400" : "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400"
       }`}
     >
       {type}
@@ -69,13 +69,13 @@ function TypeBadge({ type }) {
 
 function PurposeBadge({ purpose }) {
   const styles = {
-    Office: "bg-violet-50 text-violet-600",
-    Vehicle: "bg-orange-50 text-orange-600",
+    Office: "bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400",
+    Vehicle: "bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400",
   };
   return (
     <span
       className={`px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-        styles[purpose] || "bg-gray-100 text-gray-600"
+        styles[purpose] || "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
       }`}
     >
       {purpose ?? "-"}
@@ -92,14 +92,14 @@ function getStockStatus(item) {
 
 function StatusBadge({ status }) {
   const styles = {
-    "In Stock": "bg-emerald-50 text-emerald-600",
-    "Low Stock": "bg-amber-50 text-amber-600",
-    "Out of Stock": "bg-red-50 text-red-600",
+    "In Stock": "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400",
+    "Low Stock": "bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400",
+    "Out of Stock": "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400",
   };
   return (
     <span
       className={`px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${
-        styles[status] || "bg-gray-100 text-gray-600"
+        styles[status] || "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
       }`}
     >
       {status}
@@ -165,8 +165,8 @@ export default function Categories({ items }) {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <div className="flex flex-col gap-1 mb-6">
-        <h1 className="text-3xl font-bold text-gray-900">Categories</h1>
-        <p className="text-gray-500">Browse inventory by category</p>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Categories</h1>
+        <p className="text-gray-500 dark:text-gray-400">Browse inventory by category</p>
       </div>
 
       {/* Search bar */}
@@ -177,8 +177,8 @@ export default function Categories({ items }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search categories..."
-          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 bg-white
-                     text-sm text-gray-700 placeholder-gray-400 shadow-sm
+          className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800
+                     text-sm text-gray-700 dark:text-gray-200 placeholder-gray-400 shadow-sm
                      focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400
                      transition-all"
         />
@@ -196,12 +196,12 @@ export default function Categories({ items }) {
               <div
                 key={category.name}
                 onClick={() => openCategory(category.name)}
-                className={`group bg-white rounded-2xl border border-gray-100 shadow-sm p-5
+                className={`group bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm p-5
                             hover:shadow-lg hover:-translate-y-1 hover:ring-2 ${styles.ring}
                             transition-all duration-200 cursor-pointer active:scale-[0.98]`}
               >
                 <div className="flex items-center justify-between">
-                  <h3 className="font-semibold text-lg text-gray-900">
+                  <h3 className="font-semibold text-lg text-gray-900 dark:text-white">
                     {category.name}
                   </h3>
                   <div className={`${styles.bg} ${styles.text} p-2 rounded-xl`}>
@@ -209,17 +209,17 @@ export default function Categories({ items }) {
                   </div>
                 </div>
 
-                <p className="text-3xl font-bold mt-4 text-gray-900">
+                <p className="text-3xl font-bold mt-4 text-gray-900 dark:text-white">
                   {category.count}
                 </p>
                 <p className="text-gray-400 text-sm">Total Items</p>
 
-                <div className="mt-4 pt-4 border-t border-gray-100 flex justify-between text-sm">
-                  <span className="text-gray-600">
-                    <span className="font-semibold text-gray-900">{category.assets}</span> Assets
+                <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between text-sm">
+                  <span className="text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-gray-900 dark:text-white">{category.assets}</span> Assets
                   </span>
-                  <span className="text-gray-600">
-                    <span className="font-semibold text-gray-900">{category.consumables}</span> Consumables
+                  <span className="text-gray-600 dark:text-gray-300">
+                    <span className="font-semibold text-gray-900 dark:text-white">{category.consumables}</span> Consumables
                   </span>
                 </div>
               </div>
@@ -240,11 +240,11 @@ export default function Categories({ items }) {
           onClick={closeModal}
         >
           <div
-            className="bg-white rounded-2xl shadow-xl w-full max-w-6xl max-h-[85vh] flex flex-col overflow-hidden"
+            className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl w-full max-w-6xl max-h-[85vh] flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+            <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100 dark:border-gray-700">
               <div className="flex items-center gap-3">
                 {(() => {
                   const meta = CATEGORY_META[selected] || { icon: Package, color: "blue" };
@@ -257,13 +257,13 @@ export default function Categories({ items }) {
                   );
                 })()}
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">{selected}</h2>
-                  <p className="text-sm text-gray-500">{modalItems.length} total items</p>
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white">{selected}</h2>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">{modalItems.length} total items</p>
                 </div>
               </div>
               <button
                 onClick={closeModal}
-                className="p-2 rounded-full hover:bg-gray-100 text-gray-400 hover:text-gray-700 transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors"
               >
                 <X size={20} />
               </button>
@@ -278,8 +278,8 @@ export default function Categories({ items }) {
                   value={itemQuery}
                   onChange={(e) => setItemQuery(e.target.value)}
                   placeholder="Search by name, ID, serial, or department..."
-                  className="w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 bg-white
-                             text-sm text-gray-700 placeholder-gray-400
+                  className="w-full pl-9 pr-3 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-700
+                             text-sm text-gray-700 dark:text-gray-200 placeholder-gray-400
                              focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-400
                              transition-all"
                 />
@@ -290,7 +290,7 @@ export default function Categories({ items }) {
             <div className="overflow-auto px-6 py-4 flex-1">
               <table className="w-full text-sm border-separate border-spacing-0">
                 <thead>
-                  <tr className="bg-gray-50 text-left text-gray-500 sticky top-0 z-10">
+                  <tr className="bg-gray-50 dark:bg-gray-700 text-left text-gray-500 dark:text-gray-300 sticky top-0 z-10">
                     <th className="px-4 py-3 font-semibold whitespace-nowrap">ID</th>
                     <th className="px-4 py-3 font-semibold whitespace-nowrap">Item Name</th>
                     <th className="px-4 py-3 font-semibold whitespace-nowrap">Type</th>
@@ -309,28 +309,28 @@ export default function Categories({ items }) {
                     filteredModalItems.map((item, i) => (
                       <tr
                         key={item.id ?? i}
-                        className="border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors"
+                        className="border-b border-gray-50 dark:border-gray-700 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
                       >
-                        <td className="px-4 py-3 text-gray-500 whitespace-nowrap">{item.id ?? "-"}</td>
-                        <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap">
+                        <td className="px-4 py-3 text-gray-500 dark:text-gray-400 whitespace-nowrap">{item.id ?? "-"}</td>
+                        <td className="px-4 py-3 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                           {item.name ?? "-"}
                         </td>
                         <td className="px-4 py-3">
                           <TypeBadge type={item.type} />
                         </td>
-                        <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{item.category ?? "-"}</td>
+                        <td className="px-4 py-3 text-gray-600 dark:text-gray-300 whitespace-nowrap">{item.category ?? "-"}</td>
                         <td className="px-4 py-3">
                           <PurposeBadge purpose={item.purpose} />
                         </td>
-                        <td className="px-4 py-3 text-gray-600 whitespace-nowrap">{item.department ?? "-"}</td>
-                        <td className="px-4 py-3 text-gray-700">{item.quantity ?? "-"}</td>
-                        <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+                        <td className="px-4 py-3 text-gray-600 dark:text-gray-300 whitespace-nowrap">{item.department ?? "-"}</td>
+                        <td className="px-4 py-3 text-gray-700 dark:text-gray-300">{item.quantity ?? "-"}</td>
+                        <td className="px-4 py-3 text-gray-500 dark:text-gray-400 whitespace-nowrap">
                           {getAssetOnlyValue(item, "serialNumber")}
                         </td>
-                        <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+                        <td className="px-4 py-3 text-gray-500 dark:text-gray-400 whitespace-nowrap">
                           {item.purchaseDate || "-"}
                         </td>
-                        <td className="px-4 py-3 font-semibold text-gray-900 whitespace-nowrap">
+                        <td className="px-4 py-3 font-semibold text-gray-900 dark:text-white whitespace-nowrap">
                           {item.unitPrice ?? "-"}
                         </td>
                         <td className="px-4 py-3">
