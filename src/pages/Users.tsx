@@ -218,7 +218,7 @@ const handleUpdateUser = () => {
             {filteredUsers.length === 0 && (
   <tr>
     <td
-      colSpan="9"
+      colSpan={9}
       className="text-center py-8 text-gray-500"
     >
       No users found

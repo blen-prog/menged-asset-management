@@ -14,9 +14,14 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import type { InventoryItem } from "../types/models";
 
+interface ReportDatum {
+  name: string;
+  value: number;
+}
 
-export default function Reports({ items }) {
+export default function Reports({ items }: { items: InventoryItem[] }) {
   const formatCurrency = (value) => {
   if (value >= 1_000_000_000) {
     return `ETB ${(value / 1_000_000_000).toFixed(2)}B`;
@@ -119,7 +124,7 @@ const currentYearSpending = items
       acc[item.category].value += value;
 
       return acc;
-    }, {})
+    }, {} as Record<string, ReportDatum>)
   );
 
   const departmentData = Object.values(
@@ -137,7 +142,7 @@ const currentYearSpending = items
       acc[item.department].value += value;
 
       return acc;
-    }, {})
+    }, {} as Record<string, ReportDatum>)
   );
   const totalDepartmentValue =
   departmentData.reduce(
@@ -160,7 +165,7 @@ const currentYearSpending = items
     acc[item.department].value += value;
 
     return acc;
-  }, {})
+  }, {} as Record<string, ReportDatum>)
 ).sort((a, b) => b.value - a.value);
 
 

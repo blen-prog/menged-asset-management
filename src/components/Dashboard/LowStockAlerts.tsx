@@ -1,7 +1,12 @@
 import { AlertTriangle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import type { InventoryItem } from "../../types/models";
 
-export default function LowStockAlerts({ items }) {
+interface LowStockAlertsProps {
+  items: InventoryItem[];
+}
+
+export default function LowStockAlerts({ items }: LowStockAlertsProps) {
   const navigate = useNavigate();
   const lowStockItems = items
   .filter(

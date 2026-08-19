@@ -10,8 +10,9 @@ import fuelFilterImg from "../assets/item-images/Fuel-filter.jfif";
 import routerImg from "../assets/item-images/Router.jpg";
 import safetyVestImg from "../assets/item-images/Safety-vest.jpg";
 import printerImg from "../assets/item-images/Printer.jpg";
+import type { InventoryItem } from "../types/models";
 
-export const inventoryItems = [
+export const inventoryItems: InventoryItem[] = [
   {
     
   id: "ITM-001",

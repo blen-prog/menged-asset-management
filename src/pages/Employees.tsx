@@ -1,48 +1,62 @@
 import { useState } from "react";
+import { initialEmployees } from "../data/employeesData";
 
-import { initialSuppliers } from "../data/suppliersData";
 import {
   Search,
   Plus,
   Phone,
   Mail,
-  MapPin,
   MoreHorizontal,
   Eye,
   Pencil,
   History,
   X,
-  Truck,
+  Users,
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
 
 
 // ======================================================
-// SUPPLIERS PAGE
+// SAMPLE EMPLOYEE DATA
 // ======================================================
 
-export default function Suppliers() {
+
+
+
+// ======================================================
+// EMPLOYEES PAGE
+// ======================================================
+
+export default function Employees() {
 
 
 
 
-  const [suppliers, setSuppliers] =
-  useState(initialSuppliers);
-    const totalSuppliers = suppliers.length;
+  const [employees] = useState(initialEmployees);
+    const totalEmployees = employees.length;
 
+const activeEmployees = employees.filter(
+  (emp) => emp.status === "Active"
+).length;
 
-const categories = new Set(
-  suppliers.map((sup) => sup.category)
+const inactiveEmployees = employees.filter(
+  (emp) => emp.status === "Inactive"
+).length;
+
+const departments = new Set(
+  employees.map((emp) => emp.department)
 ).size;
 
   const [search, setSearch] = useState("");
 
-  const [categoryFilter, setCategoryFilter] =
+  const [departmentFilter, setDepartmentFilter] =
     useState("All");
 
+  const [statusFilter, setStatusFilter] =
+    useState("All");
 
-  const [selectedSupplier, setSelectedSupplier] =
+  const [selectedEmployee, setSelectedEmployee] =
     useState(null);
 
   const [openMenu, setOpenMenu] =
@@ -54,49 +68,50 @@ const categories = new Set(
   const [currentPage, setCurrentPage] =
     useState(1);
 
-  const suppliersPerPage = 10;
-  const [editingSupplier, setEditingSupplier] =
-  useState(null);
+  const employeesPerPage = 10;
 
 
   // ======================================================
   // SEARCH + FILTER
   // ======================================================
 
-  const filteredSuppliers = suppliers.filter(
-    (supplier) => {
+  const filteredEmployees = employees.filter(
+    (employee) => {
       const searchValue =
         search.toLowerCase().trim();
 
       const matchesSearch =
-  supplier.companyName
+  `${employee.firstName} ${employee.lastName}`
     .toLowerCase()
     .includes(searchValue) ||
-  supplier.id
+  employee.id
     .toLowerCase()
     .includes(searchValue) ||
-  supplier.supplierNumber
+  employee.employeeNumber
     .toLowerCase()
     .includes(searchValue) ||
-  supplier.contactPerson
+  employee.department
     .toLowerCase()
     .includes(searchValue) ||
-  supplier.category
+  employee.position
     .toLowerCase()
     .includes(searchValue) ||
-  supplier.email
+  employee.email
     .toLowerCase()
     .includes(searchValue);
 
-      const matchesCategory =
-        categoryFilter === "All" ||
-        supplier.category === categoryFilter;
+      const matchesDepartment =
+        departmentFilter === "All" ||
+        employee.department === departmentFilter;
 
+      const matchesStatus =
+        statusFilter === "All" ||
+        employee.status === statusFilter;
 
       return (
         matchesSearch &&
-        matchesCategory 
-        
+        matchesDepartment &&
+        matchesStatus
       );
     }
   );
@@ -107,18 +122,18 @@ const categories = new Set(
   // ======================================================
 
   const totalPages = Math.ceil(
-    filteredSuppliers.length /
-      suppliersPerPage
+    filteredEmployees.length /
+      employeesPerPage
   );
 
   const startIndex =
     (currentPage - 1) *
-    suppliersPerPage;
+    employeesPerPage;
 
-  const currentSuppliers =
-    filteredSuppliers.slice(
+  const currentEmployees =
+    filteredEmployees.slice(
       startIndex,
-      startIndex + suppliersPerPage
+      startIndex + employeesPerPage
     );
 
 
@@ -131,32 +146,34 @@ const categories = new Set(
     setCurrentPage(1);
   };
 
-  const handleCategoryFilter = (value) => {
-    setCategoryFilter(value);
+  const handleDepartmentFilter = (value) => {
+    setDepartmentFilter(value);
+    setCurrentPage(1);
+  };
+
+  const handleStatusFilter = (value) => {
+    setStatusFilter(value);
     setCurrentPage(1);
   };
 
 
   // ======================================================
-  // CATEGORY STYLE
+  // ROLE STYLE
   // ======================================================
 
-  const getCategoryStyle = (category) => {
-    switch (category) {
-      case "Raw Materials":
+  const getRoleStyle = (role) => {
+    switch (role) {
+      case "Administrator":
         return "bg-purple-50 text-purple-700 border-purple-100";
 
-      case "Packaging":
+      case "Inventory Manager":
         return "bg-blue-50 text-blue-700 border-blue-100";
 
-      case "Equipment":
+      case "Maintenance":
         return "bg-amber-50 text-amber-700 border-amber-100";
 
-      case "Logistics":
+      case "Driver":
         return "bg-green-50 text-green-700 border-green-100";
-
-      case "Services":
-        return "bg-pink-50 text-pink-700 border-pink-100";
 
       default:
         return "bg-gray-50 text-gray-600 border-gray-100";
@@ -164,7 +181,17 @@ const categories = new Set(
   };
 
 
+  // ======================================================
+  // STATUS STYLE
+  // ======================================================
 
+  const getStatusStyle = (status) => {
+    if (status === "Active") {
+      return "bg-green-50 text-green-700";
+    }
+
+    return "bg-red-50 text-red-600";
+  };
 
 
   // ======================================================
@@ -198,11 +225,11 @@ const categories = new Set(
         <div>
 
           <h1 className="text-3xl font-bold text-gray-800">
-            Suppliers
+            Employees
           </h1>
 
           <p className="text-sm text-gray-500 mt-1">
-            Manage suppliers and information
+            Manage employees and information
           </p>
 
         </div>
@@ -218,7 +245,7 @@ const categories = new Set(
 
           <Plus size={18} />
 
-          Add Supplier
+          Add Employee
 
         </button>
 
@@ -226,15 +253,23 @@ const categories = new Set(
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
 <StatCard
-  title="Total Suppliers"
-  value={totalSuppliers}
+  title="Total Employees"
+  value={totalEmployees}
 />
 
-
+<StatCard
+  title="Active Employees"
+  value={activeEmployees}
+/>
 
 <StatCard
-  title="Categories"
-  value={categories}
+  title="Inactive Employees"
+  value={inactiveEmployees}
+/>
+
+<StatCard
+  title="Departments"
+  value={departments}
 />
 </div>
 
@@ -257,7 +292,7 @@ const categories = new Set(
 
           <input
             type="text"
-            placeholder="Search suppliers..."
+            placeholder="Search employees..."
             value={search}
             onChange={(e) =>
               handleSearch(e.target.value)
@@ -268,44 +303,66 @@ const categories = new Set(
         </div>
 
 
-        {/* CATEGORY */}
+        {/* DEPARTMENT */}
 
         <select
-          value={categoryFilter}
+          value={departmentFilter}
           onChange={(e) =>
-            handleCategoryFilter(e.target.value)
+            handleDepartmentFilter(e.target.value)
           }
           className="h-14 lg:w-56 px-4 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-gray-600"
         >
 
          <option value="All">
-  All Categories
+  All Departments
 </option>
 
-<option value="Raw Materials">
-  Raw Materials
+<option value="Administration">
+  Administration
 </option>
 
-<option value="Packaging">
-  Packaging
+<option value="Operations">
+  Operations
 </option>
 
-<option value="Logistics">
-  Logistics
+<option value="IT">
+  IT
 </option>
 
-<option value="Equipment">
-  Equipment
+<option value="HR">
+  HR
 </option>
 
-<option value="Services">
-  Services
+<option value="Finance">
+  Finance
 </option>
 
         </select>
 
 
-       
+        {/* STATUS */}
+
+        <select
+          value={statusFilter}
+          onChange={(e) =>
+            handleStatusFilter(e.target.value)
+          }
+          className="h-14 lg:w-48 px-4 bg-white border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-indigo-500 text-gray-600"
+        >
+
+          <option value="All">
+            All Status
+          </option>
+
+          <option value="Active">
+            Active
+          </option>
+
+          <option value="Inactive">
+            Inactive
+          </option>
+
+        </select>
 
       </div>
 
@@ -327,19 +384,19 @@ const categories = new Set(
               <tr>
 
                 <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
-                  Supplier
+                  Employee
                 </th>
 
                 <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
-                  Supplier No
+                  Employee No
                 </th>
 
                 <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
-                  Category
+                  Department
                 </th>
 
                 <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
-                  Contact Person
+                  Position
                 </th>
 
                 <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
@@ -349,7 +406,9 @@ const categories = new Set(
   Email
 </th>
 
-                
+                <th className="text-left px-5 py-4 text-xs font-medium tracking-wide text-gray-500 uppercase">
+                  Status
+                </th>
 
                 <th className="w-16 px-4 py-4" />
 
@@ -362,18 +421,18 @@ const categories = new Set(
 
             <tbody>
 
-              {currentSuppliers.length > 0 ? (
+              {currentEmployees.length > 0 ? (
 
-                currentSuppliers.map(
-                  (supplier, index) => {
+                currentEmployees.map(
+                  (employee, index) => {
 
                     const initials =
-                      supplier.companyName
+                      `${employee.firstName} ${employee.lastName}`
 
                         .split(" ")
                         .map(
-                          (word) =>
-                            word[0]
+                          (name) =>
+                            name[0]
                         )
                         .join("")
                         .slice(0, 2)
@@ -383,18 +442,18 @@ const categories = new Set(
                     return (
 
                       <tr
-                        key={supplier.id}
+                        key={employee.id}
                         className="border-t border-gray-100 transition-colors hover:bg-indigo-50/30"
                       >
 
-                        {/* SUPPLIER */}
+                        {/* EMPLOYEE */}
 
                         <td className="px-5 py-5">
 
                           <button
                             onClick={() =>
-                              setSelectedSupplier(
-                                supplier
+                              setSelectedEmployee(
+                                employee
                               )
                             }
                             className="flex items-center gap-3 text-left group"
@@ -419,11 +478,11 @@ const categories = new Set(
                             <div>
 
                               <p className="font-semibold text-gray-800 group-hover:text-indigo-700 transition-colors">
-                                {supplier.companyName}
+                                {`${employee.firstName} ${employee.lastName}`}
                               </p>
 
                               <p className="text-xs text-gray-400 mt-1">
-                                {supplier.id}
+                                {employee.id}
                               </p>
 
                             </div>
@@ -434,7 +493,7 @@ const categories = new Set(
 
                         <td className="px-5 py-5">
   <span className="text-gray-700 font-medium">
-    {supplier.supplierNumber}
+    {employee.employeeNumber}
   </span>
 </td>
 
@@ -442,7 +501,7 @@ const categories = new Set(
 
 
 
-                        {/* CATEGORY */}
+                        {/* ROLE */}
 
                         <td className="px-5 py-5">
 
@@ -457,19 +516,29 @@ const categories = new Set(
                               text-xs
                               font-medium
                               whitespace-nowrap
-                              ${getCategoryStyle(
-                                supplier.category
+                              ${getRoleStyle(
+                                employee.department
                               )}
                             `}
                           >
-                            {supplier.category}
+                            {employee.department}
                           </span>
 
                         </td>
 
                         <td className="px-5 py-5">
-  <span className="text-gray-700">
-    {supplier.contactPerson}
+  <span className={`
+    inline-flex
+    items-center
+    px-3
+    py-1.5
+    rounded-full
+    border
+    text-xs
+    font-medium
+    ${getRoleStyle(employee.position)}
+  `}>
+    {employee.position}
   </span>
 </td>
 
@@ -479,12 +548,12 @@ const categories = new Set(
                         <td className="px-5 py-5">
 
                           <a
-                            href={`tel:${supplier.phone.replace(
+                            href={`tel:${employee.phone.replace(
                               /\s/g,
                               ""
                             )}`}
                             className="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-700 transition-colors whitespace-nowrap"
-                            title="Call supplier"
+                            title="Call employee"
                           >
 
                             <Phone
@@ -492,7 +561,7 @@ const categories = new Set(
                               className="text-gray-400"
                             />
 
-                            {supplier.phone}
+                            {employee.phone}
 
                           </a>
 
@@ -504,7 +573,7 @@ const categories = new Set(
                         <td className="px-5 py-5">
 
                           <a
-                            href={`mailto:${supplier.email}`}
+                            href={`mailto:${employee.email}`}
                             className="inline-flex items-center gap-2 text-gray-600 hover:text-indigo-700 transition-colors whitespace-nowrap"
                             title="Send email"
                           >
@@ -514,12 +583,52 @@ const categories = new Set(
                               className="text-gray-400"
                             />
 
-                            {supplier.email}
+                            {employee.email}
 
                           </a>
 
                         </td>
 
+
+                        {/* STATUS */}
+
+                        <td className="px-5 py-5">
+
+                          <span
+                            className={`
+                              inline-flex
+                              items-center
+                              gap-2
+                              px-3
+                              py-1.5
+                              rounded-full
+                              text-xs
+                              font-medium
+                              ${getStatusStyle(
+                                employee.status
+                              )}
+                            `}
+                          >
+
+                            <span
+                              className={`
+                                w-1.5
+                                h-1.5
+                                rounded-full
+                                ${
+                                  employee.status ===
+                                  "Active"
+                                    ? "bg-green-500"
+                                    : "bg-red-500"
+                                }
+                              `}
+                            />
+
+                            {employee.status}
+
+                          </span>
+
+                        </td>
 
 
                         {/* ACTION MENU */}
@@ -535,14 +644,14 @@ const categories = new Set(
                             onClick={() =>
                               setOpenMenu(
                                 openMenu ===
-                                  supplier.id
+                                  employee.id
                                   ? null
-                                  : supplier.id
+                                  : employee.id
                               )
                             }
                             className="p-2 rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
                             title="More actions"
-                            aria-label="More supplier actions"
+                            aria-label="More employee actions"
                           >
 
                             <MoreHorizontal
@@ -553,7 +662,7 @@ const categories = new Set(
 
 
                           {openMenu ===
-                            supplier.id && (
+                            employee.id && (
 
                             <div className="absolute right-4 top-14 z-30 w-52 bg-white border border-gray-100 rounded-xl shadow-lg py-1">
 
@@ -561,8 +670,8 @@ const categories = new Set(
 
                               <button
                                 onClick={() => {
-                                  setSelectedSupplier(
-                                    supplier
+                                  setSelectedEmployee(
+                                    employee
                                   );
                                   setOpenMenu(
                                     null
@@ -581,23 +690,24 @@ const categories = new Set(
                               {/* EDIT */}
 
                               <button
-  onClick={() => {
-    setEditingSupplier(supplier);
-    setOpenMenu(null);
-  }}
-  className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
->
+                                onClick={() =>
+                                  setOpenMenu(
+                                    null
+                                  )
+                                }
+                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50"
+                              >
 
                                 <Pencil
                                   size={16}
                                 />
 
-                                Edit Supplier
+                                Edit Employee
 
                               </button>
 
 
-                              {/* PURCHASE HISTORY */}
+                              {/* TRANSACTIONS */}
 
                               <button
                                 onClick={() =>
@@ -612,7 +722,7 @@ const categories = new Set(
                                   size={16}
                                 />
 
-                                View Purchase History
+                                View Transactions
 
                               </button>
 
@@ -633,7 +743,7 @@ const categories = new Set(
                 <tr>
 
                   <td
-                    colSpan="7"
+                    colSpan={8}
                     className="py-16 text-center"
                   >
 
@@ -641,12 +751,12 @@ const categories = new Set(
 
                       <div className="w-12 h-12 rounded-full bg-gray-100 text-gray-400 flex items-center justify-center mb-3">
 
-                        <Truck size={22} />
+                        <Users size={22} />
 
                       </div>
 
                       <p className="font-medium text-gray-700">
-                        No suppliers found
+                        No employees found
                       </p>
 
                       <p className="text-sm text-gray-500 mt-1">
@@ -680,7 +790,7 @@ const categories = new Set(
 
             <span className="font-medium text-gray-700">
 
-              {filteredSuppliers.length === 0
+              {filteredEmployees.length === 0
                 ? 0
                 : startIndex + 1}
 
@@ -692,8 +802,8 @@ const categories = new Set(
 
               {Math.min(
                 startIndex +
-                  suppliersPerPage,
-                filteredSuppliers.length
+                  employeesPerPage,
+                filteredEmployees.length
               )}
 
             </span>
@@ -702,11 +812,11 @@ const categories = new Set(
 
             <span className="font-medium text-gray-700">
 
-              {filteredSuppliers.length}
+              {filteredEmployees.length}
 
             </span>
 
-            {" "}suppliers
+            {" "}employees
 
           </p>
 
@@ -791,45 +901,23 @@ const categories = new Set(
 
 
       {/* ================================================= */}
-      {/* SUPPLIER DETAILS MODAL */}
+      {/* EMPLOYEE DETAILS MODAL */}
       {/* ================================================= */}
 
-      {selectedSupplier && (
+      {selectedEmployee && (
 
-        <SupplierDetails
-          supplier={selectedSupplier}
+        <EmployeeDetails
+          employee={selectedEmployee}
           onClose={() =>
-            setSelectedSupplier(null)
+            setSelectedEmployee(null)
           }
         />
 
       )}
 
-      {editingSupplier && (
-  <EditSupplierModal
-    supplier={editingSupplier}
-    onClose={() =>
-      setEditingSupplier(null)
-    }
-    onSave={(updatedSupplier) => {
-      setSuppliers((prev) =>
-        prev.map((supplier) =>
-          supplier.id === updatedSupplier.id
-            ? updatedSupplier
-            : supplier
-        )
-      );
-
-      setEditingSupplier(null);
-    }}
-  />
-)}
-
-      
-
 
       {/* ================================================= */}
-      {/* ADD SUPPLIER MODAL */}
+      {/* ADD EMPLOYEE MODAL */}
       {/* ================================================= */}
 
       {showAddModal && (
@@ -853,11 +941,11 @@ const categories = new Set(
               <div>
 
                 <h2 className="text-xl font-semibold text-gray-800">
-                  Add Supplier
+                  Add Employee
                 </h2>
 
                 <p className="text-sm text-gray-500 mt-1">
-                  Add a new supplier to Menged
+                  Add a new employee to Menged
                 </p>
 
               </div>
@@ -881,17 +969,12 @@ const categories = new Set(
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
                 <input
-                  placeholder="Company Name"
-                  className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 sm:col-span-2"
-                />
-
-                <input
-                  placeholder="Contact Person"
+                  placeholder="First Name"
                   className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
                 />
 
                 <input
-                  placeholder="Category"
+                  placeholder="Last Name"
                   className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
                 />
 
@@ -904,11 +987,6 @@ const categories = new Set(
                   placeholder="Email"
                   type="email"
                   className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500"
-                />
-
-                <input
-                  placeholder="Address"
-                  className="border border-gray-200 rounded-lg px-3 py-2.5 outline-none focus:ring-2 focus:ring-indigo-500 sm:col-span-2"
                 />
 
               </div>
@@ -931,7 +1009,7 @@ const categories = new Set(
                   }
                   className="px-4 py-2.5 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white font-medium"
                 >
-                  Add Supplier
+                  Add Employee
                 </button>
 
               </div>
@@ -948,150 +1026,19 @@ const categories = new Set(
   );
 }
 
-function EditSupplierModal({
-  supplier,
-  onClose,
-  onSave,
-}) {
-  const [formData, setFormData] =
-    useState(supplier);
-
-  return (
-    <div
-      className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4"
-      onClick={onClose}
-    >
-      <div
-        className="bg-white w-full max-w-lg rounded-2xl shadow-xl"
-        onClick={(e) =>
-          e.stopPropagation()
-        }
-      >
-        <div className="flex items-center justify-between px-6 py-5 border-b">
-          <h2 className="text-xl font-semibold">
-            Edit Supplier
-          </h2>
-
-          <button
-            onClick={onClose}
-          >
-            <X size={20} />
-          </button>
-        </div>
-
-        <div className="p-6">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <input
-              value={formData.companyName}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  companyName:
-                    e.target.value,
-                })
-              }
-              className="border rounded-lg px-3 py-2.5 sm:col-span-2"
-            />
-
-            <input
-              value={formData.contactPerson}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  contactPerson:
-                    e.target.value,
-                })
-              }
-              className="border rounded-lg px-3 py-2.5"
-            />
-
-            <input
-              value={formData.category}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  category:
-                    e.target.value,
-                })
-              }
-              className="border rounded-lg px-3 py-2.5"
-            />
-
-            <input
-              value={formData.phone}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  phone:
-                    e.target.value,
-                })
-              }
-              className="border rounded-lg px-3 py-2.5"
-            />
-
-            <input
-              value={formData.email}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  email:
-                    e.target.value,
-                })
-              }
-              className="border rounded-lg px-3 py-2.5"
-            />
-
-            <input
-              value={formData.address}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  address:
-                    e.target.value,
-                })
-              }
-              className="border rounded-lg px-3 py-2.5 sm:col-span-2"
-            />
-          </div>
-
-          <div className="flex justify-end gap-3 mt-6">
-  <button
-    onClick={onClose}
-    className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-50"
-  >
-    Cancel
-  </button>
-
-  <button
-  onClick={() => {
-    onSave(formData);
-  }}
-  className="px-4 py-2 rounded-lg bg-indigo-700 hover:bg-indigo-800 text-white font-medium"
->
-  Save Changes
-</button>
-</div>
-
-      </div>
-    </div>
-  </div>
-);
-}
-
 
 // ======================================================
-// SUPPLIER DETAILS COMPONENT
+// EMPLOYEE DETAILS COMPONENT
 // ======================================================
 
-function SupplierDetails({
-  supplier,
+function EmployeeDetails({
+  employee,
   onClose,
 }) {
-
 const initials =
-  supplier.companyName
+  `${employee.firstName} ${employee.lastName}`
     .split(" ")
-    .map((word) => word[0])
+    .map((name) => name[0])
     .join("")
     .slice(0, 2)
     .toUpperCase();
@@ -1123,11 +1070,11 @@ const initials =
             <div>
 
               <h2 className="text-xl font-semibold text-gray-800">
-                {supplier.companyName}
+                {employee.firstName} {employee.lastName}
               </h2>
 
               <p className="text-sm text-gray-500 mt-1">
-                {supplier.id} · {supplier.category}             </p>
+                {employee.id} · {employee.position}             </p>
 
             </div>
 
@@ -1159,7 +1106,7 @@ const initials =
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
               <a
-                href={`tel:${supplier.phone.replace(
+                href={`tel:${employee.phone.replace(
                   /\s/g,
                   ""
                 )}`}
@@ -1178,7 +1125,7 @@ const initials =
                   </p>
 
                   <p className="text-sm font-medium text-gray-800 mt-1">
-                    {supplier.phone}
+                    {employee.phone}
                   </p>
 
                 </div>
@@ -1187,7 +1134,7 @@ const initials =
 
 
               <a
-                href={`mailto:${supplier.email}`}
+                href={`mailto:${employee.email}`}
                 className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl hover:bg-indigo-50 transition-colors"
               >
 
@@ -1203,82 +1150,60 @@ const initials =
                   </p>
 
                   <p className="text-sm font-medium text-gray-800 mt-1 break-all">
-                    {supplier.email}
+                    {employee.email}
                   </p>
 
                 </div>
 
               </a>
 
-
-              <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-xl sm:col-span-2">
-
-                <MapPin
-                  size={18}
-                  className="text-indigo-600"
-                />
-
-                <div>
-
-                  <p className="text-xs text-gray-500">
-                    Address
-                  </p>
-
-                  <p className="text-sm font-medium text-gray-800 mt-1">
-                    {supplier.address}
-                  </p>
-
-                </div>
-
-              </div>
-
             </div>
 
           </section>
 
 
-          {/* SUPPLIER INFORMATION */}
+          {/* EMPLOYEE INFORMATION */}
 
           <section>
 
             <h3 className="font-semibold text-gray-800 mb-3">
-              Supplier Information
+              Employee Information
             </h3>
 
             <div className="grid grid-cols-2 gap-4 bg-gray-50 rounded-xl p-4">
   <div>
     <p className="text-xs text-gray-500">
-      Supplier Number
+      Employee Number
     </p>
     <p className="font-medium">
-      {supplier.supplierNumber}
+      {employee.employeeNumber}
     </p>
   </div>
 
   <div>
     <p className="text-xs text-gray-500">
-      Category
+      Department
     </p>
     <p className="font-medium">
-      {supplier.category}
+      {employee.department}
     </p>
   </div>
 
   <div>
     <p className="text-xs text-gray-500">
-      Contact Person
+      Position
     </p>
     <p className="font-medium">
-      {supplier.contactPerson}
+      {employee.position}
     </p>
   </div>
 
   <div>
     <p className="text-xs text-gray-500">
-      Onboarded Date
+      Employment Date
     </p>
     <p className="font-medium">
-      {supplier.onboardedDate}
+      {employee.employmentDate}
     </p>
   </div>
 
@@ -1287,7 +1212,7 @@ const initials =
       Status
     </p>
     <p className="font-medium">
-      {supplier.status}
+      {employee.status}
     </p>
   </div>
 </div>
@@ -1329,7 +1254,6 @@ const initials =
       <h2 className="text-3xl font-bold text-gray-800 mt-2">
         {value}
       </h2>
-
     </div>
   );
 }

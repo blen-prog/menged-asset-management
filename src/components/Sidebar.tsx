@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/menged-logo.png";
@@ -25,7 +26,7 @@ import {
 
 export default function Sidebar() {
   const user = JSON.parse(
-  sessionStorage.getItem("user")
+  sessionStorage.getItem("user") || "null"
 );
 const isFinance =
   user?.role === "Finance Manager";
@@ -360,11 +361,17 @@ sessionStorage.removeItem("user");
   );
 }
 
+interface MenuItemProps {
+  icon: ReactNode;
+  text: string;
+  onClick: () => void;
+}
+
 function MenuItem({
   icon,
   text,
   onClick,
-}) {
+}: MenuItemProps) {
   return (
     <button
       onClick={onClick}

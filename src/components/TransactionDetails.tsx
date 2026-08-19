@@ -1,4 +1,6 @@
 import { usersData } from "../data/usersData";
+import type { ReactNode } from "react";
+import type { InventoryItem, Transaction } from "../types/models";
 import {
   X,
   Car,
@@ -18,6 +20,10 @@ export default function TransactionDetails({
   transaction,
   items,
   onClose,
+}: {
+  transaction: Transaction | null;
+  items: InventoryItem[];
+  onClose: () => void;
 }) {
   if (!transaction) return null;
  
@@ -479,7 +485,7 @@ function DetailItem({
   label,
   value,
   icon,
-}) {
+}: { label: string; value: ReactNode; icon?: ReactNode }) {
 
   return (
 

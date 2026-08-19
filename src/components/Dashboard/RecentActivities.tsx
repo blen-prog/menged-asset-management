@@ -4,11 +4,17 @@ import {
   UserPlus,
   Truck,
 } from "lucide-react";
+import type { InventoryItem, Transaction } from "../../types/models";
+
+interface RecentActivitiesProps {
+  transactions: Transaction[];
+  items: InventoryItem[];
+}
 
 export default function RecentActivities({
   transactions,
   items,
-}) {
+}: RecentActivitiesProps) {
 
   
 

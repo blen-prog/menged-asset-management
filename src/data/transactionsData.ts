@@ -1,4 +1,6 @@
-export const initialTransactions = [
+import type { Transaction } from "../types/models";
+
+export const initialTransactions: Transaction[] = [
   {
     id: "TRX-001",
     assetId: "ITM-001",

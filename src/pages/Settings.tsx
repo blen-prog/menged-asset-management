@@ -1150,6 +1150,12 @@ function AdminCard({
   description,
   buttonText,
   path,
+}: {
+  icon: any;
+  title: string;
+  description: string;
+  buttonText: string;
+  path?: string;
 }) {
   const handleClick = () => {
     if (path) {

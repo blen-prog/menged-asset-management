@@ -1,10 +1,16 @@
 import { ShieldAlert } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import type { InventoryItem, Transaction } from "../../types/models";
+
+interface MaintenanceAlertsProps {
+  transactions: Transaction[];
+  items: InventoryItem[];
+}
 
 export default function WarrantyExpiring({
   transactions,
   items,
-}) {
+}: MaintenanceAlertsProps) {
 
   const navigate = useNavigate();
   const maintenanceAlerts =

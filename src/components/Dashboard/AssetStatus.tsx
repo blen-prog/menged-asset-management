@@ -4,8 +4,13 @@ import {
   Cell,
   ResponsiveContainer,
 } from "recharts";
+import type { InventoryItem } from "../../types/models";
 
-export default function AssetStatus({ items }) {
+interface AssetStatusProps {
+  items: InventoryItem[];
+}
+
+export default function AssetStatus({ items }: AssetStatusProps) {
   const assetItems = items.filter(
   (item) => item.type === "Asset"
 );
@@ -94,7 +99,7 @@ const data = [
             </div>
 
             <span className="font-semibold">
-              {((item.value / total) * 100).toFixed(1)}%
+              {total === 0 ? "0.0" : ((item.value / total) * 100).toFixed(1)}%
             </span>
           </div>
         ))}

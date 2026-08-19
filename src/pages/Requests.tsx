@@ -58,6 +58,7 @@ export default function Requests({
 
     setNewRequest({
       itemId: "",
+      otherItem: "",
       quantity: 1,
       reason: "",
     });

@@ -897,7 +897,7 @@ const matchesSearch =
                 <tr>
 
                   <td
-                    colSpan="7"
+                    colSpan={7}
                     className="py-16 text-center"
                   >
 
@@ -1302,7 +1302,7 @@ const matchesSearch =
                 </label>
 
                 <textarea
-                  rows="3"
+                  rows={3}
                   placeholder="Add transaction notes..."
                   value={newTransaction.notes}
                   onChange={(e) =>

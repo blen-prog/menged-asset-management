@@ -692,7 +692,7 @@ isAdmin || isPurchase;
               {currentItems.length === 0 && (
                 <tr>
                   <td
-                    colSpan="10"
+                    colSpan={10}
                     className="text-center py-8 text-gray-500"
                   >
                     No items found

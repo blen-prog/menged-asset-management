@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 export default function ProfileDropdown() {
   const navigate = useNavigate();
   const user = JSON.parse(
-  sessionStorage.getItem("user")
+  sessionStorage.getItem("user") || "null"
 );
 
   

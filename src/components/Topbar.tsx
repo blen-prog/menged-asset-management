@@ -8,10 +8,10 @@ export default function Topbar() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const location = useLocation();
-  const notificationRef = useRef(null);
-  const profileRef = useRef(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
   const user = JSON.parse(
-  sessionStorage.getItem("user")
+  sessionStorage.getItem("user") || "null"
 );
 const initials = user?.name
   ?.split(" ")
@@ -20,17 +20,17 @@ const initials = user?.name
 
 
   useEffect(() => {
-  function handleClickOutside(event) {
+  function handleClickOutside(event: globalThis.MouseEvent) {
     if (
       notificationRef.current &&
-      !notificationRef.current.contains(event.target)
+      !notificationRef.current.contains(event.target as Node)
     ) {
       setShowNotifications(false);
     }
 
     if (
       profileRef.current &&
-      !profileRef.current.contains(event.target)
+      !profileRef.current.contains(event.target as Node)
     ) {
       setShowProfile(false);
     }

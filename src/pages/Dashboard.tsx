@@ -1,16 +1,22 @@
 
-import DashboardStats from "../components/dashboard/DashboardStats";
-import InventoryChart from "../components/dashboard/InventoryChart";
-import AssetStatus from "../components/dashboard/AssetStatus";
-import RecentActivities from "../components/dashboard/RecentActivities";
+import DashboardStats from "../components/Dashboard/DashboardStats";
+import InventoryChart from "../components/Dashboard/InventoryChart";
+import AssetStatus from "../components/Dashboard/AssetStatus";
+import RecentActivities from "../components/Dashboard/RecentActivities";
 import MaintenanceAlerts from "../components/Dashboard/MaintenanceAlerts";
-import LowStockAlerts from "../components/dashboard/LowStockAlerts";
-import QuickActions from "../components/dashboard/QuickActions";
+import LowStockAlerts from "../components/Dashboard/LowStockAlerts";
+import QuickActions from "../components/Dashboard/QuickActions";
+import type { InventoryItem, Transaction } from "../types/models";
+
+interface DashboardProps {
+  items: InventoryItem[];
+  transactions: Transaction[];
+}
 
 export default function Dashboard({
   items,
   transactions,
-}) {
+}: DashboardProps) {
   return (
     
 

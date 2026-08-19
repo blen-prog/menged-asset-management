@@ -4,8 +4,13 @@ import {
   AlertTriangle,
   Wrench,
 } from "lucide-react";
+import type { InventoryItem } from "../../types/models";
 
-export default function DashboardStats({ items }) {
+interface DashboardStatsProps {
+  items: InventoryItem[];
+}
+
+export default function DashboardStats({ items }: DashboardStatsProps) {
   
   const totalAssets = items
   .filter((item) => item.type === "Asset")

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function QuickActions() {
   const user = JSON.parse(
-  sessionStorage.getItem("user")
+  sessionStorage.getItem("user") || "null"
 );
 
 const isAdmin =

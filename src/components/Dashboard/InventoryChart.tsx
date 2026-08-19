@@ -7,15 +7,25 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import type { InventoryItem } from "../../types/models";
 
-export default function InventoryChart({ items }) {
+interface InventoryChartProps {
+  items: InventoryItem[];
+}
+
+interface CategoryCount {
+  name: string;
+  assetCount: number;
+}
+
+export default function InventoryChart({ items }: InventoryChartProps) {
 const assetItems = items.filter(
   (item) => item.type === "Asset"
 );
 
 const data = Object.values(
   assetItems.reduce((acc, item) => {
-    const shortNames = {
+    const shortNames: Record<string, string> = {
       "Computer Equipment": "Computer Equipment",
       "Office Equipment": "Office Equipment",
       "Networking Equipment": "Network Equipment",
@@ -39,7 +49,7 @@ const data = Object.values(
 acc[category].assetCount += 1;
 
 return acc;
-  }, {})
+  }, {} as Record<string, CategoryCount>)
 );
 
 
