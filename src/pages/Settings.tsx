@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import {
   User,
   Bell,
@@ -79,10 +80,21 @@ const DEFAULT_SETTINGS = {
 
 export default function Settings() {
   const [user, setUser] = useState(null);
-
+  const [searchParams] = useSearchParams();
+  
   const [activeSection, setActiveSection] =
-    useState("profile");
+  useState(
+    searchParams.get("section") || "profile"
+  );
+  useEffect(() => {
+  const section =
+    searchParams.get("section");
 
+  if (section) {
+    setActiveSection(section);
+  }
+}, [searchParams]);
+  
   const [settings, setSettings] = useState(() => {
     const saved =
       localStorage.getItem("menged-settings");

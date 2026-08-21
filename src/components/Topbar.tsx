@@ -8,15 +8,44 @@ interface User {
   role?: string;
 }
 
-export default function Topbar() {
+interface Notification {
+  id: number;
+  read: boolean;
+  type: string;
+  title: string;
+  time: string;
+  targetRole?: string;
+}
+
+interface TopbarProps {
+  notifications: Notification[];
+  setNotifications: React.Dispatch<
+    React.SetStateAction<Notification[]>
+  >;
+}
+
+export default function Topbar({
+  notifications,
+  setNotifications,
+}: TopbarProps) {
+
+
   const [showNotifications, setShowNotifications] = useState<boolean>(false);
   const [showProfile, setShowProfile] = useState<boolean>(false);
+  
 
   const notificationRef = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
   const user: User | null = JSON.parse(
     sessionStorage.getItem("user") || "null"
+  );
+
+  const visibleNotifications =
+  notifications.filter(
+    (notification) =>
+      !notification.targetRole ||
+      notification.targetRole === user?.role
   );
 
   const initials = user?.name
@@ -40,6 +69,7 @@ export default function Topbar() {
         setShowProfile(false);
       }
     }
+    
 
     document.addEventListener("click", handleClickOutside);
 
@@ -47,6 +77,7 @@ export default function Topbar() {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
+ 
 
   return (
     <div className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 flex items-center px-8 h-20 relative transition-colors duration-200">
@@ -70,11 +101,23 @@ export default function Topbar() {
             />
           </button>
 
-          <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5 font-bold">
-            3
-          </span>
+          {visibleNotifications.filter(
+  (notification) => !notification.read
+).length > 0 && (
+  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full px-2">
+    {
+  visibleNotifications.filter(
+    (notification) =>
+      !notification.read
+  ).length
+}
+  </span>
+)}
 
-          {showNotifications && <NotificationDropdown />}
+          {showNotifications && <NotificationDropdown
+  notifications={visibleNotifications}
+  setNotifications={setNotifications}
+/>}
         </div>
 
         {/* Profile Dropdown */}

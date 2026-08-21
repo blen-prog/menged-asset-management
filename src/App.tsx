@@ -50,6 +50,37 @@ function App() {
   const [requests, setRequests] =
     useState<Request[]>([]);
 
+  const [notifications, setNotifications] =
+    useState(() => {
+      const saved =
+        localStorage.getItem("notifications");
+  
+      if (saved) {
+        return JSON.parse(saved);
+      }
+  
+      return [];
+    });
+  const addNotification = (
+  type: string,
+  title: string,
+  targetRole?: string
+) => {
+  setNotifications((previous) => [
+    {
+      id: Date.now(),
+      read: false,
+      type,
+      title,
+      targetRole,
+      time: new Date().toLocaleString(),
+    },
+    ...previous,
+  ]);
+};
+
+
+
   // =========================================================
   // GLOBAL THEME
   // =========================================================
@@ -91,6 +122,14 @@ function App() {
     }
   }, []);
 
+  useEffect(() => {
+  localStorage.setItem(
+    "notifications",
+    JSON.stringify(notifications)
+  );
+}, [notifications]);
+
+
   // =========================================================
   // ROUTES
   // =========================================================
@@ -113,8 +152,11 @@ function App() {
       <Route
         element={
           <ProtectedRoute>
-            <Layout />
-          </ProtectedRoute>
+  <Layout
+    notifications={notifications}
+    setNotifications={setNotifications}
+  />
+</ProtectedRoute>
         }
       >
         {/* ===================================================
@@ -239,10 +281,11 @@ function App() {
           path="/requests"
           element={
             <Requests
-              items={items}
-              requests={requests}
-              setRequests={setRequests}
-            />
+  items={items}
+  requests={requests}
+  setRequests={setRequests}
+  addNotification={addNotification}
+/>
           }
         />
 
@@ -285,8 +328,9 @@ function App() {
           path="/maintenance"
           element={
             <Maintenance
-              items={items}
-            />
+  items={items}
+  addNotification={addNotification}
+/>
           }
         />
       </Route>

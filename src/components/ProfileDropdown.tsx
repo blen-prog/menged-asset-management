@@ -27,17 +27,16 @@ export default function ProfileDropdown() {
 
       {/* Navigation Links */}
       <div className="py-2">
-        <button className="w-full text-left px-5 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-          My Profile
-        </button>
+        
 
-        <button className="w-full text-left px-5 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-          Account Settings
-        </button>
+        <button
+  onClick={() => navigate("/settings")}
+  className="w-full text-left px-5 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+>
+  Account Settings
+</button>
 
-        <button className="w-full text-left px-5 py-3 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
-          Help & Support
-        </button>
+        
       </div>
 
       {/* Logout Action */}

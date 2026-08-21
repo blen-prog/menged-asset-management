@@ -5,6 +5,7 @@ export default function Requests({
   items,
   requests,
   setRequests,
+  addNotification,
 }) {
   const user = JSON.parse(
     sessionStorage.getItem("user")
@@ -53,6 +54,22 @@ export default function Requests({
       ...requests,
     ]);
 
+    const itemName =
+  newRequest.itemId === "OTHER"
+    ? newRequest.otherItem
+    : items.find(
+        (item) =>
+          item.id === newRequest.itemId
+      )?.name;
+
+addNotification(
+  "info",
+  `${user?.name} requested ${itemName}`,
+  "Administrator"
+);
+
+
+
     setNewRequest({
       itemId: "",
       otherItem: "",
@@ -64,30 +81,65 @@ export default function Requests({
   };
 
   const handleApprove = (id) => {
-    setRequests(
-      requests.map((request) =>
-        request.id === id
-          ? {
-              ...request,
-              status: "Approved",
-            }
-          : request
-      )
-    );
-  };
+  const request = requests.find(
+    (request) => request.id === id
+  );
+
+  setRequests(
+    requests.map((request) =>
+      request.id === id
+        ? {
+            ...request,
+            status: "Approved",
+          }
+        : request
+    )
+  );
+
+  const itemName =
+    request?.itemId === "OTHER"
+      ? request?.otherItem
+      : items.find(
+          (item) =>
+            item.id === request?.itemId
+        )?.name;
+
+  addNotification(
+    "success",
+    `${itemName} request approved`
+  );
+};
 
   const handleReject = (id) => {
-    setRequests(
-      requests.map((request) =>
-        request.id === id
-          ? {
-              ...request,
-              status: "Rejected",
-            }
-          : request
-      )
-    );
-  };
+  const request = requests.find(
+    (request) => request.id === id
+  );
+
+  setRequests(
+    requests.map((request) =>
+      request.id === id
+        ? {
+            ...request,
+            status: "Rejected",
+          }
+        : request
+    )
+  );
+
+  const itemName =
+    request?.itemId === "OTHER"
+      ? request?.otherItem
+      : items.find(
+          (item) =>
+            item.id === request?.itemId
+        )?.name;
+
+  addNotification(
+    "danger",
+    `${itemName} request rejected`
+  );
+};
+
 
   return (
     <div className="p-6">

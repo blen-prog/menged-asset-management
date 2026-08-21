@@ -9,7 +9,9 @@ import {
 
 export default function Maintenance({
   items,
+  addNotification,
 }) {
+  
   const [showRequestModal, setShowRequestModal] =
     useState(false);
 
@@ -90,6 +92,17 @@ export default function Maintenance({
       request,
       ...maintenanceRequests,
     ]);
+
+    const assetName =
+  items.find(
+    (item) => item.id === newRequest.assetId
+  )?.name || newRequest.assetId;
+
+addNotification(
+  "info",
+  `${assetName} maintenance requested`,
+  "Administrator"
+);
 
     setNewRequest({
       assetId: "",
@@ -300,34 +313,49 @@ export default function Maintenance({
                               }
                               disabled={!isAdmin}
                               onChange={() => {
-                                const confirmed =
-                                  window.confirm(
-                                    request.status ===
-                                    "Repaired"
-                                      ? "Return this item to Under Maintenance?"
-                                      : "Has this item been repaired and returned to service?"
-                                  );
+  const confirmed =
+    window.confirm(
+      request.status === "Repaired"
+        ? "Return this item to Under Maintenance?"
+        : "Has this item been repaired and returned to service?"
+    );
 
-                                if (!confirmed)
-                                  return;
+  if (!confirmed) return;
 
-                                setMaintenanceRequests(
-                                  maintenanceRequests.map(
-                                    (r) =>
-                                      r.id ===
-                                      request.id
-                                        ? {
-                                            ...r,
-                                            status:
-                                              r.status ===
-                                              "Repaired"
-                                                ? "Under Maintenance"
-                                                : "Repaired",
-                                          }
-                                        : r
-                                  )
-                                );
-                              }}
+  const assetName =
+    items.find(
+      (item) => item.id === request.assetId
+    )?.name || request.assetId;
+
+  const newStatus =
+    request.status === "Repaired"
+      ? "Under Maintenance"
+      : "Repaired";
+
+  setMaintenanceRequests(
+    maintenanceRequests.map(
+      (r) =>
+        r.id === request.id
+          ? {
+              ...r,
+              status: newStatus,
+            }
+          : r
+    )
+  );
+
+  if (newStatus === "Repaired") {
+    addNotification(
+      "success",
+      `${assetName} maintenance completed`
+    );
+  } else {
+    addNotification(
+      "warning",
+      `${assetName} returned to maintenance`
+    );
+  }
+}}
                             />
 
                             Mark Repaired
