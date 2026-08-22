@@ -1,9 +1,21 @@
 import { useState } from "react";
 import { Search } from "lucide-react";
+import type { InventoryItem } from "../../types/models";
 
-export default function Assets({ items }) {
+
+interface User {
+  role?: string;
+}
+
+
+export default function Assets({
+  items,
+}: {
+  items: InventoryItem[];
+}) {
+
   const storedUser = sessionStorage.getItem("user");
-  const user = storedUser ? JSON.parse(storedUser) : null;
+  const user: User | null = storedUser ? JSON.parse(storedUser) : null;
   const isViewer = user?.role === "Viewer";
 
   const [search, setSearch] = useState("");
@@ -15,8 +27,14 @@ export default function Assets({ items }) {
     useState("All Categories");
   const [statusFilter, setStatusFilter] =
     useState("All Statuses");
-  const [selectedAsset, setSelectedAsset] = useState(null);
-  const [editingAsset, setEditingAsset] = useState(null);
+
+    
+const [selectedAsset, setSelectedAsset] =
+  useState<InventoryItem | null>(null);
+
+const [editingAsset, setEditingAsset] =
+  useState<InventoryItem | null>(null);
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const assets = items.filter(
@@ -55,7 +73,7 @@ export default function Assets({ items }) {
     );
   });
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status?: string) => {
     switch (status) {
       case "Assigned":
         return "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300";

@@ -1,13 +1,13 @@
 export interface InventoryItem {
   id: string;
-  image: string;
+  image: string | null;
   name: string;
   type: "Asset" | "Consumable";
   purpose: string;
   department: string;
   quantity: number;
   minimumStock: number;
-  unitPrice: string;
+  unitPrice: number | string; // was `string` only — AllItems/Categories/Departments all store this as a number after Number() conversion, or a string while it's still a form field
   assignedTo?: string;
   serialNumber?: string;
   purchaseDate: string;
@@ -40,4 +40,16 @@ export interface User {
   department: string;
   role: string;
   lastLogin: string;
+  status?: string; // added — Departments.tsx renders this in its employee table; not present in usersData.ts today so it will just render blank until that field is actually populated
+}
+
+export interface Request {
+  id: string;
+  itemId: string;
+  otherItem: string;
+  quantity: number;
+  reason: string;
+  requestedBy?: string;
+  status: "Pending" | "Approved" | "Rejected";
+  date: string;
 }

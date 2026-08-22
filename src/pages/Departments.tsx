@@ -2,33 +2,46 @@ import { Building2, Users, Monitor, MapPin, Plus } from "lucide-react";
 import { useState } from "react";
 import { departmentsData } from "../data/departmentsData";
 
+import type { InventoryItem, User } from "../types/models";
+
+interface DepartmentsProps {
+  items: InventoryItem[];
+  users: User[];
+}
+
 // Fields that only make sense for Assets (not Consumables).
 // Returns "-" for these fields when the item is a Consumable, regardless of
 // whether the underlying data happens to have a value.
-const ASSET_ONLY_FIELDS = ["assignedTo", "serialNumber", "condition", "assetStatus"];
+const ASSET_ONLY_FIELDS: (keyof InventoryItem)[] = [
+  "assignedTo",
+  "serialNumber",
+  "condition",
+  "assetStatus",
+];
 
-function getAssetOnlyValue(item, field) {
+function getAssetOnlyValue(item: InventoryItem, field: keyof InventoryItem) {
   if (item.type === "Consumable" && ASSET_ONLY_FIELDS.includes(field)) {
     return "-";
   }
-  return item[field] || "-";
+  return (item[field] as string | number | undefined) || "-";
 }
 
 export default function Departments({
   items,
   users,
-}) {
-  const user = JSON.parse(
-  sessionStorage.getItem("user")
-);
+}: DepartmentsProps) {
+  const storedUser = sessionStorage.getItem("user");
+  const currentUser: User | null = storedUser
+    ? JSON.parse(storedUser)
+    : null;
 
 const isViewer =
-  user?.role === "Viewer";
+  currentUser?.role === "Viewer";
   const [selectedDepartment, setSelectedDepartment] =
-  useState(null);
+  useState<string | null>(null);
   const [departmentSearch, setDepartmentSearch] =
   useState("");
-      function openDepartment(name) {
+      function openDepartment(name: string) {
   setSelectedDepartment(name);
 }
 
@@ -46,8 +59,8 @@ const departmentItems = selectedDepartment
   : [];
   const departmentUsers = selectedDepartment
   ? users.filter(
-      (user) =>
-        user.department === selectedDepartment
+      (u) =>
+        u.department === selectedDepartment
     )
   : [];
 
@@ -205,16 +218,16 @@ const selectedDepartmentInfo =
     </thead>
 
     <tbody>
-      {departmentUsers.map((user) => (
+      {departmentUsers.map((u) => (
         <tr
-          key={user.id}
+          key={u.id}
           className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700"
         >
-          <td className="p-3">{user.id}</td>
-          <td className="p-3">{user.name}</td>
-          <td className="p-3">{user.role}</td>
-          <td className="p-3">{user.status}</td>
-          <td className="p-3">{user.lastLogin}</td>
+          <td className="p-3">{u.id}</td>
+          <td className="p-3">{u.name}</td>
+          <td className="p-3">{u.role}</td>
+          <td className="p-3">{u.status}</td>
+          <td className="p-3">{u.lastLogin}</td>
         </tr>
       ))}
     </tbody>

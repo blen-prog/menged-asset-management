@@ -39,9 +39,8 @@ const getAsset = (assetId) =>
     (asset) => asset.id === assetId
   );
 
-const user = JSON.parse(
-  sessionStorage.getItem("user")
-);
+const userRaw = sessionStorage.getItem("user");
+const user = userRaw ? JSON.parse(userRaw) : null;
 
 const canCreateTransaction =
   user?.role === "Administrator" ||

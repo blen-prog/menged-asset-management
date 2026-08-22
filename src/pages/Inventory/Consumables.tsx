@@ -1,12 +1,21 @@
-// ...existing code...
 import { useState } from "react";
-
 import { Search } from "lucide-react";
+import type { InventoryItem } from "../../types/models";
 
-export default function Consumables({ items }) {
-  const user = JSON.parse(
-  sessionStorage.getItem("user")
-);
+
+interface User {
+  role?: string;
+}
+
+
+
+export default function Consumables({
+  items,
+}: {
+  items: InventoryItem[];
+}) {
+  const storedUser = sessionStorage.getItem("user");
+  const user: User | null = storedUser ? JSON.parse(storedUser) : null;
 
 const isViewer =
   user?.role === "Viewer";
@@ -14,20 +23,25 @@ const isViewer =
   const [departmentFilter, setDepartmentFilter] = useState("All Departments");
   const [categoryFilter, setCategoryFilter] = useState("All Categories");
   const [statusFilter, setStatusFilter] = useState("All Statuses");
-  const [selectedConsumable, setSelectedConsumable] = useState(null);
-  const [editingConsumable, setEditingConsumable] = useState(null);
+
+const [selectedConsumable, setSelectedConsumable] =
+  useState<InventoryItem | null>(null);
+
+const [editingConsumable, setEditingConsumable] =
+  useState<InventoryItem | null>(null);
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const consumables = items.filter((item) => item.type === "Consumable");
 
   // helper functions must be declared before they are used
-  const getStatus = (quantity, minimumStock) => {
+  const getStatus = (quantity: number, minimumStock: number) => {
     if (quantity === 0) return "Out of Stock";
     if (quantity < minimumStock) return "Low Stock";
     return "In Stock";
   };
 
-  const getStatusColor = (status) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "In Stock":
         return "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300";
@@ -164,11 +178,17 @@ const isViewer =
             >
               <div className="flex gap-4">
                 <div className="w-32 h-32 border border-gray-300 dark:border-gray-700 rounded-xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden flex-shrink-0">
-                  <img
-                    src={consumable.image}
-                    alt={consumable.name}
-                    className="w-full h-full object-contain p-2"
-                  />
+                  {consumable.image ? (
+  <img
+    src={consumable.image}
+    alt={consumable.name}
+    className="w-full h-full object-contain p-2"
+  />
+) : (
+  <span className="text-gray-400 text-sm">
+    No Image
+  </span>
+)}
                 </div>
 
                 <div className="flex-1">
@@ -249,11 +269,17 @@ const isViewer =
           <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-2xl p-6 w-[900px] max-h-[90vh] overflow-y-auto">
             <div className="flex gap-8">
               <div className="w-80 h-80 border border-gray-300 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
-                <img
-                  src={selectedConsumable.image}
-                  alt={selectedConsumable.name}
-                  className="w-full h-full object-contain p-4"
-                />
+                {selectedConsumable.image ? (
+  <img
+    src={selectedConsumable.image}
+    alt={selectedConsumable.name}
+    className="w-full h-full object-contain p-4"
+  />
+) : (
+  <span className="text-gray-400">
+    No Image
+  </span>
+)}
               </div>
 
               <div className="flex-1">
@@ -292,11 +318,17 @@ const isViewer =
           <div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white rounded-2xl p-6 w-[900px] max-h-[90vh] overflow-y-auto">
             <div className="flex gap-8">
               <div className="w-80 h-80 border border-gray-300 dark:border-gray-700 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center overflow-hidden">
-                <img
-                  src={editingConsumable.image}
-                  alt={editingConsumable.name}
-                  className="w-full h-full object-contain p-4"
-                />
+                {editingConsumable.image ? (
+  <img
+    src={editingConsumable.image}
+    alt={editingConsumable.name}
+    className="w-full h-full object-contain p-4"
+  />
+) : (
+  <span className="text-gray-400">
+    No Image
+  </span>
+)}
               </div>
 
               <div className="flex-1">

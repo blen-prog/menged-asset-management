@@ -6,11 +6,41 @@ import {
   Eye,
   Wrench,
 } from "lucide-react";
+import type { User, InventoryItem } from "../types/models";
+
+type MaintenanceStatus = "Under Maintenance" | "Repaired";
+
+interface MaintenanceRequest {
+  id: string;
+  assetId: string;
+  issue: string;
+  technician: string;
+  status: MaintenanceStatus;
+  notes: string;
+  createdDate: string;
+}
+
+interface NewRequestForm {
+  assetId: string;
+  issue: string;
+  technician: string;
+  status: MaintenanceStatus;
+  notes: string;
+}
+
+interface MaintenanceProps {
+  items: InventoryItem[];
+  addNotification: (
+    type: string,
+    message: string,
+    actor?: string
+  ) => void;
+}
 
 export default function Maintenance({
   items,
   addNotification,
-}) {
+}: MaintenanceProps) {
   
   const [showRequestModal, setShowRequestModal] =
     useState(false);
@@ -19,13 +49,13 @@ export default function Maintenance({
     useState("All");
 
   const [selectedRequest, setSelectedRequest] =
-    useState(null);
+    useState<MaintenanceRequest | null>(null);
 
   const [maintenanceRequests, setMaintenanceRequests] =
-    useState([]);
+    useState<MaintenanceRequest[]>([]);
 
   const [newRequest, setNewRequest] =
-    useState({
+    useState<NewRequestForm>({
       assetId: "",
       issue: "",
       technician: "",
@@ -33,9 +63,10 @@ export default function Maintenance({
       notes: "",
     });
 
-  const user = JSON.parse(
-    sessionStorage.getItem("user")
-  );
+  const storedUser = sessionStorage.getItem("user");
+  const user: User | null = storedUser
+    ? JSON.parse(storedUser)
+    : null;
 
   const isAdmin =
     user?.role === "Administrator";
@@ -77,7 +108,7 @@ export default function Maintenance({
       return;
     }
 
-    const request = {
+    const request: MaintenanceRequest = {
       id: `MNT-${String(
         maintenanceRequests.length + 1
       ).padStart(3, "0")}`,
@@ -308,7 +339,7 @@ addNotification(
                             <input
                               type="checkbox"
                               checked={
-                                request.status ===
+                                (request.status as MaintenanceStatus) ===
                                 "Repaired"
                               }
                               disabled={!isAdmin}
@@ -327,7 +358,7 @@ addNotification(
       (item) => item.id === request.assetId
     )?.name || request.assetId;
 
-  const newStatus =
+  const newStatus: MaintenanceStatus =
     request.status === "Repaired"
       ? "Under Maintenance"
       : "Repaired";

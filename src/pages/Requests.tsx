@@ -1,15 +1,35 @@
 import { useState } from "react";
 import { Plus } from "lucide-react";
+import type { User, InventoryItem, Request } from "../types/models";
+
+interface NewRequestForm {
+  itemId: string;
+  otherItem: string;
+  quantity: number;
+  reason: string;
+}
+
+interface RequestsProps {
+  items: InventoryItem[];
+  requests: Request[];
+  setRequests: React.Dispatch<React.SetStateAction<Request[]>>;
+  addNotification: (
+    type: string,
+    message: string,
+    actor?: string
+  ) => void;
+}
 
 export default function Requests({
   items,
   requests,
   setRequests,
   addNotification,
-}) {
-  const user = JSON.parse(
-    sessionStorage.getItem("user")
-  );
+}: RequestsProps) {
+  const storedUser = sessionStorage.getItem("user");
+  const user: User | null = storedUser
+    ? JSON.parse(storedUser)
+    : null;
 
   const isApprover =
     user?.role === "Administrator" ||
@@ -19,7 +39,7 @@ export default function Requests({
     useState(false);
 
   const [newRequest, setNewRequest] =
-    useState({
+    useState<NewRequestForm>({
       itemId: "",
       otherItem: "",
       quantity: 1,
@@ -35,7 +55,7 @@ export default function Requests({
       return;
     }
 
-    const request = {
+    const request: Request = {
       id: `REQ-${String(
         requests.length + 1
       ).padStart(3, "0")}`,
@@ -80,7 +100,7 @@ addNotification(
     setShowModal(false);
   };
 
-  const handleApprove = (id) => {
+  const handleApprove = (id: string) => {
   const request = requests.find(
     (request) => request.id === id
   );
@@ -110,7 +130,7 @@ addNotification(
   );
 };
 
-  const handleReject = (id) => {
+  const handleReject = (id: string) => {
   const request = requests.find(
     (request) => request.id === id
   );

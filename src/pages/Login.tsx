@@ -3,6 +3,7 @@ import logo from "../assets/menged-logo.png";
 import { useState } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
 import { usersData } from "../data/usersData";
+
 export default function Login() {
   
   const cards = [
@@ -45,11 +46,6 @@ const [error, setError] = useState("");
 
   if (!user) {
     setError("Invalid phone number or password");
-    return;
-  }
-
-  if (user.status === "Inactive") {
-    setError("This account is inactive");
     return;
   }
 

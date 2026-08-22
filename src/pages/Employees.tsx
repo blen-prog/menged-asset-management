@@ -16,6 +16,18 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+interface Employee {
+  id: string;
+  firstName: string;
+  lastName: string;
+  employeeNumber: string;
+  department: string;
+  position: string;
+  phone: string;
+  email: string;
+  employmentDate?: string;
+  status?: string;
+}
 
 // ======================================================
 // EMPLOYEES PAGE
@@ -23,7 +35,7 @@ import {
 
 export default function Employees() {
 
-  const [employees, setEmployees] = useState(initialEmployees);
+  const [employees, setEmployees] = useState<Employee[]>(initialEmployees);
 
   const totalEmployees = employees.length;
 
@@ -45,13 +57,13 @@ export default function Employees() {
     useState("All");
 
   const [selectedEmployee, setSelectedEmployee] =
-    useState(null);
+    useState<Employee | null>(null);
 
   const [editingEmployee, setEditingEmployee] =
-    useState(null);
+    useState<Employee | null>(null);
 
   const [openMenu, setOpenMenu] =
-    useState(null);
+    useState<string | null>(null);
 
   const [showAddModal, setShowAddModal] =
     useState(false);
@@ -133,12 +145,12 @@ export default function Employees() {
   // FILTER HANDLERS
   // ======================================================
 
-  const handleSearch = (value) => {
+  const handleSearch = (value: string) => {
     setSearch(value);
     setCurrentPage(1);
   };
 
-  const handleDepartmentFilter = (value) => {
+  const handleDepartmentFilter = (value: string) => {
     setDepartmentFilter(value);
     setCurrentPage(1);
   };
@@ -148,7 +160,7 @@ export default function Employees() {
   // ROLE STYLE
   // ======================================================
 
-  const getRoleStyle = (role) => {
+  const getRoleStyle = (role: string) => {
     switch (role) {
 
       case "Administrator":
@@ -181,7 +193,7 @@ export default function Employees() {
     "bg-pink-100 text-pink-700 dark:bg-pink-900/40 dark:text-pink-300",
   ];
 
-  const getAvatarColor = (index) =>
+  const getAvatarColor = (index: number) =>
     avatarColors[index % avatarColors.length];
 
 
@@ -189,7 +201,7 @@ export default function Employees() {
   // SAVE EDIT
   // ======================================================
 
-  const handleSaveEdit = (updatedEmployee) => {
+  const handleSaveEdit = (updatedEmployee: Employee) => {
 
     setEmployees((currentEmployees) =>
       currentEmployees.map((employee) =>
@@ -971,6 +983,9 @@ export default function Employees() {
 function EmployeeDetails({
   employee,
   onClose,
+}: {
+  employee: Employee;
+  onClose: () => void;
 }) {
 
   const initials =
@@ -1198,14 +1213,18 @@ function EditEmployeeModal({
   employee,
   onClose,
   onSave,
+}: {
+  employee: Employee;
+  onClose: () => void;
+  onSave: (employee: Employee) => void;
 }) {
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<Employee>({
     ...employee,
   });
 
 
-  const handleChange = (field, value) => {
+  const handleChange = (field: keyof Employee, value: string) => {
 
     setForm((current) => ({
       ...current,
@@ -1410,6 +1429,9 @@ function EditEmployeeModal({
 function StatCard({
   title,
   value,
+}: {
+  title: string;
+  value: number;
 }) {
 
   return (

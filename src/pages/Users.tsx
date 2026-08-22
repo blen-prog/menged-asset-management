@@ -1,22 +1,29 @@
-import { useState } from "react";
+import { useState, ChangeEvent } from "react";
 import { Eye, Pencil, Trash2 } from "lucide-react";
 
-export default function Users({
-  users,
-  setUsers,
-}) {
-  const user = JSON.parse(
-    sessionStorage.getItem("user")
-  );
+import type { User } from "../types/models";
+
+type NewUserForm = Omit<User, "id" | "lastLogin"> & {
+  confirmPassword: string;
+};
+
+interface UsersProps {
+  users: User[];
+  setUsers: React.Dispatch<React.SetStateAction<User[]>>;
+}
+
+export default function Users({ users, setUsers }: UsersProps) {
+  const userRaw = sessionStorage.getItem("user");
+  const user: User | null = userRaw ? JSON.parse(userRaw) : null;
 
   const isViewer = user?.role === "Viewer";
 
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [editingUser, setEditingUser] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [search, setSearch] = useState("");
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [search, setSearch] = useState<string>("");
 
-  const [newUser, setNewUser] = useState({
+  const [newUser, setNewUser] = useState<NewUserForm>({
     name: "",
     phone: "",
     email: "",
@@ -24,23 +31,15 @@ export default function Users({
     confirmPassword: "",
     department: "",
     role: "",
-    });
+  });
 
   const handleAddUser = () => {
-    if (
-      users.some(
-        (user) => user.phone === newUser.phone
-      )
-    ) {
+    if (users.some((user) => user.phone === newUser.phone)) {
       alert("Phone number already exists");
       return;
     }
 
-    if (
-      users.some(
-        (user) => user.email === newUser.email
-      )
-    ) {
+    if (users.some((user) => user.email === newUser.email)) {
       alert("Email already exists");
       return;
     }
@@ -50,7 +49,7 @@ export default function Users({
       !newUser.phone ||
       !newUser.email ||
       !newUser.department ||
-      !newUser.role 
+      !newUser.role
     ) {
       alert("Please fill all required fields");
       return;
@@ -61,7 +60,7 @@ export default function Users({
       return;
     }
 
-    const userToAdd = {
+    const userToAdd: User = {
       id: `USR-${String(users.length + 1).padStart(3, "0")}`,
       name: newUser.name,
       phone: newUser.phone,
@@ -94,16 +93,16 @@ export default function Users({
       user.email.toLowerCase().includes(search.toLowerCase())
   );
 
-  const handleDeleteUser = (id) => {
+  const handleDeleteUser = (id: string) => {
     setUsers(users.filter((user) => user.id !== id));
   };
 
   const handleUpdateUser = () => {
+    if (!editingUser) return;
+
     setUsers(
       users.map((user) =>
-        user.id === editingUser.id
-          ? editingUser
-          : user
+        user.id === editingUser.id ? editingUser : user
       )
     );
 
@@ -112,12 +111,9 @@ export default function Users({
 
   return (
     <div className="p-6 text-gray-900 dark:text-gray-100">
-
       <div className="flex justify-between items-center mb-6">
         <div>
-          <h1 className="text-3xl font-bold">
-            Users
-          </h1>
+          <h1 className="text-3xl font-bold">Users</h1>
 
           <p className="text-gray-500 dark:text-gray-400">
             Manage system users and access
@@ -139,14 +135,15 @@ export default function Users({
           type="text"
           placeholder="Search users..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            setSearch(e.target.value)
+          }
           className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-400 rounded-lg px-4 py-2 outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
 
       <div className="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm overflow-hidden">
         <table className="w-full">
-
           <thead>
             <tr className="border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-left">
               <th className="p-4">ID</th>
@@ -180,10 +177,8 @@ export default function Users({
 
                 <td>{user.lastLogin}</td>
 
-
                 <td>
                   <div className="flex justify-center gap-3">
-
                     <button
                       onClick={() => setSelectedUser(user)}
                       className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300"
@@ -212,7 +207,6 @@ export default function Users({
                     >
                       <Trash2 size={18} />
                     </button>
-
                   </div>
                 </td>
               </tr>
@@ -235,18 +229,14 @@ export default function Users({
       {showModal && (
         <div className="fixed inset-0 bg-black/30 dark:bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[500px] text-gray-900 dark:text-gray-100">
-
-            <h2 className="text-xl font-semibold mb-5">
-              Add User
-            </h2>
+            <h2 className="text-xl font-semibold mb-5">Add User</h2>
 
             <div className="space-y-3">
-
               <input
                 type="text"
                 placeholder="Full Name"
                 value={newUser.name}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setNewUser({
                     ...newUser,
                     name: e.target.value,
@@ -259,7 +249,7 @@ export default function Users({
                 type="text"
                 placeholder="Phone Number"
                 value={newUser.phone}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setNewUser({
                     ...newUser,
                     phone: e.target.value,
@@ -272,7 +262,7 @@ export default function Users({
                 type="email"
                 placeholder="Email"
                 value={newUser.email}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setNewUser({
                     ...newUser,
                     email: e.target.value,
@@ -285,7 +275,7 @@ export default function Users({
                 type="password"
                 placeholder="Password"
                 value={newUser.password}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setNewUser({
                     ...newUser,
                     password: e.target.value,
@@ -298,7 +288,7 @@ export default function Users({
                 type="password"
                 placeholder="Confirm Password"
                 value={newUser.confirmPassword}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setNewUser({
                     ...newUser,
                     confirmPassword: e.target.value,
@@ -309,7 +299,7 @@ export default function Users({
 
               <select
                 value={newUser.department}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setNewUser({
                     ...newUser,
                     department: e.target.value,
@@ -329,7 +319,7 @@ export default function Users({
 
               <select
                 value={newUser.role}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setNewUser({
                     ...newUser,
                     role: e.target.value,
@@ -341,13 +331,13 @@ export default function Users({
                   Select Role
                 </option>
                 <option>Administrator</option>
-                <option>Manager</option>
-                <option>Staff</option>
+                <option>Purchasing Manager</option>
+                <option>IT Manager</option>
+                <option>Finance Manager</option>
+                <option>Operations Manager</option>
                 <option>Viewer</option>
+                
               </select>
-
-           
-
             </div>
 
             <div className="flex justify-end gap-3 mt-6">
@@ -365,7 +355,6 @@ export default function Users({
                 Save
               </button>
             </div>
-
           </div>
         </div>
       )}
@@ -373,17 +362,13 @@ export default function Users({
       {editingUser && (
         <div className="fixed inset-0 bg-black/30 dark:bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[500px] text-gray-900 dark:text-gray-100">
-
-            <h2 className="text-xl font-semibold mb-5">
-              Edit User
-            </h2>
+            <h2 className="text-xl font-semibold mb-5">Edit User</h2>
 
             <div className="space-y-3">
-
               <input
                 type="text"
                 value={editingUser.name}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setEditingUser({
                     ...editingUser,
                     name: e.target.value,
@@ -395,7 +380,7 @@ export default function Users({
               <input
                 type="text"
                 value={editingUser.phone}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setEditingUser({
                     ...editingUser,
                     phone: e.target.value,
@@ -407,7 +392,7 @@ export default function Users({
               <input
                 type="email"
                 value={editingUser.email}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
                   setEditingUser({
                     ...editingUser,
                     email: e.target.value,
@@ -418,7 +403,7 @@ export default function Users({
 
               <select
                 value={editingUser.department}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setEditingUser({
                     ...editingUser,
                     department: e.target.value,
@@ -435,7 +420,7 @@ export default function Users({
 
               <select
                 value={editingUser.role}
-                onChange={(e) =>
+                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setEditingUser({
                     ...editingUser,
                     role: e.target.value,
@@ -444,17 +429,16 @@ export default function Users({
                 className="w-full border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 rounded-lg px-4 py-2"
               >
                 <option>Administrator</option>
-                <option>Manager</option>
-                <option>Staff</option>
+                <option>Purchasing Manager</option>
+                <option>IT Manager</option>
+                <option>Finance Manager</option>
+                <option>Operations Manager</option>
                 <option>Viewer</option>
+                
               </select>
-
-           
-
             </div>
 
             <div className="flex justify-end gap-3 mt-6">
-
               <button
                 onClick={() => setEditingUser(null)}
                 className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg"
@@ -468,9 +452,7 @@ export default function Users({
               >
                 Save
               </button>
-
             </div>
-
           </div>
         </div>
       )}
@@ -478,19 +460,30 @@ export default function Users({
       {selectedUser && (
         <div className="fixed inset-0 bg-black/30 dark:bg-black/60 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 w-[500px] text-gray-900 dark:text-gray-100">
-
-            <h2 className="text-xl font-semibold mb-5">
-              User Details
-            </h2>
+            <h2 className="text-xl font-semibold mb-5">User Details</h2>
 
             <div className="space-y-3">
-              <p><strong>ID:</strong> {selectedUser.id}</p>
-              <p><strong>Name:</strong> {selectedUser.name}</p>
-              <p><strong>Phone:</strong> {selectedUser.phone}</p>
-              <p><strong>Email:</strong> {selectedUser.email}</p>
-              <p><strong>Department:</strong> {selectedUser.department}</p>
-              <p><strong>Role:</strong> {selectedUser.role}</p>
-              <p><strong>Last Login:</strong> {selectedUser.lastLogin}</p>
+              <p>
+                <strong>ID:</strong> {selectedUser.id}
+              </p>
+              <p>
+                <strong>Name:</strong> {selectedUser.name}
+              </p>
+              <p>
+                <strong>Phone:</strong> {selectedUser.phone}
+              </p>
+              <p>
+                <strong>Email:</strong> {selectedUser.email}
+              </p>
+              <p>
+                <strong>Department:</strong> {selectedUser.department}
+              </p>
+              <p>
+                <strong>Role:</strong> {selectedUser.role}
+              </p>
+              <p>
+                <strong>Last Login:</strong> {selectedUser.lastLogin}
+              </p>
             </div>
 
             <div className="flex justify-end mt-6">
@@ -501,11 +494,9 @@ export default function Users({
                 Close
               </button>
             </div>
-
           </div>
         </div>
       )}
-
     </div>
   );
 }

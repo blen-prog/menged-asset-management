@@ -11,10 +11,27 @@ import {
   HardHat,
   Package,
   X,
+  LucideIcon,
 } from "lucide-react";
 
+import type { InventoryItem } from "../../types/models";
 
-const CATEGORY_META = {
+type ColorKey =
+  | "blue"
+  | "violet"
+  | "amber"
+  | "emerald"
+  | "pink"
+  | "orange"
+  | "cyan"
+  | "red";
+
+interface CategoryMetaEntry {
+  icon: LucideIcon;
+  color: ColorKey;
+}
+
+const CATEGORY_META: Record<string, CategoryMetaEntry> = {
   "Computer Equipment": { icon: Monitor, color: "blue" },
   "Networking Equipment": { icon: Wifi, color: "violet" },
   "Office Equipment": { icon: Printer, color: "amber" },
@@ -25,7 +42,10 @@ const CATEGORY_META = {
   "Safety Equipment": { icon: HardHat, color: "red" },
 };
 
-const COLOR_STYLES = {
+const COLOR_STYLES: Record<
+  ColorKey,
+  { bg: string; text: string; ring: string }
+> = {
   blue: { bg: "bg-blue-50 dark:bg-blue-900/20", text: "text-blue-600 dark:text-blue-400", ring: "group-hover:ring-blue-200" },
   violet: { bg: "bg-violet-50 dark:bg-violet-900/20", text: "text-violet-600 dark:text-violet-400", ring: "group-hover:ring-violet-200" },
   amber: { bg: "bg-amber-50 dark:bg-amber-900/20", text: "text-amber-600 dark:text-amber-400", ring: "group-hover:ring-amber-200" },
@@ -39,22 +59,29 @@ const COLOR_STYLES = {
 // Fields that only make sense for Assets (not Consumables).
 // getAssetOnlyValue returns "-" for these fields when the item is a
 // Consumable, regardless of whether the underlying data has a value.
-const ASSET_ONLY_FIELDS = [
+const ASSET_ONLY_FIELDS: (keyof InventoryItem)[] = [
   "assignedTo",
   "serialNumber",
   "condition",
   "assetStatus",
 ];
 
-function getAssetOnlyValue(item, field) {
-  if (item.type === "Consumable" && ASSET_ONLY_FIELDS.includes(field)) {
+function getAssetOnlyValue(
+  item: InventoryItem,
+  field: keyof InventoryItem
+) {
+  if (
+    item.type === "Consumable" &&
+    ASSET_ONLY_FIELDS.includes(field)
+  ) {
     return "-";
   }
-  return item[field] || "-";
+
+  return item[field] ?? "-";
 }
 
 // Badge helpers
-function TypeBadge({ type }) {
+function TypeBadge({ type }: { type?: string }) {
   const isAsset = type === "Asset";
   return (
     <span
@@ -67,15 +94,15 @@ function TypeBadge({ type }) {
   );
 }
 
-function PurposeBadge({ purpose }) {
-  const styles = {
+function PurposeBadge({ purpose }: { purpose?: string }) {
+  const styles: Record<string, string> = {
     Office: "bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400",
     Vehicle: "bg-orange-50 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400",
   };
   return (
     <span
       className={`px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap ${
-        styles[purpose] || "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
+        (purpose && styles[purpose]) || "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
       }`}
     >
       {purpose ?? "-"}
@@ -84,14 +111,19 @@ function PurposeBadge({ purpose }) {
 }
 
 // Stock status derived from quantity vs minimumStock
-function getStockStatus(item) {
+function getStockStatus(item: InventoryItem) {
   if (item.quantity === 0) return "Out of Stock";
-  if (item.quantity <= item.minimumStock) return "Low Stock";
+  if (
+    item.quantity !== undefined &&
+    item.minimumStock !== undefined &&
+    item.quantity <= item.minimumStock
+  )
+    return "Low Stock";
   return "In Stock";
 }
 
-function StatusBadge({ status }) {
-  const styles = {
+function StatusBadge({ status }: { status: string }) {
+  const styles: Record<string, string> = {
     "In Stock": "bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400",
     "Low Stock": "bg-amber-50 dark:bg-amber-900/20 text-amber-600 dark:text-amber-400",
     "Out of Stock": "bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400",
@@ -107,9 +139,13 @@ function StatusBadge({ status }) {
   );
 }
 
-export default function Categories({ items }) {
+export default function Categories({
+  items,
+}: {
+  items: InventoryItem[];
+}) {
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState(null);
+  const [selected, setSelected] = useState<string | null>(null);
   const [itemQuery, setItemQuery] = useState("");
 
   const categories = Object.keys(CATEGORY_META);
@@ -140,7 +176,7 @@ export default function Categories({ items }) {
   const modalItems = useMemo(() => {
     if (!selected) return [];
     return items.filter((item) => item.category === selected);
-  }, [selected]);
+  }, [selected, items]);
 
   const filteredModalItems = modalItems.filter((item) => {
     const q = itemQuery.trim().toLowerCase();
@@ -153,7 +189,7 @@ export default function Categories({ items }) {
     );
   });
 
-  function openCategory(name) {
+  function openCategory(name: string) {
     setSelected(name);
     setItemQuery("");
   }

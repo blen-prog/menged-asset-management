@@ -2,28 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { Search, Plus, Eye, Pencil, Trash2 } from "lucide-react";
 
-interface User {
-  name: string;
-  role: string;
-}
-
-interface Item {
-  id: string;
-  name: string;
-  image: string | null;
-  type: string;
-  purpose: string;
-  department: string;
-  quantity: number;
-  minimumStock: number;
-  unitPrice: number | string;
-  category: string;
-  assignedTo?: string;
-  serialNumber?: string;
-  purchaseDate?: string;
-  condition?: string;
-  assetStatus?: string;
-}
+import type { InventoryItem, Transaction, User } from "../../types/models";
 
 interface NewItem {
   name: string;
@@ -42,24 +21,9 @@ interface NewItem {
   assetStatus: string;
 }
 
-interface Transaction {
-  id: string;
-  assetId: string;
-  employeeId: string | null;
-  type: string;
-  date: string;
-  time: string;
-  cost: number;
-  assetStatus: string;
-  condition: string;
-  recordedBy: string;
-  status: string;
-  notes: string;
-}
-
 interface AllItemsProps {
-  items: Item[];
-  setItems: React.Dispatch<React.SetStateAction<Item[]>>;
+  items: InventoryItem[];
+  setItems: React.Dispatch<React.SetStateAction<InventoryItem[]>>;
   transactions: Transaction[];
   setTransactions: React.Dispatch<React.SetStateAction<Transaction[]>>;
 }
@@ -97,8 +61,12 @@ export default function AllItems({
   const [statusFilter, setStatusFilter] = useState("All Statuses");
   const [categoryFilter, setCategoryFilter] =
     useState("All Categories");
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
-  const [editingItem, setEditingItem] = useState<Item | null>(null);
+  const [selectedItem, setSelectedItem] = useState<InventoryItem | null>(
+    null
+  );
+  const [editingItem, setEditingItem] = useState<InventoryItem | null>(
+    null
+  );
   const [currentPage, setCurrentPage] = useState(1);
 
   const itemsPerPage = 10;
@@ -251,9 +219,10 @@ export default function AllItems({
         0
       ) + 1;
 
-    const itemToAdd: Item = {
+    const itemToAdd: InventoryItem = {
       id: `ITM-${String(nextNumber).padStart(3, "0")}`,
       ...newItem,
+      type: newItem.type as InventoryItem["type"],
       quantity: Number(newItem.quantity),
       minimumStock: Number(newItem.minimumStock),
       unitPrice: Number(newItem.unitPrice),
@@ -270,7 +239,7 @@ export default function AllItems({
     const purchaseTransaction: Transaction = {
       id: `TRX-${String(nextTransactionNumber).padStart(3, "0")}`,
       assetId: itemToAdd.id,
-      employeeId: null,
+      employeeId: "",
       type: "Purchase",
       date: new Date().toISOString().split("T")[0],
       time: new Date().toLocaleTimeString(),
@@ -1011,7 +980,7 @@ export default function AllItems({
                 onChange={(e) =>
                   setEditingItem({
                     ...editingItem,
-                    type: e.target.value,
+                    type: e.target.value as InventoryItem["type"],
                   })
                 }
                 className={inputClass}
